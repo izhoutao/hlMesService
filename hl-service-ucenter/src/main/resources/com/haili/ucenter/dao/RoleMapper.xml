@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haili.ucenter.dao.RoleMapper">
+    <!--    <select id="findRoleListByUserId"
+                resultType="com.haili.framework.domain.ucenter.Role" parameterType="java.lang.String">
+            SELECT
+            id,
+            role_name roleName,
+            role_code roleCode,
+            description,
+            status
+            FROM tb_role
+            WHERE id IN(
+            SELECT
+            role_id
+            FROM
+            tb_user_role
+            WHERE user_id = #{userId})
+        </select>-->
+
+    <resultMap type="com.haili.framework.domain.ucenter.ext.RoleExt" id="roleExtMap">
+        <id property="id" column="roleId"/>
+        <result property="roleName" column="roleName"/>
+        <result property="roleCode" column="roleCode"/>
+        <result property="description" column="description"/>
+        <result property="status" column="roleStatus"/>
+        <result property="createTime" column="roleCreateTime"/>
+        <result property="updateTime" column="roleUpdateTime"/>
+        <collection property="menuList" ofType="com.haili.framework.domain.ucenter.Menu">
+            <id property="id" column="menuId"/>
+            <result property="pId" column="pId"/>
+            <result property="menuCode" column="menuCode"/>
+            <result property="menuName" column="menuName"/>
+            <result property="path" column="path"/>
+            <result property="isMenu" column="isMenu"/>
+            <result property="level" column="level"/>
+            <result property="sort" column="sort"/>
+            <result property="status" column="menuStatus"/>
+            <result property="icon" column="icon"/>
+            <result property="createTime" column="menuCreateTime"/>
+            <result property="updateTime" column="menuUpdateTime"/>
+        </collection>
+    </resultMap>
+    <select id="findRoleExtList" resultMap="roleExtMap" parameterType="java.lang.String">
+		SELECT
+		tb_role.id roleId,
+		tb_role.role_name roleName,
+		tb_role.role_code roleCode,
+		tb_role.description,
+		tb_role.status roleStatus,
+		tb_role.create_time roleCreateTime,
+		tb_role.update_time roleUpdateTime,
+		tb_menu.id menuId,
+		tb_menu.p_id pId,
+		tb_menu.menu_code menuCode,
+		tb_menu.menu_name menuName,
+		tb_menu.path,
+		tb_menu.is_menu isMenu,
+		tb_menu.level,
+		tb_menu.sort,
+		tb_menu.status menuStatus,
+		tb_menu.icon,
+		tb_menu.create_time menuCreateTime,
+		tb_menu.update_time menuUpdateTime
+        FROM
+        tb_role
+        LEFT JOIN tb_permission ON tb_role.id = tb_permission.role_id
+        LEFT JOIN tb_menu ON tb_permission.menu_id = tb_menu.id
+    </select>
+
+
+    <!--	<insert id="save" parameterType="Role" useGeneratedKeys="true"
+                keyProperty="id">
+            insert into tb_role( )
+            values(#{})
+        </insert>-->
+
+    <insert id="savePermissions" parameterType="map">
+        insert into tb_permission(
+        id, role_id, menu_id
+        ) values
+        <foreach collection="menuIds" item="mId" separator=",">
+            (REPLACE(UUID(),"-",""), #{roleId},#{mId})
+        </foreach>
+    </insert>
+
+
+</mapper>
