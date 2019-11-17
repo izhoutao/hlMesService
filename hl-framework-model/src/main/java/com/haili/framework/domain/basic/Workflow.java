@@ -1,14 +1,11 @@
 package com.haili.framework.domain.basic;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by admin on 2018/2/6.
@@ -31,10 +28,9 @@ public class Workflow implements Serializable {
     @TableField("json_text")
     private String jsonText;
 
-    @TableField("create_time")
-    private Date createTime;
-
-    @TableField("update_time")
-    private Date updateTime;
+    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 
 }

@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,16 +69,6 @@ public class UserService {
     }
 
     public QueryResponseResult findUserList(long page, long size, UserSearchParam userSearchParam) {
-//        PageHelper.startPage(page, size);
-//        List<UserExt> userExtList = userMapper.findUserExtList(userSearchParam);
-//        QueryResult<UserExt> userQueryResult = new QueryResult<>();
-//        userQueryResult.setList(userExtList.stream().map(userExt -> {
-//            userExt.setPassword("");
-//            userExt.setSalt("");
-//            return userExt;
-//        }).collect(Collectors.toList()));
-//        userQueryResult.setTotal(userMapper.selectCount(null));
-
 
         Page<User> _page = new Page<>(page, size);
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
@@ -121,9 +111,9 @@ public class UserService {
         if (StringUtils.isBlank(userExt.getPassword())) {
             ExceptionCast.cast(UcenterCode.UCENTER_PASSWORD_NONE);
         }
-        Date date = new Date();
-        userExt.setCreateTime(date);
-        userExt.setUpdateTime(date);
+        LocalDateTime now = LocalDateTime.now();
+        userExt.setCreateTime(now);
+        userExt.setUpdateTime(now);
         //密码加密
         String newPassword = BCryptUtil.encode(userExt.getPassword());//加密后的密码
         userExt.setPassword(newPassword);
@@ -134,7 +124,7 @@ public class UserService {
                     UserRole userRole = new UserRole();
                     userRole.setRoleId(role.getId());
                     userRole.setUserId(userExt.getId());
-                    userRole.setCreateTime(new Date());
+                    userRole.setCreateTime(LocalDateTime.now());
                     return userRole;
                 }
         ).forEach(userRoleMapper::insert);
@@ -163,8 +153,8 @@ public class UserService {
         wrapper.eq("user_id", userId);
         userRoleMapper.delete(wrapper);
         userExt.setId(userId);
-        Date date = new Date();
-        userExt.setUpdateTime(date);
+        LocalDateTime now = LocalDateTime.now();
+        userExt.setUpdateTime(now);
         //密码加密
         String newPassword = BCryptUtil.encode(userExt.getPassword());//加密后的密码
         userExt.setPassword(newPassword);
@@ -174,7 +164,7 @@ public class UserService {
                     UserRole userRole = new UserRole();
                     userRole.setRoleId(role.getId());
                     userRole.setUserId(userExt.getId());
-                    userRole.setCreateTime(new Date());
+                    userRole.setCreateTime(LocalDateTime.now());
                     return userRole;
                 }
         ).forEach(userRoleMapper::insert);

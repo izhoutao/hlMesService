@@ -35,13 +35,11 @@
     <dependency>
         <groupId>org.springframework.data</groupId>
         <artifactId>spring-data-commons</artifactId>
-        <version>1.13.9.RELEASE</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
     <dependency>
         <groupId>org.springframework.data</groupId>
         <artifactId>spring-data-mongodb</artifactId>
-        <version>1.10.9.RELEASE</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
     <dependency>
@@ -54,7 +52,7 @@
     <dependency>
         <groupId>com.baomidou</groupId>
         <artifactId>mybatis-plus-boot-starter</artifactId>
-        <version>3.0.5</version>
+        <version>3.2.0</version>
     </dependency>
 
     <!--        <dependency>

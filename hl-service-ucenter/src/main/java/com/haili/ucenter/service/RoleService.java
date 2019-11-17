@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,16 +41,6 @@ public class RoleService {
     MenuMapper menuMapper;
     @Autowired
     UserRoleMapper userRoleMapper;
-/*    public QueryResponseResult findRoleListPage(long page, long size) {
-        PageHelper.startPage(page, size);
-        List<RoleExt> roleExtList = roleMapper.findRoleExtList();
-        QueryResult<RoleExt> roleQueryResult = new QueryResult<>();
-        roleQueryResult.setList(roleExtList);
-        roleQueryResult.setTotal(roleMapper.selectCount(null));
-        //返回结果
-        return new QueryResponseResult(CommonCode.SUCCESS, roleQueryResult);
-    }*/
-
 
     public QueryResponseResult findRoleList(long page, long size) {
 
@@ -92,9 +82,9 @@ public class RoleService {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
 //        roleMapper.addRole(roleExt);
-        Date date = new Date();
-        roleExt.setCreateTime(date);
-        roleExt.setUpdateTime(date);
+        LocalDateTime now = LocalDateTime.now();
+        roleExt.setCreateTime(now);
+        roleExt.setUpdateTime(now);
         roleMapper.insert(roleExt);
         Map<String, Object> saveParams = new HashMap<>();
         saveParams.put("roleId", roleExt.getId());
@@ -120,7 +110,7 @@ public class RoleService {
         wrapper.eq("role_id", roleId);
         permissionMapper.delete(wrapper);
         roleExt.setId(roleId);
-        roleExt.setUpdateTime(new Date());
+        roleExt.setUpdateTime(LocalDateTime.now());
         roleMapper.updateById(roleExt);
         roleExt.getMenuList().stream().map((menu) -> {
             QueryWrapper<Menu> menuWrapper = new QueryWrapper<>();
@@ -131,7 +121,7 @@ public class RoleService {
             Permission permission = new Permission();
             permission.setMenuId(menu.getId());
             permission.setRoleId(roleId);
-            permission.setCreateTime(new Date());
+            permission.setCreateTime(LocalDateTime.now());
             return permission;
         }).forEach(permissionMapper::insert);
 

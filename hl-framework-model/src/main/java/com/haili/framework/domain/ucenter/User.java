@@ -1,14 +1,12 @@
 package com.haili.framework.domain.ucenter;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Created by admin on 2018/3/19.
@@ -29,8 +27,8 @@ public class User implements Serializable {
     private String name;
     private String sex;
     private String avatar;
-    private Date birthday;
-    private Date hiredate;
+    private LocalDate birthday;
+    private LocalDate hiredate;
     private String phone;
     private String email;
     private String state;
@@ -39,9 +37,12 @@ public class User implements Serializable {
     private String position;
 
     private String line;
-    @TableField("create_time")
-    private Date createTime;
-    @TableField("update_time")
-    private Date updateTime;
+    @TableLogic
+    private Integer deleted;
+
+    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 
 }

@@ -4,21 +4,42 @@ spring:
   application:
     name: hl-service-basic
   datasource:
-    druid:
-      url: jdbc:mysql://localhost/hl_user?userSSL=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
-      username: root
-      password: 123456
-      driverClassName: com.mysql.cj.jdbc.Driver
-      initialSize: 5  #初始建立连接数量
-      minIdle: 5  #最小连接数量
-      maxActive: 20 #最大连接数量
-      maxWait: 10000  #获取连接最大等待时间，毫秒
-      testOnBorrow: true #申请连接时检测连接是否有效
-      testOnReturn: false #归还连接时检测连接是否有效
-      timeBetweenEvictionRunsMillis: 60000 #配置间隔检测连接是否有效的时间（单位是毫秒）
-      minEvictableIdleTimeMillis: 300000  #连接在连接池的最小生存时间（毫秒）
-pagehelper:
-  helper-dialect: mysql
+    #    druid:
+    #      url: jdbc:mysql://localhost/hl_user?userSSL=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
+    #      username: root
+    #      password: 123456
+    #      driverClassName: com.mysql.cj.jdbc.Driver
+    #      initialSize: 5  #初始建立连接数量
+    #      minIdle: 5  #最小连接数量
+    #      maxActive: 20 #最大连接数量
+    #      maxWait: 10000  #获取连接最大等待时间，毫秒
+    #      testOnBorrow: true #申请连接时检测连接是否有效
+    #      testOnReturn: false #归还连接时检测连接是否有效
+    #      timeBetweenEvictionRunsMillis: 60000 #配置间隔检测连接是否有效的时间（单位是毫秒）
+    #      minEvictableIdleTimeMillis: 300000  #连接在连接池的最小生存时间（毫秒）
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost/hl_user?userSSL=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
+    hikari:
+      # 是否自动提交
+      auto-commit: true
+      # 如果在没有连接可用的情况下超过此时间，则将抛出SQLException
+      connection-timeout: 30000
+      # 控制允许连接在池中空闲的最长时间
+      idle-timeout: 600000
+      # 控制池中连接的最长生命周期。使用中的连接永远不会退役，只有当它关闭时才会被删除
+      max-lifetime: 1800000
+      # 如果您的驱动程序支持JDBC4，强烈建议不要设置此属性
+      # connection-test-query:
+      # 控制HikariCP尝试在池中维护的最小空闲连接数。建议不要设置此值，而是允许HikariCP充当固定大小的连接池。 默认值：与maximumPoolSize相同
+      # minimum-idle:
+      # 此属性控制允许池到达的最大大小，包括空闲和正在使用的连接。
+      maximum-pool-size: 10
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 eureka:
   client:
     registerWithEureka: true #服务注册开关
@@ -35,6 +56,10 @@ ribbon:
   OkToRetryOnAllOperations: false  #对所有操作请求都进行重试，如果是get则可以，如果是post，put等操作没有实现幂等的情况下是很危险的,所以设置为false
   ConnectTimeout: 5000  #请求连接的超时时间
   ReadTimeout: 6000 #请求处理的超时时间
+# 配置日志
 logging:
   level:
-    com.haili.basic.dao: debug
+    root: warn
+    com.haili.basic.dao: trace
+  pattern:
+    console: '%p%m%n'

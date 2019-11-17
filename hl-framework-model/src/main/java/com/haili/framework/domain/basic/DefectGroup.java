@@ -1,37 +1,41 @@
-package com.haili.framework.domain.system;
+package com.haili.framework.domain.basic;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
-import lombok.ToString;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * Created by admin on 2018/2/6.
+ * <p>
+ *
+ * </p>
+ *
+ * @author Zhou Tao
+ * @since 2019-11-15
  */
 @Data
-@ToString
-@TableName("tb_dict_type")
-public class DictType implements Serializable {
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("tb_defect_group")
+public class DefectGroup implements Serializable {
 
-    private static final long serialVersionUID = 1421748832103435259L;
-
+    private static final long serialVersionUID = -2838271599838828765L;
     @TableId(value = "id", type = IdType.UUID)
     private String id;
 
-    @TableField("code")
     private String code;
 
-    @TableField("name")
     private String name;
 
-    @TableField("state")
-    private String state;
+    private String description;
 
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+
 
 }
