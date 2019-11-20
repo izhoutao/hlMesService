@@ -1,8 +1,5 @@
 package com.haili.framework.domain.ucenter;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.ToString;
 
@@ -13,10 +10,8 @@ import java.io.Serializable;
  */
 @Data
 @ToString
-@TableName("tb_company")
 public class Company implements Serializable {
     private static final long serialVersionUID = -916357110051689786L;
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
     private String name;
     private String logo;
@@ -28,6 +23,5 @@ public class Company implements Serializable {
     private String worktype;
     private String businesspic;
     private String status;
-
 
 }

@@ -20,6 +20,11 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 //            System.out.println("insertFill");
             setInsertFieldValByName("createTime", LocalDateTime.now(), metaObject);
         }
+        hasSetter = metaObject.hasSetter("updateTime");
+        if (hasSetter) {
+//            System.out.println("updateFill");
+            setUpdateFieldValByName("updateTime", LocalDateTime.now(), metaObject);
+        }
     }
 
     @Override

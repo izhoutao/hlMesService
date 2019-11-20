@@ -12,16 +12,12 @@ import java.time.LocalDateTime;
  */
 @Data
 @ToString
-@TableName("tb_user_role")
 public class UserRole implements Serializable {
     private static final long serialVersionUID = 663583570906646676L;
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
-    @TableField("user_id")
     private String userId;
-    @TableField("role_id")
     private String roleId;
     private String creator;
-    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 }

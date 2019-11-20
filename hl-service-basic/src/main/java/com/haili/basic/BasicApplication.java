@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 @EnableDiscoveryClient
 @EnableFeignClients
-@MapperScan("com.haili.basic.dao")
+@MapperScan("com.haili.basic.mapper")
 @EntityScan("com.haili.framework.domain.basic")//扫描实体类
 @ComponentScan(basePackages = {"com.haili.api"})//扫描接口
 @ComponentScan(basePackages = {"com.haili.framework"})//扫描common下的所有类

@@ -10,20 +10,19 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-11-15
+ * @since 2019-11-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_line")
 public class Line implements Serializable {
 
-    private static final long serialVersionUID = -7079686386456637241L;
-    @TableId(value = "id", type = IdType.UUID)
+    private static final long serialVersionUID = 1L;
+
     private String id;
 
     private String code;
@@ -34,9 +33,9 @@ public class Line implements Serializable {
 
     private String description;
 
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 

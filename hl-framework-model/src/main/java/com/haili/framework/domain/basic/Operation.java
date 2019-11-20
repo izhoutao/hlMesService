@@ -12,26 +12,15 @@ import java.time.LocalDateTime;
  */
 @Data
 @ToString
-@TableName("tb_operation")
 public class Operation implements Serializable {
 
-
     private static final long serialVersionUID = 1470364719759463798L;
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
-
-    @TableField("code")
     private String code;
-
-    @TableField("name")
     private String name;
-
-    @TableField("description")
     private String description;
-
-    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
-
 }

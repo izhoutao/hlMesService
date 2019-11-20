@@ -12,26 +12,15 @@ import java.time.LocalDateTime;
  */
 @Data
 @ToString
-@TableName("tb_dict_type")
 public class DictType implements Serializable {
 
     private static final long serialVersionUID = 1421748832103435259L;
-
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
-
-    @TableField("code")
     private String code;
-
-    @TableField("name")
     private String name;
-
-    @TableField("state")
     private String state;
-
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
-
 }

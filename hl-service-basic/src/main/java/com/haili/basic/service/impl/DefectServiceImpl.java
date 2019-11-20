@@ -2,7 +2,7 @@ package com.haili.basic.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.framework.domain.basic.Defect;
-import com.haili.basic.dao.DefectMapper;
+import com.haili.basic.mapper.DefectMapper;
 import com.haili.basic.service.IDefectService;
 import org.springframework.stereotype.Service;
 

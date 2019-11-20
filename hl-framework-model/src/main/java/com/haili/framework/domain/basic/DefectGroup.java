@@ -19,22 +19,17 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_defect_group")
 public class DefectGroup implements Serializable {
 
     private static final long serialVersionUID = -2838271599838828765L;
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
-
     private String code;
-
     private String name;
-
     private String description;
 
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 

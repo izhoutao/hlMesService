@@ -19,11 +19,9 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_defect")
 public class Defect implements Serializable {
 
     private static final long serialVersionUID = -2578229855036888913L;
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
 
     private String code;
@@ -32,12 +30,11 @@ public class Defect implements Serializable {
 
     private String description;
 
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    @TableField("group_id")
     private String groupId;
 
 

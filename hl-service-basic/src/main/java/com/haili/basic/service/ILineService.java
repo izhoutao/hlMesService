@@ -2,8 +2,6 @@ package com.haili.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.haili.framework.domain.basic.Line;
-import org.springframework.stereotype.Service;
-
 
 /**
  * <p>
@@ -11,9 +9,8 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-11-15
+ * @since 2019-11-18
  */
-@Service
 public interface ILineService extends IService<Line> {
 
 }

@@ -12,25 +12,21 @@ import java.time.LocalDateTime;
  */
 @Data
 @ToString
-@TableName("tb_workflow")
 public class Workflow implements Serializable {
 
     private static final long serialVersionUID = 7135554402367092463L;
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
 
 //    @TableField("code")
 //    private String code;
 
-    @TableField("name")
     private String name;
 
-    @TableField("json_text")
     private String jsonText;
 
-    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 }

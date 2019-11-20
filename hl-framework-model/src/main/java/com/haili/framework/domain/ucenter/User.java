@@ -13,14 +13,11 @@ import java.time.LocalDateTime;
  */
 @Data
 @ToString
-@TableName("tb_user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = -8644930299662562058L;
 
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
-    @TableField("staff_id")
     private String staffId;
     private String username;
     private String password;
@@ -35,14 +32,13 @@ public class User implements Serializable {
     private String description;
     private String department;
     private String position;
-
     private String line;
     @TableLogic
     private Integer deleted;
 
-    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 }

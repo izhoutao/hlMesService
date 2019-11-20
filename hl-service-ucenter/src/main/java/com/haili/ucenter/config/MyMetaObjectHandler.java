@@ -17,8 +17,13 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         boolean hasSetter = metaObject.hasSetter("createTime");
         if (hasSetter) {
-            System.out.println("insertFill");
+//            System.out.println("insertFill");
             setInsertFieldValByName("createTime", LocalDateTime.now(), metaObject);
+        }
+        hasSetter = metaObject.hasSetter("updateTime");
+        if (hasSetter) {
+//            System.out.println("updateFill");
+            setUpdateFieldValByName("updateTime", LocalDateTime.now(), metaObject);
         }
     }
 
@@ -26,7 +31,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         Object val = getFieldValByName("updateTime", metaObject);
         if (val == null) {
-            System.out.println("updateFill");
+//            System.out.println("updateFill");
             setUpdateFieldValByName("updateTime", LocalDateTime.now(), metaObject);
         }
     }
