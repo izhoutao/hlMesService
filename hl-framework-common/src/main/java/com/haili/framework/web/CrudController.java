@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.haili.framework.model.response.*;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import java.util.Map;
  * provide the basic crud method
  */
 @Slf4j
+@Data
 public class CrudController<T> {
 
     @Autowired
@@ -46,13 +48,20 @@ public class CrudController<T> {
      */
     @PostMapping("/list")
     @ResponseBody
-    public QueryResponseResult<T> listByPage(@RequestBody Map<String, Object> map) {
-        IPage<T> iPage = service.page(
-                extractPageFromRequestMap(map),
-                extractWrapperFromRequestMap(map));
+    public QueryResponseResult<T> list(@RequestBody Map<String, Object> map) {
+        Page<T> page = extractPageFromRequestMap(map);
         QueryResult<T> queryResult = new QueryResult<>();
-        queryResult.setList(iPage.getRecords());
-        queryResult.setTotal(iPage.getTotal());
+        if (page.getSize() > 0) {
+            IPage<T> iPage = service.page(
+                    extractPageFromRequestMap(map),
+                    extractWrapperFromRequestMap(map));
+            queryResult.setList(iPage.getRecords());
+            queryResult.setTotal(iPage.getTotal());
+        } else {
+            List<T> list = service.list(extractWrapperFromRequestMap(map));
+            queryResult.setList(list);
+            queryResult.setTotal(list.size());
+        }
         return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
     }
 
@@ -91,13 +100,13 @@ public class CrudController<T> {
      * @param map
      * @return
      */
-    private QueryWrapper<T> extractWrapperFromRequestMap(Map<String, Object> map) {
+    protected QueryWrapper<T> extractWrapperFromRequestMap(Map<String, Object> map) {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         for (String pageParam : pageParams) {
             map.remove(pageParam);
         }
         HashMap<String, Object> underlineMap = new HashMap<>();
-        map.forEach((k,v)-> underlineMap.put(StringUtils.camelToUnderline(k),v));
+        map.forEach((k, v) -> underlineMap.put(StringUtils.camelToUnderline(k), v));
         queryWrapper.allEq(underlineMap, false);
         return queryWrapper;
     }
@@ -108,7 +117,7 @@ public class CrudController<T> {
      * @param map
      * @return
      */
-    private Page<T> extractPageFromRequestMap(Map<String, Object> map) {
+    protected Page<T> extractPageFromRequestMap(Map<String, Object> map) {
 
         Page<T> page = new Page<>();
 

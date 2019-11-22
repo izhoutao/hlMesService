@@ -12,7 +12,7 @@ import java.util.Map;
 public interface WorkflowControllerApi {
     //数据字典
     @ApiOperation(value = "数据字典分类查询接口")
-    public QueryResponseResult<Workflow> listByPage(Map<String, Object> map);
+    public QueryResponseResult<Workflow> list(Map<String, Object> map);
 
     ModelResopnseResult<Workflow> save(Workflow entity);
 

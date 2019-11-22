@@ -21,8 +21,8 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_material_type")
-public class MaterialType implements Serializable {
+@TableName("tb_product")
+public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,6 +31,8 @@ public class MaterialType implements Serializable {
     private String code;
 
     private String name;
+
+    private String specification;
 
     private String description;
 

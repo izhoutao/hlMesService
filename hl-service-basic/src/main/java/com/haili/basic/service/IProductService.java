@@ -1,7 +1,7 @@
 package com.haili.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.haili.framework.domain.basic.Material;
+import com.haili.framework.domain.basic.Product;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.haili.framework.domain.basic.Material;
  * @author Zhou Tao
  * @since 2019-11-21
  */
-public interface IMaterialService extends IService<Material> {
+public interface IProductService extends IService<Product> {
 
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 public interface OperationControllerApi {
     //数据字典
     @ApiOperation(value = "数据字典详情查询接口")
-    public QueryResponseResult<Operation> listByPage(Map<String, Object> map);
+    public QueryResponseResult<Operation> list(Map<String, Object> map);
 
     ModelResopnseResult<Operation> save(Operation entity);
 

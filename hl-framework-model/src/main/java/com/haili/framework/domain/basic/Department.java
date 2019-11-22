@@ -1,8 +1,6 @@
 package com.haili.framework.domain.basic;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,23 +14,32 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-11-21
+ * @since 2019-11-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_material_type")
-public class MaterialType implements Serializable {
+public class Department implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    /**
+     * ID
+     */
+    @TableId(type= IdType.AUTO)
+    private Long id;
 
-    private String code;
-
+    /**
+     * 名称
+     */
     private String name;
 
-    private String description;
+    /**
+     * 上级部门
+     */
+    private Long pid;
+
+    private Boolean enabled;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

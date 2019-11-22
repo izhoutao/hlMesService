@@ -11,7 +11,7 @@ import java.util.Map;
 public interface DictInfoControllerApi {
     //数据字典
     @ApiOperation(value = "数据字典详情查询接口")
-    public QueryResponseResult<DictInfo> listByPage(Map<String, Object> map);
+    public QueryResponseResult<DictInfo> list(Map<String, Object> map);
 
     ModelResopnseResult<DictInfo> save(DictInfo entity);
 

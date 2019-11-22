@@ -1,7 +1,7 @@
 package com.haili.basic.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.haili.framework.domain.basic.MaterialType;
+import com.haili.framework.domain.basic.Product;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.haili.framework.domain.basic.MaterialType;
  * @author Zhou Tao
  * @since 2019-11-21
  */
-public interface MaterialTypeMapper extends BaseMapper<MaterialType> {
+public interface ProductMapper extends BaseMapper<Product> {
 
 }

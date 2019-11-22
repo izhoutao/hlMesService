@@ -9,7 +9,7 @@ import com.haili.framework.domain.basic.MaterialType;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-11-20
+ * @since 2019-11-21
  */
 public interface IMaterialTypeService extends IService<MaterialType> {
 
