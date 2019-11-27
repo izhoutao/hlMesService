@@ -1,6 +1,6 @@
 package com.haili.framework.domain.ucenter.response;
 
-import com.haili.framework.domain.ucenter.ext.UserExt;
+import com.haili.framework.domain.ucenter.User;
 import com.haili.framework.model.response.ResponseResult;
 import com.haili.framework.model.response.ResultCode;
 import lombok.Data;
@@ -11,9 +11,9 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class UserResult extends ResponseResult {
-    UserExt userExt;
-    public UserResult(ResultCode resultCode, UserExt userExt) {
+    User user;
+    public UserResult(ResultCode resultCode, User user) {
         super(resultCode);
-        this.userExt = userExt;
+        this.user = user;
     }
 }

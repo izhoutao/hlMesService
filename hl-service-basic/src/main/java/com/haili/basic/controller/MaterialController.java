@@ -1,14 +1,11 @@
 package com.haili.basic.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.haili.basic.service.impl.MaterialServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.haili.framework.domain.basic.Material;
-import com.haili.framework.domain.basic.dto.MaterialDto;
-import com.haili.framework.model.response.CommonCode;
-import com.haili.framework.model.response.QueryResponseResult;
-import com.haili.framework.model.response.QueryResult;
 import com.haili.framework.web.CrudController;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
@@ -23,27 +20,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/basic/material")
 public class MaterialController extends CrudController<Material> {
-/*    @PostMapping("/list1")
-    @ResponseBody
-    public QueryResponseResult<MaterialDto> listByPage1(@RequestBody Map<String, Object> map) {
-        IPage<MaterialDto> iPage = ((MaterialServiceImpl)getService()).pageMaterialDto(
-                extractPageFromRequestMap(map),
-                extractWrapperFromRequestMap(map));
-        QueryResult<MaterialDto> queryResult = new QueryResult<>();
-        queryResult.setList(iPage.getRecords());
-        queryResult.setTotal(iPage.getTotal());
-        return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
-    }*/
-
-    @PostMapping("/list1")
-    @ResponseBody
-    public QueryResponseResult<MaterialDto> listByPage1(@RequestBody Map<String, Object> map) {
-        IPage<MaterialDto> iPage = ((MaterialServiceImpl)getService()).getMaterialDtoList(
-                extractPageFromRequestMap(map),
-                extractWrapperFromRequestMap(map));
-        QueryResult<MaterialDto> queryResult = new QueryResult<>();
-        queryResult.setList(iPage.getRecords());
-        queryResult.setTotal(iPage.getTotal());
-        return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
+    @Override
+    protected QueryWrapper<Material> extractWrapperFromRequestMap(Map<String, Object> map) {
+        QueryWrapper<Material> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(!StringUtils.isEmpty(map.get("name")), "name", map.get("name"));
+        return queryWrapper;
     }
 }

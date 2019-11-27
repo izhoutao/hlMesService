@@ -53,7 +53,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 auth:
-  tokenValiditySeconds: 1200  #token存储到redis的过期时间
+  tokenValiditySeconds: 3600  #token存储到redis的过期时间
   clientId: XcWebApp
   clientSecret: XcWebApp
   cookieDomain: haili.com

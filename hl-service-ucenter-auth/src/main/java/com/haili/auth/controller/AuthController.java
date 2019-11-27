@@ -3,8 +3,8 @@ package com.haili.auth.controller;
 import com.haili.api.auth.AuthControllerApi;
 import com.haili.auth.client.UserClient;
 import com.haili.auth.service.AuthService;
+import com.haili.framework.domain.ucenter.Menu;
 import com.haili.framework.domain.ucenter.ext.AuthToken;
-import com.haili.framework.domain.ucenter.ext.MenuDTO;
 import com.haili.framework.domain.ucenter.request.LoginRequest;
 import com.haili.framework.domain.ucenter.response.AuthCode;
 import com.haili.framework.domain.ucenter.response.JwtResult;
@@ -24,6 +24,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,7 @@ public class AuthController implements AuthControllerApi {
     AuthService authService;
     @Autowired
     UserClient userClient;
+
     @Override
     @PostMapping("/userlogin")
     public LoginResult login(@RequestBody LoginRequest loginRequest) {
@@ -123,16 +125,16 @@ public class AuthController implements AuthControllerApi {
         return access_token;
     }
 
-    @GetMapping("/asyncroutes")
-    public QueryResponseResult<MenuDTO> asyncroutes() {
-        List<MenuDTO> menuList = userClient.findMenuList();
+    @GetMapping("/routes")
+    public QueryResponseResult<Menu> getRoutes() {
+        QueryResponseResult<Menu> responseResult = userClient.getMenuList(new HashMap<>());
+        List<Menu> menuList = responseResult.getQueryResult().getList();
         if (menuList == null) {
             return new QueryResponseResult(CommonCode.FAIL, null);
         }
         QueryResult queryResult = new QueryResult();
         queryResult.setList(menuList);
-
-        QueryResponseResult<MenuDTO> queryResponseResult = new QueryResponseResult<>(CommonCode.SUCCESS, queryResult);
-
-        return queryResponseResult;    }
+        QueryResponseResult<Menu> queryResponseResult = new QueryResponseResult<>(CommonCode.SUCCESS, queryResult);
+        return queryResponseResult;
+    }
 }

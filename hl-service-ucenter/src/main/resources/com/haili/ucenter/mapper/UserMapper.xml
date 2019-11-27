@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.haili.ucenter.mapper.UserMapper">
-    <resultMap type="com.haili.framework.domain.ucenter.ext.UserExt" id="userExtMap">
-        <id property="id" column="userId"/>
-        <result property="staffId" column="staffId"/>
+    <resultMap type="com.haili.framework.domain.ucenter.User" id="userMap1">
+        <id property="id" column="user_id"/>
+        <result property="staffId" column="staff_id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
         <result property="name" column="name"/>
@@ -14,26 +14,25 @@
         <result property="phone" column="phone"/>
         <result property="email" column="email"/>
         <result property="state" column="state"/>
-        <result property="description" column="userDescription"/>
+        <result property="description" column="user_description"/>
         <result property="department" column="department"/>
         <result property="position" column="position"/>
         <result property="line" column="line"/>
-        <result property="createTime" column="userCreateTime"/>
-        <result property="updateTime" column="userUpdateTime"/>
+        <result property="createTime" column="user_create_time"/>
+        <result property="updateTime" column="user_update_time"/>
         <collection property="roleList" ofType="com.haili.framework.domain.ucenter.Role">
-            <id property="id" column="roleId"/>
-            <result property="roleName" column="roleName"/>
-            <result property="roleCode" column="roleCode"/>
-            <result property="description" column="description"/>
-            <result property="status" column="roleStatus"/>
-            <result property="createTime" column="roleCreateTime"/>
-            <result property="updateTime" column="roleUpdateTime"/>
+            <id property="id" column="role_id"/>
+            <result property="code" column="role_code"/>
+            <collection property="menuList" ofType="com.haili.framework.domain.ucenter.Menu">
+                <id property="id" column="menu_id"/>
+                <result property="code" column="menu_code"/>
+            </collection>
         </collection>
     </resultMap>
-    <select id="findUserExtByUserName" resultMap="userExtMap" parameterType="java.lang.String">
+    <select id="getUserByUserName" resultMap="userMap1" parameterType="java.lang.String">
 		SELECT
-		tb_user.id userId,
-		tb_user.staff_id staffId,
+		tb_user.id user_id,
+		tb_user.staff_id staff_id,
 		tb_user.username username,
 		tb_user.password password,
 		tb_user.name name,
@@ -44,23 +43,22 @@
 		tb_user.phone phone,
 		tb_user.email email,
 		tb_user.state state,
-		tb_user.description userDescription,
+		tb_user.description user_description,
 		tb_user.department department,
 		tb_user.position position,
 		tb_user.line line,
-		tb_user.create_time userCreateTime,
-		tb_user.update_time userUpdateTime,
-    	tb_role.id roleId,
-		tb_role.role_name roleName,
-		tb_role.role_code roleCode,
-		tb_role.description description,
-		tb_role.status roleStatus,
-		tb_role.create_time roleCreateTime,
-		tb_role.update_time roleUpdateTime
+		tb_user.create_time user_create_time,
+		tb_user.update_time user_update_time,
+    	tb_role.id role_id,
+		tb_role.code role_code,
+    	tb_menu.id menu_id,
+		tb_menu.code menu_code
         FROM
         tb_user
         LEFT JOIN tb_user_role ON tb_user.id = tb_user_role.user_id
         LEFT JOIN tb_role ON tb_user_role.role_id = tb_role.id
+        LEFT JOIN tb_permission ON tb_role.id = tb_permission.role_id
+        LEFT JOIN tb_menu ON tb_permission.menu_id = tb_menu.id
         WHERE  tb_user.username = #{username}
     </select>
 </mapper>

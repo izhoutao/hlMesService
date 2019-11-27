@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Zhou Tao
@@ -40,6 +40,9 @@ public class Material implements Serializable {
     private LocalDateTime updateTime;
 
     private String typeId;
+
+    @TableField(exist = false)
+    private String typeName;
 
 
 }
