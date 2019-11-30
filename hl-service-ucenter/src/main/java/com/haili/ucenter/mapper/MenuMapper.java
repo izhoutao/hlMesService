@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.haili.framework.domain.ucenter.Menu;
 import org.apache.ibatis.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
             " where tb_permission.role_id =#{roleId} ")
     List<Menu> getListByRoleId(String roleId);
 
-    @Autowired
+    @Override
     @Select("select * from tb_menu ${ew.customSqlSegment} ")
     @Results(id = "menuMap", value = {
             @Result(column = "id", property = "id"),

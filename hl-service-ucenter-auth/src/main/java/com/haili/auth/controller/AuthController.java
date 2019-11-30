@@ -127,7 +127,9 @@ public class AuthController implements AuthControllerApi {
 
     @GetMapping("/routes")
     public QueryResponseResult<Menu> getRoutes() {
-        QueryResponseResult<Menu> responseResult = userClient.getMenuList(new HashMap<>());
+        Map<String, Object> map = new HashMap<>();
+        map.put("lazyLoad",false);
+        QueryResponseResult<Menu> responseResult = userClient.getMenuList(map);
         List<Menu> menuList = responseResult.getQueryResult().getList();
         if (menuList == null) {
             return new QueryResponseResult(CommonCode.FAIL, null);

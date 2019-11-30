@@ -35,9 +35,9 @@ public class Menu implements Serializable {
     private String pid;
 
     /**
-     * 类型：0：菜单，1：按钮
+     * 类型：0：目录，1：菜单，:2：按钮
      */
-    private Boolean type;
+    private String type;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

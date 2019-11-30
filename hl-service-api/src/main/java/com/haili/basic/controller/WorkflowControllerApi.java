@@ -7,6 +7,7 @@ import com.haili.framework.model.response.QueryResponseResult;
 import com.haili.framework.model.response.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 
+import java.io.Serializable;
 import java.util.Map;
 
 public interface WorkflowControllerApi {
@@ -18,6 +19,6 @@ public interface WorkflowControllerApi {
 
     ResponseResult updateById(Workflow entity);
 
-    ResponseResult deleteById(String id);
+    ResponseResult deleteById(Serializable id);
 
 }

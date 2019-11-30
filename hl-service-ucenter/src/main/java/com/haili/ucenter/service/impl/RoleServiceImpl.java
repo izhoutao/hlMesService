@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.framework.domain.ucenter.Menu;
 import com.haili.framework.domain.ucenter.Permission;
 import com.haili.framework.domain.ucenter.Role;
-import com.haili.framework.domain.ucenter.UserRole;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.ucenter.mapper.PermissionMapper;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +35,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         queryWrapper.in("role_code", menuCodeList);
         List<Menu> menus = menuMapper.selectList(queryWrapper);*/
         List<Menu> menus = role.getMenuList();
+        if (menus == null || menus.size() == 0) {
+            return true;
+        }
         List<Permission> permissions = menus.stream().map(
                 menu -> {
                     Permission permission = new Permission();
@@ -76,7 +77,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     }
 
 
-    @Override
+/*    @Override
     public boolean removeById(Serializable id) {
         if (StringUtils.isEmpty(id)) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
@@ -89,5 +90,5 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         userRoleMapper.delete(wrapper1);
         this.baseMapper.deleteById(id);
         return true;
-    }
+    }*/
 }

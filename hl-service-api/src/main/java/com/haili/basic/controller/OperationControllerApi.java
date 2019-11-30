@@ -7,6 +7,7 @@ import com.haili.framework.model.response.QueryResponseResult;
 import com.haili.framework.model.response.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 
+import java.io.Serializable;
 import java.util.Map;
 
 public interface OperationControllerApi {
@@ -18,5 +19,5 @@ public interface OperationControllerApi {
 
     ResponseResult updateById(Operation entity);
 
-    ResponseResult deleteById(String id);
+    ResponseResult deleteById(Serializable id);
 }

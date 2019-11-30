@@ -3,6 +3,9 @@ package com.haili.ucenter.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.haili.framework.domain.ucenter.Menu;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * <p>
  * 服务类
@@ -12,5 +15,5 @@ import com.haili.framework.domain.ucenter.Menu;
  * @since 2019-11-24
  */
 public interface IMenuService extends IService<Menu> {
-//    public List<MenuDTO> findMenuList();
+    public  List<Serializable>  getDeleteMenus(List<Menu> menuList, List<Serializable> idList);
 }

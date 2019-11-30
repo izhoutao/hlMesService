@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ import java.util.Map;
 @Data
 public class CrudController<T> {
     @Autowired
-    IService<T> service;
+    protected IService<T> service;
     /**
      * 在搜索的时候，去除这几个 map 参数
      */
@@ -88,7 +89,7 @@ public class CrudController<T> {
 
     @DeleteMapping("/{id}")
     @ResponseBody
-    public ResponseResult deleteById(@PathVariable("id") String id) {
+    public ResponseResult deleteById(@PathVariable("id") Serializable id) {
         service.removeById(id);
         return new ResponseResult(CommonCode.SUCCESS);
     }

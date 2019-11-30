@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,7 +97,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return true;
     }
 
-    @Override
+/*    @Override
     public boolean removeById(Serializable id) {
         if (StringUtils.isEmpty(id)) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
@@ -108,5 +107,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         userRoleMapper.delete(wrapper);
         this.baseMapper.deleteById(id);
         return true;
-    }
+    }*/
 }
