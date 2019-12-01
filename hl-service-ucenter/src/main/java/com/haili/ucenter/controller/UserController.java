@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +36,12 @@ public class UserController extends CrudController<User> {
     @Override
     protected QueryWrapper<User> extractWrapperFromRequestMap(Map<String, Object> map) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(!StringUtils.isEmpty(map.get("name")), "name", map.get("name"));
+        queryWrapper.like(!StringUtils.isEmpty(map.get("phone")), "phone", map.get("phone"))
+                .in(!StringUtils.isEmpty(map.get("depts"))
+                                &&(map.get("depts") instanceof List)
+                                && ((List)map.get("depts")).size()>0
+                        , "dept_id", ((List)map.get("depts")).toArray());
+
         return queryWrapper;
     }
 }

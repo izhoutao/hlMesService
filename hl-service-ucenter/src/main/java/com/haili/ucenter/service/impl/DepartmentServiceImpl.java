@@ -1,11 +1,11 @@
-package com.haili.basic.service.impl;
+package com.haili.ucenter.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haili.basic.mapper.DepartmentMapper;
-import com.haili.basic.service.IDepartmentService;
 import com.haili.framework.domain.basic.Department;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
+import com.haili.ucenter.mapper.DepartmentMapper;
+import com.haili.ucenter.service.IDepartmentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package com.haili.basic.service;
+package com.haili.ucenter.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.haili.framework.domain.basic.Department;

@@ -63,8 +63,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         System.out.println("roles=========>" + roles);
         List<String> authorityList = new ArrayList<>();
         Set<String> menus = roles.stream().flatMap(role -> role.getMenuList().stream())
-                .filter(menu -> StringUtils.isNotBlank(menu.getName()))
-                .map(Menu::getName).collect(Collectors.toSet());
+                .filter(menu -> StringUtils.isNotBlank(menu.getCode()))
+                .map(Menu::getCode).collect(Collectors.toSet());
         menus.forEach(item -> authorityList.add(item));
 
         //使用静态的权限表示用户所拥有的权限
@@ -76,9 +76,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 AuthorityUtils.commaSeparatedStringToAuthorityList(user_authrity_string));
         userDetails.setId(user.getId());
         userDetails.setStaffId(user.getStaffId());
-        userDetails.setName(user.getName()); //用户名称
+        userDetails.setName(user.getName()); //用户名称`
         userDetails.setAvatar(user.getAvatar()); //用户头像
-        userDetails.setDepartment(user.getDepartment()); //用户类型
+
+        userDetails.setDepartment(user.getDepartment()); //部门
         userDetails.setRoles(roles.stream().map(Role::getCode).collect(Collectors.toList()));
        /* UserDetails userDetails = new org.springframework.security.core.userdetails.User(username,
                 password,

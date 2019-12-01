@@ -1,4 +1,4 @@
-package com.haili.basic.mapper;
+package com.haili.ucenter.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.haili.framework.domain.basic.Department;

@@ -15,7 +15,7 @@
         <result property="email" column="email"/>
         <result property="state" column="state"/>
         <result property="description" column="user_description"/>
-        <result property="department" column="department"/>
+        <result property="deptId" column="dept_id"/>
         <result property="position" column="position"/>
         <result property="line" column="line"/>
         <result property="createTime" column="user_create_time"/>
@@ -44,7 +44,7 @@
 		tb_user.email email,
 		tb_user.state state,
 		tb_user.description user_description,
-		tb_user.department department,
+		tb_user.dept_id dept_id,
 		tb_user.position position,
 		tb_user.line line,
 		tb_user.create_time user_create_time,

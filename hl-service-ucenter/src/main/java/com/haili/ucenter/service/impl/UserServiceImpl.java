@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.haili.framework.domain.basic.Department;
 import com.haili.framework.domain.ucenter.User;
 import com.haili.framework.domain.ucenter.UserRole;
 import com.haili.framework.domain.ucenter.response.UcenterCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.utils.BCryptUtil;
+import com.haili.ucenter.mapper.DepartmentMapper;
 import com.haili.ucenter.mapper.UserMapper;
 import com.haili.ucenter.mapper.UserRoleMapper;
 import com.haili.ucenter.service.IUserService;
@@ -31,21 +33,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     UserRoleMapper userRoleMapper;
+    @Autowired
+    DepartmentMapper departmentMapper;
 
     //根据账号查询用户信息
     public User getUserByUserName(String username) {
         if (username == null || StringUtils.isEmpty(username)) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
-        return this.baseMapper.getUserByUserName(username);
+        User user = this.baseMapper.getUserByUserName(username);
+        Department department = departmentMapper.selectById(user.getDeptId());
+        user.setDepartment(department.getName());
+        return user;
     }
 
 
     @Override
     public IPage<User> page(IPage<User> page, Wrapper<User> queryWrapper) {
-        IPage<User> userIPage = this.baseMapper.selectPage(page, queryWrapper);
-        System.out.println(userIPage);
-        return super.page(page, queryWrapper);
+        return this.baseMapper.selectPagePreload(page, queryWrapper);
+    }
+
+    @Override
+    public List<User> list(Wrapper<User> queryWrapper) {
+        return this.baseMapper.selectListPreload(queryWrapper);
     }
 
     private boolean insertUserRoles(User user) {
@@ -58,7 +68,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 }
         ).collect(Collectors.toList());
         userRoleMapper.insertBatchSomeColumn(userRoles);
-        
         return true;
     }
 

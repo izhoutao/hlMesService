@@ -1,6 +1,8 @@
 package com.haili.ucenter.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.framework.domain.ucenter.Menu;
 import com.haili.framework.domain.ucenter.Permission;
@@ -28,6 +30,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         MenuMapper menuMapper;*/
     @Autowired
     UserRoleMapper userRoleMapper;
+
+    @Override
+    public List<Role> list(Wrapper<Role> queryWrapper) {
+        return this.baseMapper.selectListPreLoad(queryWrapper);
+    }
+
+    @Override
+    public IPage<Role> page(IPage<Role> page, Wrapper<Role> queryWrapper) {
+        return this.baseMapper.selectPagePreLoad(page, queryWrapper);
+    }
 
     private boolean insertPermissions(Role role) {
 /*        List<String> menuCodeList = role.getMenuList().stream().map(menu -> menu.getMenuCode()).collect(Collectors.toList());

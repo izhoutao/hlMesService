@@ -13,11 +13,11 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
     User getUserByUserName(String username);
 
-    @Override
     @Select("select * from tb_user ${ew.customSqlSegment} ")
     @Results(id = "userMap", value = {
             @Result(column = "id", property = "id"),
             @Result(column = "staff_id", property = "staffId"),
+            @Result(column = "dept_id", property = "deptId"),
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime"),
             @Result(column = "id", property = "roleList",
@@ -26,11 +26,10 @@ public interface UserMapper extends BaseMapper<User> {
                     )
             )
     })
-    IPage<User> selectPage(IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> queryWrapper);
+    IPage<User> selectPagePreload(IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> queryWrapper);
 
-    @Override
     @Select("select * from tb_user ${ew.customSqlSegment} ")
     @ResultMap("userMap")
-    List<User> selectList(@Param(Constants.WRAPPER) Wrapper<User> queryWrapper);
+    List<User> selectListPreload(@Param(Constants.WRAPPER) Wrapper<User> queryWrapper);
 
 }

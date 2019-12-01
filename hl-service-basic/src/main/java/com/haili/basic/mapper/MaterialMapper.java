@@ -32,7 +32,6 @@ public interface MaterialMapper extends BaseMapper<Material> {
 //    })
 //    IPage<Material> selectPage(IPage<Material> page, @Param("ew") Wrapper<Material> queryWrapper);
 
-    @Override
     @Select("<script>" +
             "<when test=\"ew.customSqlSegment != ''\">" +
             "SELECT * FROM (" +
@@ -52,9 +51,8 @@ public interface MaterialMapper extends BaseMapper<Material> {
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime"),
     })
-    IPage<Material> selectPage(IPage<Material> page, @Param("ew") Wrapper<Material> queryWrapper);
+    IPage<Material> selectPagePreload(IPage<Material> page, @Param("ew") Wrapper<Material> queryWrapper);
 
-    @Override
     @Select("<script>" +
             "<when test=\"ew.customSqlSegment != ''\">" +
             "SELECT * FROM (" +
@@ -68,5 +66,5 @@ public interface MaterialMapper extends BaseMapper<Material> {
             "</when>" +
             "</script>")
     @ResultMap("materialMap")
-    List<Material> selectList(@Param("ew") Wrapper<Material> queryWrapper);
+    List<Material> selectListPreload(@Param("ew") Wrapper<Material> queryWrapper);
 }

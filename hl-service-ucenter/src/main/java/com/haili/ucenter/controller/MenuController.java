@@ -33,23 +33,28 @@ import java.util.Map;
 public class MenuController extends CrudController<Menu> {
     @Override
     public QueryResponseResult<Menu> list(@RequestBody Map<String, Object> map) {
-        Boolean bool = (Boolean)map.get("lazyLoad");
+        Boolean bool = (Boolean) map.get("lazyLoad");
+        List<Menu> list;
+        QueryWrapper<Menu> queryWrapper = extractWrapperFromRequestMap(map);
+        setOrderFromRequestMap(map, queryWrapper);
         if (bool != null && !bool) {
-            return super.list(map);
+            list = ((MenuServiceImpl) service).listPreload(queryWrapper);
         } else {
-            QueryResult<Menu> queryResult = new QueryResult<>();
-            List<Menu> list = (List<Menu>)service.listByMap(new HashMap<>());
-            queryResult.setList(list);
-            queryResult.setTotal(list.size());
-            return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
+            list = service.list(queryWrapper);
         }
+        QueryResult<Menu> queryResult = new QueryResult<>();
+        queryResult.setList(list);
+        queryResult.setTotal(list.size());
+        return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
     }
+
     @Override
     protected QueryWrapper<Menu> extractWrapperFromRequestMap(Map<String, Object> map) {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(!StringUtils.isEmpty(map.get("name")), "name", map.get("name"));
         return queryWrapper;
     }
+
     @Override
     public ResponseResult deleteById(@PathVariable("id") Serializable id) {
         Map<String, Object> map = new HashMap<>();

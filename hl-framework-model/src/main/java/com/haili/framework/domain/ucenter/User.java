@@ -35,7 +35,7 @@ public class User implements Serializable {
     private String email;
     private String state;
     private String description;
-    private String department;
+    private Long deptId;
     private String position;
     private String line;
     @TableLogic
@@ -48,4 +48,8 @@ public class User implements Serializable {
     //角色信息
     @TableField(exist=false)
     private List<Role> roleList;
+
+    //角色信息
+    @TableField(exist=false)
+    private String department;
 }

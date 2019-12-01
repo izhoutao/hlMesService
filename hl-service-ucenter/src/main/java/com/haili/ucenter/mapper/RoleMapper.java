@@ -40,7 +40,6 @@ public interface RoleMapper extends BaseMapper<Role> {
             " where tb_permission.menu_id =#{menuId} ")
     List<Role> getListByMenuId(String menuId);
 
-    @Override
     @Select("select * from tb_role ${ew.customSqlSegment} ")
     @Results(id = "roleMap", value = {
             @Result(column = "id", property = "id"),
@@ -52,11 +51,10 @@ public interface RoleMapper extends BaseMapper<Role> {
                     )
             )
     })
-    IPage<Role> selectPage(IPage<Role> page, @Param(Constants.WRAPPER) Wrapper<Role> queryWrapper);
+    IPage<Role> selectPagePreLoad(IPage<Role> page, @Param(Constants.WRAPPER) Wrapper<Role> queryWrapper);
 
-    @Override
     @Select("select * from tb_role ${ew.customSqlSegment} ")
     @ResultMap("roleMap")
-    List<Role> selectList(@Param(Constants.WRAPPER) Wrapper<Role> queryWrapper);
+    List<Role> selectListPreLoad(@Param(Constants.WRAPPER) Wrapper<Role> queryWrapper);
 
 }

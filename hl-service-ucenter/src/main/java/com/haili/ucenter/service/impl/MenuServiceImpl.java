@@ -1,5 +1,6 @@
 package com.haili.ucenter.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.framework.domain.ucenter.Menu;
@@ -32,6 +33,11 @@ import java.util.Map;
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
     @Autowired
     PermissionMapper permissionMapper;
+
+    @Override
+    public List<Menu> listPreload(Wrapper<Menu> queryWrapper) {
+        return this.baseMapper.selectListPreload(queryWrapper);
+    }
 
     @Override
     public List<Serializable> getDeleteMenus(List<Menu> menuList, List<Serializable> idList) {
