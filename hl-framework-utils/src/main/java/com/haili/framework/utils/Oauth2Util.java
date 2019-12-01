@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Oauth2Util {
 
-    public static Map<String,String> getJwtClaimsFromHeader(HttpServletRequest request) {
+    public static Map<String,Object> getJwtClaimsFromHeader(HttpServletRequest request) {
         if (request == null) {
             return null;
         }
@@ -24,7 +24,7 @@ public class Oauth2Util {
         }
         //从Bearer 后边开始取出token
         String token = authorization.substring(7);
-        Map<String,String> map = null;
+        Map<String,Object> map = null;
         try {
             //解析jwt
             Jwt decode = JwtHelper.decode(token);

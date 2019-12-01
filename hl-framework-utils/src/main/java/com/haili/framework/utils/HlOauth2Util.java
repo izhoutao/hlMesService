@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,27 +12,31 @@ import java.util.Map;
  */
 public class HlOauth2Util {
 
-    public UserJwt getUserJwtFromHeader(HttpServletRequest request){
-        Map<String, String> jwtClaims = Oauth2Util.getJwtClaimsFromHeader(request);
-        if(jwtClaims == null || StringUtils.isEmpty(jwtClaims.get("id"))){
+    public static UserJwt getUserJwtFromHeader(HttpServletRequest request) {
+        Map<String, Object> jwtClaims = Oauth2Util.getJwtClaimsFromHeader(request);
+        if (jwtClaims == null || StringUtils.isEmpty((String)jwtClaims.get("id"))) {
             return null;
         }
         UserJwt userJwt = new UserJwt();
-        userJwt.setId(jwtClaims.get("id"));
-        userJwt.setStaffId(jwtClaims.get("staffId"));
-        userJwt.setName(jwtClaims.get("name"));
-        userJwt.setAvatar(jwtClaims.get("avatar"));
-        userJwt.setDepartment(jwtClaims.get("department"));
+        userJwt.setId((String) jwtClaims.get("id"));
+        userJwt.setStaffId((String)jwtClaims.get("staffId"));
+        userJwt.setName((String)jwtClaims.get("name"));
+        userJwt.setAvatar((String)jwtClaims.get("avatar"));
+        userJwt.setDepartment((String)jwtClaims.get("department"));
+        userJwt.setRoles((List<String>) jwtClaims.get("roles"));
+        userJwt.setMenus((List<String>)jwtClaims.get("menus"));
         return userJwt;
     }
 
     @Data
-    public class UserJwt{
+    public static class UserJwt {
         private String id;
         private String staffId;
         private String name;
         private String avatar;
         private String department;
+        private List<String> roles;
+        private List<String> menus;
     }
 
 }
