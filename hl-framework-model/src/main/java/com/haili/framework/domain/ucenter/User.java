@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.util.List;
 @Data
 @ToString
 @NoArgsConstructor
+@Accessors(chain = true)
 public class User implements Serializable {
 
     private static final long serialVersionUID = -8644930299662562058L;

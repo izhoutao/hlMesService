@@ -30,7 +30,7 @@ public class Customer implements Serializable {
     /**
      * 客户ID
      */
-    private Integer id;
+    private String id;
 
     /**
      * 客户编码
@@ -53,19 +53,14 @@ public class Customer implements Serializable {
     private String phoneNumber;
 
     /**
-     * 客户开户银行名称
-     */
-    private String bankName;
-
-    /**
-     * 银行账号
-     */
-    private String bankAccount;
-
-    /**
      * 客户地址
      */
     private String address;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 
     /**
      * 传真
@@ -75,7 +70,7 @@ public class Customer implements Serializable {
     /**
      * 状态：0禁止，1启用
      */
-    private Integer status;
+    private Integer state;
 
     /**
      * 城市

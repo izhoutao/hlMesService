@@ -28,7 +28,7 @@ public interface UserMapper extends BaseMapper<User> {
     })
     IPage<User> selectPagePreload(IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> queryWrapper);
 
-    @Select("select * from tb_user ${ew.customSqlSegment} ")
+    @Select("select select * from tb_user ${ew.customSqlSegment} ")
     @ResultMap("userMap")
     List<User> selectListPreload(@Param(Constants.WRAPPER) Wrapper<User> queryWrapper);
 

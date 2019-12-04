@@ -16,6 +16,7 @@ import com.haili.ucenter.mapper.UserMapper;
 import com.haili.ucenter.mapper.UserRoleMapper;
 import com.haili.ucenter.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -36,6 +37,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     DepartmentMapper departmentMapper;
 
+    //
+    @Value("${mybatis-plus.global-config.db-config.logic-not-delete-value}")
+    private Integer logicNotDeleteValue;
+
     //根据账号查询用户信息
     public User getUserByUserName(String username) {
         if (username == null || StringUtils.isEmpty(username)) {
@@ -50,12 +55,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public IPage<User> page(IPage<User> page, Wrapper<User> queryWrapper) {
-        return this.baseMapper.selectPagePreload(page, queryWrapper);
+        ((QueryWrapper<User>) queryWrapper).eq("deleted", logicNotDeleteValue);
+        IPage<User> userIPage = this.baseMapper.selectPagePreload(page, queryWrapper);
+        List<User> users = userIPage.getRecords()
+                .stream()
+                .map(user -> user.setPassword(""))
+                .collect(Collectors.toList());
+        userIPage.setRecords(users);
+        return userIPage;
     }
 
     @Override
     public List<User> list(Wrapper<User> queryWrapper) {
-        return this.baseMapper.selectListPreload(queryWrapper);
+        ((QueryWrapper<User>) queryWrapper).eq("deleted", logicNotDeleteValue);
+        List<User> users = this.baseMapper.selectListPreload(queryWrapper)
+                .stream()
+                .map(user -> user.setPassword(""))
+                .collect(Collectors.toList());
+        return users;
     }
 
     private boolean insertUserRoles(User user) {

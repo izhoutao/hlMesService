@@ -70,7 +70,7 @@ public class Vendor implements Serializable {
     /**
      * 状态：0禁止，1启用
      */
-    private String state;
+    private Integer state;
 
     /**
      * 城市

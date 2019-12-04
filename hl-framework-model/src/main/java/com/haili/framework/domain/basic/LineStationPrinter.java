@@ -16,37 +16,40 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-11-20
+ * @since 2019-12-04
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_inbound_order")
-public class InboundOrder implements Serializable {
+@TableName("tb_line_station_printer")
+public class LineStationPrinter implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String id;
 
-    private String number;
+    private String lineStationId;
+
+    private String printerId;
+
+    private Boolean isDefault;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    private String levelId;
 
-    private String statusId;
+    /**
+     * 打印机名称
+     */
+    @TableField(exist = false)
+    private String printerName;
 
-    private String typeId;
+    /**
+     * 打印机路径
+     */
+    @TableField(exist = false)
+    private String printerPath;
 
-    private String vendorId;
-
-    private String warehouseId;
-
-    @TableField(fill = FieldFill.INSERT)
-    private String createPerson;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updatePerson;
 }

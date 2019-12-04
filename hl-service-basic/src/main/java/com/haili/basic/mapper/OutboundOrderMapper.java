@@ -1,16 +1,16 @@
 package com.haili.basic.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.haili.framework.domain.basic.Customer;
+import com.haili.framework.domain.basic.OutboundOrder;
 
 /**
  * <p>
- * 供应商信息表 Mapper 接口
+ *  Mapper 接口
  * </p>
  *
  * @author Zhou Tao
  * @since 2019-12-02
  */
-public interface CustomerMapper extends BaseMapper<Customer> {
+public interface OutboundOrderMapper extends BaseMapper<OutboundOrder> {
 
 }
