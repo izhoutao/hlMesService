@@ -1,9 +1,9 @@
 package com.haili.basic.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haili.framework.domain.basic.Product;
 import com.haili.basic.mapper.ProductMapper;
 import com.haili.basic.service.IProductService;
+import com.haili.framework.domain.basic.Product;
 import org.springframework.stereotype.Service;
 
 /**

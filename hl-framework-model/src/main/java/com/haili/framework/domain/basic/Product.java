@@ -1,13 +1,12 @@
 package com.haili.framework.domain.basic;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-11-21
+ * @since 2019-12-05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -28,17 +27,84 @@ public class Product implements Serializable {
 
     private String id;
 
-    private String code;
+    /**
+     * 钢卷编号
+     */
+    private String productId;
 
-    private String name;
+    /**
+     * 钢种
+     */
+    private String steelGrade;
 
+    /**
+     * 表面品级
+     */
+    private String surfaceFinish;
+
+    /**
+     * 规格mm*mm
+     */
     private String specification;
 
-    private String description;
+    /**
+     * 净重(kg)
+     */
+    private String netWeight;
 
-    @TableField(fill = FieldFill.INSERT)
+    /**
+     * 毛重(kg)
+     */
+    private String grossWeight;
+
+    /**
+     * 参考厚度(mm)
+     */
+    private String referenceThickness;
+
+    /**
+     * 参考宽度(mm)
+     */
+    private String referenceWidth;
+
+    /**
+     * 参考长度(mm)
+     */
+    private String referenceLength;
+
+    /**
+     * 边部
+     */
+    private String edge;
+
+    /**
+     * 等级
+     */
+    private String grade;
+
+    /**
+     * 检验员
+     */
+    private String inspector;
+
+    /**
+     * 条码
+     */
+    private String barcode;
+
+    /**
+     * 日期
+     */
+    private LocalDate date;
+
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+
+    /**
+     * 更新时间
+     */
     private LocalDateTime updateTime;
 
 

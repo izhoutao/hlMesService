@@ -23,7 +23,8 @@ public class MaterialController extends CrudController<Material> {
     @Override
     protected QueryWrapper<Material> extractWrapperFromRequestMap(Map<String, Object> map) {
         QueryWrapper<Material> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(!StringUtils.isEmpty(map.get("name")), "name", map.get("name"));
+        queryWrapper.like(!StringUtils.isEmpty(map.get("name")), "name", map.get("name"))
+                .eq(!StringUtils.isEmpty(map.get("typeId")), "type_id", map.get("typeId"));
         return queryWrapper;
     }
 }

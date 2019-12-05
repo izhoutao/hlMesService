@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.*;
 
 /**
  * <p>
@@ -24,6 +25,25 @@ import java.io.Serializable;
 public class DictTypeServiceImpl extends ServiceImpl<DictTypeMapper, DictType> implements IDictTypeService {
     @Autowired
     DictInfoMapper dictInfoMapper;
+
+
+    public Map<String, List<DictInfo>> getDictMaps(List<String> dictTypeIds) {
+        HashMap<String, List<DictInfo>> map = new HashMap<>();
+        QueryWrapper<DictInfo> dictInfoQueryWrapper = new QueryWrapper<>();
+        dictInfoQueryWrapper.in("type_id", dictTypeIds);
+        List<DictInfo> dictInfoList = dictInfoMapper.selectList(dictInfoQueryWrapper);
+        dictInfoList.stream().forEach(dictInfo -> {
+            String typeId = dictInfo.getTypeId();
+            if (map.get(typeId) == null) {
+                LinkedList<DictInfo> dictInfos = new LinkedList<>();
+                dictInfos.add(dictInfo);
+                map.put(typeId,dictInfos);
+            } else {
+                map.get(typeId).add(dictInfo);
+            }
+        });
+        return map;
+    }
 
     @Override
     public boolean removeById(Serializable id) {
