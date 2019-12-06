@@ -40,16 +40,16 @@ public class LineStationPrinter implements Serializable {
     private LocalDateTime updateTime;
 
 
-    /**
-     * 打印机名称
-     */
-    @TableField(exist = false)
-    private String printerName;
-
-    /**
-     * 打印机路径
-     */
-    @TableField(exist = false)
-    private String printerPath;
+//    /**
+//     * 打印机名称
+//     */
+//    @TableField(exist = false)
+//    private String printerName;
+//
+//    /**
+//     * 打印机路径
+//     */
+//    @TableField(exist = false)
+//    private String printerPath;
 
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Zhou Tao
@@ -42,9 +42,9 @@ public class OutboundOrderDetail implements Serializable {
     private LocalDateTime updateTime;
 
     private String materialId;
-    @TableField(exist=false)
+    @TableField(exist = false)
     private String materialCode;
-    @TableField(exist=false)
+    @TableField(exist = false)
     private String materialName;
 
     private String outboundOrderId;

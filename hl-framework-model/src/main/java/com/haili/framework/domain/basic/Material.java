@@ -41,8 +41,8 @@ public class Material implements Serializable {
 
     private String typeId;
 
-    @TableField(exist = false)
-    private String typeName;
+//    @TableField(exist = false)
+//    private String typeName;
 
 
 }

@@ -1,14 +1,10 @@
 package com.haili.basic.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.MaterialMapper;
 import com.haili.basic.service.IMaterialService;
 import com.haili.framework.domain.basic.Material;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -20,14 +16,14 @@ import java.util.List;
  */
 @Service
 public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> implements IMaterialService {
-    @Override
-    public IPage<Material> page(IPage<Material> page, Wrapper<Material> queryWrapper) {
-        return this.baseMapper.selectPagePreload(page, queryWrapper);
-    }
-
-    @Override
-    public List<Material> list(Wrapper<Material> queryWrapper) {
-        return this.baseMapper.selectListPreload(queryWrapper);
-    }
+//    @Override
+//    public IPage<Material> page(IPage<Material> page, Wrapper<Material> queryWrapper) {
+//        return this.baseMapper.selectPagePreload(page, queryWrapper);
+//    }
+//
+//    @Override
+//    public List<Material> list(Wrapper<Material> queryWrapper) {
+//        return this.baseMapper.selectListPreload(queryWrapper);
+//    }
 
 }

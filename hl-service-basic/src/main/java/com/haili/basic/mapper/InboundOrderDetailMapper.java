@@ -1,5 +1,6 @@
 package com.haili.basic.mapper;
 
+
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -29,7 +30,7 @@ public interface InboundOrderDetailMapper extends BaseMapper<InboundOrderDetail>
             ") m ${ew.customSqlSegment}" +
             "</when>" +
             "</script>")
-    @Results(id = "materialMap", value = {
+    @Results(id = "inboundOrderDetailMap", value = {
             @Result(column = "id", property = "id"),
             @Result(column = "material_id", property = "materialId"),
             @Result(column = "material_name", property = "materialName"),
@@ -55,6 +56,6 @@ public interface InboundOrderDetailMapper extends BaseMapper<InboundOrderDetail>
             ") m ${ew.customSqlSegment}" +
             "</when>" +
             "</script>")
-    @ResultMap("materialMap")
+    @ResultMap("inboundOrderDetailMap")
     List<InboundOrderDetail> selectListPreload(@Param("ew") Wrapper<InboundOrderDetail> queryWrapper);
 }

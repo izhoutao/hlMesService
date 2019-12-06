@@ -29,7 +29,7 @@ public interface OutboundOrderDetailMapper extends BaseMapper<OutboundOrderDetai
             ") m ${ew.customSqlSegment}" +
             "</when>" +
             "</script>")
-    @Results(id = "materialMap", value = {
+    @Results(id = "outboundOrderDetailMap", value = {
             @Result(column = "id", property = "id"),
             @Result(column = "material_id", property = "materialId"),
             @Result(column = "material_name", property = "materialName"),
@@ -55,6 +55,6 @@ public interface OutboundOrderDetailMapper extends BaseMapper<OutboundOrderDetai
             ") m ${ew.customSqlSegment}" +
             "</when>" +
             "</script>")
-    @ResultMap("materialMap")
+    @ResultMap("outboundOrderDetailMap")
     List<OutboundOrderDetail> selectListPreload(@Param("ew") Wrapper<OutboundOrderDetail> queryWrapper);
 }

@@ -42,9 +42,9 @@ public class LineStation implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    @TableField(exist = false)
-    private String lineName;
-    @TableField(exist = false)
-    private String operationName;
+//    @TableField(exist = false)
+//    private String lineName;
+//    @TableField(exist = false)
+//    private String operationName;
 
 }

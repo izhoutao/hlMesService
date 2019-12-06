@@ -32,6 +32,13 @@ public class InspectionRuleMaterial implements Serializable {
 
     private String materialId;
 
+    @TableField(exist = false)
+    private String materialCode;
+    @TableField(exist = false)
+    private String materialName;
+    @TableField(exist = false)
+    private String materialTypeName;
+
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)

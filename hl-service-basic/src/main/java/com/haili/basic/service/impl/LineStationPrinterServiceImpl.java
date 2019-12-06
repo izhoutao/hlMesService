@@ -1,19 +1,11 @@
 package com.haili.basic.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.LineStationPrinterMapper;
-import com.haili.basic.mapper.PrinterMapper;
 import com.haili.basic.service.ILineStationPrinterService;
 import com.haili.framework.domain.basic.LineStationPrinter;
-import com.haili.framework.domain.basic.Printer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -25,35 +17,35 @@ import java.util.stream.Collectors;
  */
 @Service
 public class LineStationPrinterServiceImpl extends ServiceImpl<LineStationPrinterMapper, LineStationPrinter> implements ILineStationPrinterService {
-    @Autowired
-    PrinterMapper printerMapper;
-
-    @Override
-    public IPage<LineStationPrinter> page(IPage<LineStationPrinter> page, Wrapper<LineStationPrinter> queryWrapper) {
-        IPage<LineStationPrinter> page1 = super.page(page, queryWrapper);
-        List<LineStationPrinter> lineStationPrinterList = page1.getRecords().stream().map(lineStationPrinter -> {
-            String printerId = lineStationPrinter.getPrinterId();
-            Printer printer = printerMapper.selectById(printerId);
-            lineStationPrinter.setPrinterName(printer.getName());
-            lineStationPrinter.setPrinterPath(printer.getPath());
-            return lineStationPrinter;
-        }).collect(Collectors.toList());
-        page1.setRecords(lineStationPrinterList);
-        return page1;
-    }
-
-    @Override
-    public List<LineStationPrinter> list(Wrapper<LineStationPrinter> queryWrapper) {
-        List<LineStationPrinter> lineStationPrinterList = super.list(queryWrapper);
-        lineStationPrinterList = lineStationPrinterList.stream().map(lineStationPrinter -> {
-            String printerId = lineStationPrinter.getPrinterId();
-            Printer printer = printerMapper.selectById(printerId);
-            lineStationPrinter.setPrinterName(printer.getName());
-            lineStationPrinter.setPrinterPath(printer.getPath());
-            return lineStationPrinter;
-        }).collect(Collectors.toList());
-        return lineStationPrinterList;
-    }
+//    @Autowired
+//    PrinterMapper printerMapper;
+//
+//    @Override
+//    public IPage<LineStationPrinter> page(IPage<LineStationPrinter> page, Wrapper<LineStationPrinter> queryWrapper) {
+//        IPage<LineStationPrinter> page1 = super.page(page, queryWrapper);
+//        List<LineStationPrinter> lineStationPrinterList = page1.getRecords().stream().map(lineStationPrinter -> {
+//            String printerId = lineStationPrinter.getPrinterId();
+//            Printer printer = printerMapper.selectById(printerId);
+//            lineStationPrinter.setPrinterName(printer.getName());
+//            lineStationPrinter.setPrinterPath(printer.getPath());
+//            return lineStationPrinter;
+//        }).collect(Collectors.toList());
+//        page1.setRecords(lineStationPrinterList);
+//        return page1;
+//    }
+//
+//    @Override
+//    public List<LineStationPrinter> list(Wrapper<LineStationPrinter> queryWrapper) {
+//        List<LineStationPrinter> lineStationPrinterList = super.list(queryWrapper);
+//        lineStationPrinterList = lineStationPrinterList.stream().map(lineStationPrinter -> {
+//            String printerId = lineStationPrinter.getPrinterId();
+//            Printer printer = printerMapper.selectById(printerId);
+//            lineStationPrinter.setPrinterName(printer.getName());
+//            lineStationPrinter.setPrinterPath(printer.getPath());
+//            return lineStationPrinter;
+//        }).collect(Collectors.toList());
+//        return lineStationPrinterList;
+//    }
 
     @Override
     public boolean updateById(LineStationPrinter entity) {
