@@ -24,6 +24,7 @@ public class InspectionRuleMaterialController extends CrudController<InspectionR
     protected QueryWrapper<InspectionRuleMaterial> extractWrapperFromRequestMap(Map<String, Object> map) {
         QueryWrapper<InspectionRuleMaterial> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(!StringUtils.isEmpty(map.get("inspectionRuleId")), "inspection_rule_id", map.get("inspectionRuleId"));
+        queryWrapper.eq(!StringUtils.isEmpty(map.get("materialId")), "material_id", map.get("materialId"));
         return queryWrapper;
     }
 }
