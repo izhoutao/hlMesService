@@ -17,45 +17,22 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-12-13
+ * @since 2019-12-15
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_iqc")
-public class Iqc implements Serializable {
+@TableName("tb_ipqc")
+public class Ipqc implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String id;
-    private String serialNumber;
 
     /**
-     * 日期
+     * 序列号
      */
-    private LocalDate inspectDate;
-    /**
-     * 是否已登记
-     */
-    private Boolean isMark;
-    private String lineId;
-    private String shiftId;
-    private String inboundOrderId;
-    private String materialId;
-    @TableField(exist = false)
-    private String materialCode;
-    @TableField(exist = false)
-    private String materialName;
-    @TableField(exist = false)
-    private String materialTypeName;
-    private String vendorId;
-    private String materialTypeId;
-    private String customerId;
-    private String nextOperationId;
-    private String surfaceGrade;
-    private String uses;
-    private String checkList;
-    private String defectList;
+    private String serialNumber;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -67,7 +44,52 @@ public class Iqc implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updatePerson;
 
+    private String inspector;
 
+    /**
+     * 检验日期
+     */
+    private LocalDate inspectDate;
+
+    /**
+     * 是否已提交
+     */
+    private Boolean isMark;
+
+    /**
+     * 线别
+     */
+    private String lineId;
+
+    /**
+     * 班别
+     */
+    private String shiftId;
+
+    /**
+     * 料号
+     */
+    private String materialId;
+    @TableField(exist = false)
+    private String materialCode;
+    @TableField(exist = false)
+    private String materialName;
+    @TableField(exist = false)
+    private String materialTypeName;
+
+    private String materialTypeId;
+
+    private String customerId;
+
+    private String nextOperationId;
+
+    private String surfaceGrade;
+
+    private String uses;
+
+    private String checkList;
+
+    private String defectList;
 
 
 }
