@@ -26,6 +26,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/ucenter/user")
 public class UserController extends CrudController<User> {
+//    @Override
+//    @
+//    public ModelResopnseResult<User> save(User entity) {
+//        return super.save(entity);
+//    }
 
     @GetMapping
     public UserResult getUserByUserName(@RequestParam("userName") String userName) {
