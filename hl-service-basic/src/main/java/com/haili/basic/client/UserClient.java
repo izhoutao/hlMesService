@@ -18,6 +18,6 @@ public interface UserClient {
     @PostMapping("/ucenter/menu/list")
     public QueryResponseResult<Menu> getMenuList(@RequestBody Map<String, Object> map);
 
-    @PostMapping("/ucenter/coderule/sn")
+    @PostMapping("/ucenter/sequence/sn")
     public ModelResponseResult<String> nextSerialNumber(@RequestBody Map<String, Object> map);
 }

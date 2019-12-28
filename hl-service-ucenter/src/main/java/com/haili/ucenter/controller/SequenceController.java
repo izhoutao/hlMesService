@@ -1,11 +1,10 @@
 package com.haili.ucenter.controller;
 
-import com.haili.framework.domain.system.CodeRule;
+import com.haili.framework.domain.system.Sequence;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.model.response.ModelResponseResult;
 import com.haili.framework.web.CrudController;
 import com.haili.ucenter.service.impl.SequenceServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,21 +14,18 @@ import java.util.Map;
 
 /**
  * <p>
- * 控制器
+ *  控制器
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-12-07
- */
+ * @since 2019-12-28
+*/
 @RestController
-@RequestMapping("/ucenter/coderule")
-public class CodeRuleController extends CrudController<CodeRule> {
-    @Autowired
-    SequenceServiceImpl sequenceService;
-
+@RequestMapping("/ucenter/sequence")
+public class SequenceController extends CrudController<Sequence> {
     @PostMapping("/sn")
     public ModelResponseResult<String> nextSerialNumber(@RequestBody Map<String, Object> map) {
-        String serialNumber = sequenceService.nextSerialNumber(map);
+        String serialNumber = ((SequenceServiceImpl)service).nextSerialNumber(map);
         return new ModelResponseResult<String>(CommonCode.SUCCESS, serialNumber);
     }
 }

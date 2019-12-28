@@ -1,7 +1,7 @@
-package com.haili.framework.utils;
+package com.haili.ucenter.config;
 
 import cn.hutool.core.collection.CollUtil;
-import com.xuanner.seq.sequence.Sequence;
+import com.haili.ucenter.service.impl.SequenceServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.commons.jexl2.Expression;
@@ -24,13 +24,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public abstract class AbstractSerialNumberGenerator {
-    private Sequence sequence;
+    String bizName;
+    SequenceServiceImpl sequenceService;
 
     public String nextSerialNumber(String rule, int length, LocalDateTime localDateTime) {
         return nextSerialNumber(rule, length, localDateTime, null);
     }
 
-    public String nextSerialNumber(String rule, int length, LocalDateTime localDateTime, Long resetValue) {
+    public String nextSerialNumber(String rule, int length, LocalDateTime localDateTime, Long seq) {
 //        String rule = "IQC|[yyyy]|[MM]|[dd]|[SEQ]";
         String[] ruleArr = rule.split("\\|");
         List<String> snList = new LinkedList<>();
@@ -38,12 +39,6 @@ public abstract class AbstractSerialNumberGenerator {
             if (item.startsWith("[") && item.endsWith("]")) {
                 String str = item.substring(1, item.length() - 1);
                 if ("SEQ".equals(str)) {
-                    Long seq;
-                    if (resetValue != null) {
-                        seq = resetValue;
-                    } else {
-                        seq = sequence.nextValue();
-                    }
                     String seqStr = String.format("%0" + length + "d", seq);
                     snList.add(seqStr);
                 } else {
@@ -67,4 +62,5 @@ public abstract class AbstractSerialNumberGenerator {
     }
 
     public abstract void buildJc(JexlContext jc);
+
 }
