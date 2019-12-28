@@ -12,7 +12,6 @@ import com.haili.ucenter.service.ICodeRuleService;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
@@ -28,7 +27,7 @@ import java.util.Map;
  * @since 2019-12-07
  */
 @Service
-@Transactional(propagation = Propagation.NESTED)
+@Transactional
 public class CodeRuleServiceImpl extends ServiceImpl<CodeRuleMapper, CodeRule> implements ICodeRuleService {
 //    private static final Logger logger = LoggerFactory.getLogger(CodeRuleServiceImpl.class);
 //    //静态变量存储最大值
