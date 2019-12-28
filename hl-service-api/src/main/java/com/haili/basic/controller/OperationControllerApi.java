@@ -2,7 +2,7 @@ package com.haili.basic.controller;
 
 
 import com.haili.framework.domain.basic.Operation;
-import com.haili.framework.model.response.ModelResopnseResult;
+import com.haili.framework.model.response.ModelResponseResult;
 import com.haili.framework.model.response.QueryResponseResult;
 import com.haili.framework.model.response.ResponseResult;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +15,7 @@ public interface OperationControllerApi {
     @ApiOperation(value = "数据字典详情查询接口")
     public QueryResponseResult<Operation> list(Map<String, Object> map);
 
-    ModelResopnseResult<Operation> save(Operation entity);
+    ModelResponseResult<Operation> save(Operation entity);
 
     ResponseResult updateById(Operation entity);
 

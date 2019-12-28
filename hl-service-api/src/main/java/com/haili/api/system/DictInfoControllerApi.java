@@ -1,7 +1,7 @@
 package com.haili.api.system;
 
 import com.haili.framework.domain.system.DictInfo;
-import com.haili.framework.model.response.ModelResopnseResult;
+import com.haili.framework.model.response.ModelResponseResult;
 import com.haili.framework.model.response.QueryResponseResult;
 import com.haili.framework.model.response.ResponseResult;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +14,7 @@ public interface DictInfoControllerApi {
     @ApiOperation(value = "数据字典详情查询接口")
     public QueryResponseResult<DictInfo> list(Map<String, Object> map);
 
-    ModelResopnseResult<DictInfo> save(DictInfo entity);
+    ModelResponseResult<DictInfo> save(DictInfo entity);
 
     ResponseResult updateById(DictInfo entity);
 

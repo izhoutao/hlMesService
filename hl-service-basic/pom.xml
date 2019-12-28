@@ -11,8 +11,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>hl-service-basic</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
+<!--        &lt;!&ndash;因配置外部TOMCAT 而配置&ndash;&gt;
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>-->
         <dependency>
             <groupId>com.haili</groupId>
             <artifactId>hl-framework-model</artifactId>
@@ -113,6 +120,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+<!--        <dependency>
+            <groupId>com.xuanner</groupId>
+            <artifactId>xsequence-core</artifactId>
+            <version>1.6</version>
+        </dependency>-->
+
     </dependencies>
 
     <build>

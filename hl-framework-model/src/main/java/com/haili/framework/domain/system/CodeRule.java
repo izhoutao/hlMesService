@@ -42,7 +42,7 @@ public class CodeRule implements Serializable {
     private String description;
 
     /**
-     * 充值类型
+     * 重置类型
      */
     private String resetType;
 

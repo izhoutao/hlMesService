@@ -7,10 +7,10 @@ import lombok.ToString;
 @Data
 @ToString
 @NoArgsConstructor
-public class ModelResopnseResult<T> extends ResponseResult {
+public class ModelResponseResult<T> extends ResponseResult {
     T model;
 
-    public ModelResopnseResult(ResultCode resultCode, T model) {
+    public ModelResponseResult(ResultCode resultCode, T model) {
         super(resultCode);
         this.model = model;
     }

@@ -68,16 +68,16 @@ public class CrudController<T> {
 
     @PostMapping
     @ResponseBody
-    public ModelResopnseResult<T> save(@RequestBody T entity) {
+    public ModelResponseResult<T> save(@RequestBody T entity) {
         service.save(entity);
-        return new ModelResopnseResult<T>(CommonCode.SUCCESS, entity);
+        return new ModelResponseResult<T>(CommonCode.SUCCESS, entity);
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ModelResopnseResult<T> getById(@PathVariable("id") Long id) {
+    public ModelResponseResult<T> getById(@PathVariable("id") Long id) {
         T obj = service.getById(id);
-        return new ModelResopnseResult<T>(CommonCode.SUCCESS, obj);
+        return new ModelResponseResult<T>(CommonCode.SUCCESS, obj);
     }
 
     @PutMapping

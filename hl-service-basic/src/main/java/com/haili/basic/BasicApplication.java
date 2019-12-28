@@ -1,5 +1,6 @@
 package com.haili.basic;
 
+import com.haili.framework.interceptor.FeignClientInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -45,4 +46,8 @@ public class BasicApplication {
         return mappingJackson2HttpMessageConverter;
     }*/
 
+    @Bean
+    public FeignClientInterceptor feignClientInterceptor(){
+        return new FeignClientInterceptor();
+    }
 }

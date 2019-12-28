@@ -28,7 +28,7 @@ import java.util.Map;
 public class UserController extends CrudController<User> {
 //    @Override
 //    @
-//    public ModelResopnseResult<User> save(User entity) {
+//    public ModelResponseResult<User> save(User entity) {
 //        return super.save(entity);
 //    }
 

@@ -66,6 +66,15 @@
             <artifactId>hutool-all</artifactId>
             <version>5.0.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.xuanner</groupId>
+            <artifactId>xsequence-core</artifactId>
+            <version>1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-jexl</artifactId>
+            <version>2.1.1</version>
+        </dependency>
     </dependencies>
 </project>

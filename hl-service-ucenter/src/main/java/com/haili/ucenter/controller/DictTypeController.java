@@ -4,7 +4,7 @@ import com.haili.api.system.DictTypeControllerApi;
 import com.haili.framework.domain.system.DictInfo;
 import com.haili.framework.domain.system.DictType;
 import com.haili.framework.model.response.CommonCode;
-import com.haili.framework.model.response.ModelResopnseResult;
+import com.haili.framework.model.response.ModelResponseResult;
 import com.haili.framework.web.CrudController;
 import com.haili.ucenter.service.impl.DictTypeServiceImpl;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +27,8 @@ import java.util.Map;
 @RequestMapping("/ucenter/dicttype")
 public class DictTypeController extends CrudController<DictType> implements DictTypeControllerApi {
     @PostMapping("/map")
-    ModelResopnseResult<Map<String, List<DictInfo>>> getDictMaps(@RequestBody List<String> dictTypeIds) {
+    ModelResponseResult<Map<String, List<DictInfo>>> getDictMaps(@RequestBody List<String> dictTypeIds) {
         Map<String, List<DictInfo>> map = ((DictTypeServiceImpl) this.service).getDictMaps(dictTypeIds);
-        return new ModelResopnseResult(CommonCode.SUCCESS, map);
+        return new ModelResponseResult(CommonCode.SUCCESS, map);
     }
 }
