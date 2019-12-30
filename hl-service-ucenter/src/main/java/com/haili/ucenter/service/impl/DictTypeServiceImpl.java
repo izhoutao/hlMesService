@@ -37,11 +37,14 @@ public class DictTypeServiceImpl extends ServiceImpl<DictTypeMapper, DictType> i
             if (map.get(typeId) == null) {
                 LinkedList<DictInfo> dictInfos = new LinkedList<>();
                 dictInfos.add(dictInfo);
-                map.put(typeId,dictInfos);
+                map.put(typeId, dictInfos);
             } else {
                 map.get(typeId).add(dictInfo);
             }
         });
+        for (Map.Entry<String, List<DictInfo>> entry : map.entrySet()) {
+            entry.getValue().sort(Comparator.comparing(DictInfo::getSequenceNumber));
+        }
         return map;
     }
 

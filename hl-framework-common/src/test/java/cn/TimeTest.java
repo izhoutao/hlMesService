@@ -77,4 +77,24 @@ public class TimeTest {
         System.out.println(dateTime1.equals(dateTime2));
     }
 
+    @Test
+    public void testDuration5() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String str = "2019-02-28 23:59:59";
+        LocalDateTime dateTime1 = LocalDateTime.parse(str, formatter);
+        str = "2019-02-02 00:00:00";
+        LocalDateTime dateTime2 = LocalDateTime.parse(str, formatter);
+        dateTime1 = dateTime1.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN);
+        dateTime2 = dateTime2.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN);;
+        System.out.println(dateTime1.equals(dateTime2));
+    }
+    @Test
+    public void testDuration6() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String str = "2019-02-28 23:59:59";
+        LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("");
+        dateTime.format(formatter1);
+    }
+
 }

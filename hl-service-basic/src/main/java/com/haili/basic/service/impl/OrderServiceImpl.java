@@ -32,12 +32,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public boolean save(Order entity) {
         if (StringUtils.isEmpty(entity.getOrderNumber())) {
-//            entity.setOrderNumber(orderNumberGenerator.nextSerialNumber("NO|[yyyy]|[MM]|[dd]|[SEQ]|", 4));
             HashMap<String, Object> map = new HashMap<>();
-            map.put("bizName", "orderNumber");
-            map.put("id", "1203236378603696129");
-            map.put("length", 4);
-            map.put("resetValue", "0001");
+            map.put("bizName", "ORDER");
+            map.put("codeRuleName", "ORDER");
             ModelResponseResult<String> result = userClient.nextSerialNumber(map);
             entity.setOrderNumber(result.getModel().toString());
         }
