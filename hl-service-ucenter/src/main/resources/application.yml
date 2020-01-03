@@ -22,7 +22,7 @@ spring:
     username: root
     password: comac.123
 #    url: jdbc:mysql://localhost/hl_user?userSSL=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
-    url: jdbc:mysql://115.29.190.60:3306/hl_user?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong
+    url: jdbc:mysql://115.29.190.60:3306/hl_user?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
     hikari:
       # 是否自动提交
       auto-commit: true
