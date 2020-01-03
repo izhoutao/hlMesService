@@ -13,6 +13,9 @@
     <artifactId>hl-govern-center</artifactId>
     <packaging>jar</packaging>
 
+
+
+
     <dependencies>
 <!--        &lt;!&ndash;因配置外部TOMCAT 而配置&ndash;&gt;
         <dependency>

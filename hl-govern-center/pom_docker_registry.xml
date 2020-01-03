@@ -12,6 +12,15 @@
 
     <artifactId>hl-govern-center</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <docker.repository>registry.cn-hangzhou.aliyuncs.com</docker.repository>
+        <docker.registry.name>realterencezhou</docker.registry.name>
+    </properties>
+
     <dependencies>
         <!-- 导入Eureka服务的依赖 -->
         <dependency>
@@ -40,9 +49,15 @@
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
                     </imageTags>
-                    <registryUrl>115.29.190.60:5000</registryUrl>
+
+                    <serverId>docker-aliyun</serverId>
+                    <registryUrl>${docker.repostory}</registryUrl>
+
+
+<!--                    <registryUrl>115.29.190.60:5000</registryUrl>-->
                     <pushImage>true</pushImage>
-                    <imageName>115.29.190.60:5000/${project.artifactId}:${project.version}</imageName>
+                    <imageName>${docker.repository}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
+<!--                    <imageName>115.29.190.60:5000/${project.artifactId}:${project.version}</imageName>-->
                     <!--构建镜像的配置信息-->
                     <resources>
                         <resource>
