@@ -45,7 +45,7 @@ public class SequenceServiceImpl extends ServiceImpl<SequenceMapper, Sequence> i
 
     public String nextSerialNumber(Map<String, Object> map) {
         String codeRuleName = (String) map.get("codeRuleName");
-        LambdaQueryWrapper<CodeRule> wrapper = Wrappers.<CodeRule>lambdaQuery();
+        LambdaQueryWrapper<CodeRule> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(CodeRule::getName, codeRuleName);
         CodeRule codeRule = codeRuleMapper.selectOne(wrapper);
         if (codeRule == null) {
