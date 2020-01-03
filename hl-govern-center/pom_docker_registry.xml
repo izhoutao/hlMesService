@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <docker.repository>registry.cn-hangzhou.aliyuncs.com</docker.repository>
-        <docker.registry.name>realterencezhou</docker.registry.name>
+        <docker.registry.name>izhoutao</docker.registry.name>
     </properties>
 
     <dependencies>
