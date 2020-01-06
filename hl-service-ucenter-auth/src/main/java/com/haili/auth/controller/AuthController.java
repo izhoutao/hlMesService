@@ -70,7 +70,7 @@ public class AuthController implements AuthControllerApi {
         //用户身份令牌
         String access_token = authToken.getAccess_token();
 //        //将令牌存储到cookie
-//        this.saveCookie(access_token);
+        this.saveCookie(access_token);
 
         return new LoginResult(CommonCode.SUCCESS, access_token);
     }
@@ -93,7 +93,7 @@ public class AuthController implements AuthControllerApi {
         //删除redis中token
         authService.delToken(uid);
 //        //清除cookie
-//        clearCookie(uid);
+        clearCookie(uid);
         return new ResponseResult(CommonCode.SUCCESS);
     }
 

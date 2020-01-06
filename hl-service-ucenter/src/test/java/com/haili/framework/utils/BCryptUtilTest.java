@@ -6,7 +6,7 @@ public class BCryptUtilTest {
 
     @Test
     public void encode() {
-        System.out.println(BCryptUtil.encode("111111"));
+        System.out.println(BCryptUtil.encode("HlWebApp"));
     }
 
     @Test
