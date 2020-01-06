@@ -56,7 +56,7 @@ auth:
   tokenValiditySeconds: 3600  #token存储到redis的过期时间
   clientId: HlWebApp
   clientSecret: HlWebApp
-  cookieDomain: haili.com
+  cookieDomain: ${COOKIE_DOMAIN:haili.com}
   cookieMaxAge: -1
 encrypt:
   key-store:
