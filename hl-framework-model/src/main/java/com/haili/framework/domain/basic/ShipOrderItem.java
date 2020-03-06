@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -17,42 +16,57 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-12-16
+ * @since 2020-03-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_order")
-public class Order implements Serializable {
+@TableName("tb_ship_order_item")
+public class ShipOrderItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String id;
 
     /**
-     * 订单号
+     * 出货项号
      */
-    private String orderNumber;
+    private String shipOrderItemNumber;
 
     /**
-     * 客户id
+     * 出货单号
      */
-    private String customerId;
+    private String shipOrderId;
 
     /**
-     * 客户名
+     * 物料id
      */
-    private String customerName;
+    private String materialId;
 
     /**
-     * 订单状态：0、已创建，1、生产中，2、已完成
+     * 物料名
+     */
+    private String materialName;
+
+    /**
+     * 规格
+     */
+    private String specification;
+
+    /**
+     * 目标数量
+     */
+    private Integer requestNum;
+
+    /**
+     * 完成数量
+     */
+    private Integer shippedNum;
+
+    /**
+     * 出货项状态：0，未完成，1，已完成
      */
     private Integer status;
-
-    /**
-     * 订单描述
-     */
-    private String description;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -65,19 +79,14 @@ public class Order implements Serializable {
     private String updatePerson;
 
     /**
-     * 交付日期
+     * 所属子订单id
      */
-    private LocalDate deliveryDate;
+    private String orderItemId;
 
     /**
-     * 开始日期
+     * 所属子订单号
      */
-    private LocalDate beginDate;
-
-    /**
-     * 完成日期
-     */
-    private LocalDate finishDate;
+    private String orderItemNumber;
 
 
 }

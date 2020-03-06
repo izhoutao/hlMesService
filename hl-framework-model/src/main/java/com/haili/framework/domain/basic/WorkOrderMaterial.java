@@ -16,50 +16,60 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-12-16
+ * @since 2020-02-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_order_item")
-public class OrderItem implements Serializable {
+@TableName("tb_work_order_material")
+public class WorkOrderMaterial implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String id;
 
     /**
-     * 子订单号
+     * 工单id
      */
-    private String orderItemNumber;
+    private String workOrderId;
 
     /**
-     * 订单id
+     * 物料id
      */
-    private String orderId;
+    private String materialId;
 
     /**
-     * 产品id
+     * 料号
      */
-    private String productId;
+    private String materialCode;
 
     /**
-     * 产品名
+     * 物料名
      */
-    private String productName;
+    private String materialName;
 
     /**
      * 规格
      */
-    private String productSpecification;
+    private String materialSpecification;
 
     /**
-     * 数量
+     * 需求数量
      */
-    private Integer num;
+    private Integer requestNum;
 
     /**
-     * 子订单状态：0、待排产，1、已排产，2、生产中，3、已完成
+     * 已使用数量
+     */
+    private Integer usedNum;
+
+    /**
+     * 单位
+     */
+    private String unit;
+
+    /**
+     * 领料状态：0、待领料，1、已领料
      */
     private Integer status;
 

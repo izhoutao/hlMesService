@@ -41,12 +41,14 @@ public class UserController extends CrudController<User> {
     @Override
     protected QueryWrapper<User> extractWrapperFromRequestMap(Map<String, Object> map) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(!StringUtils.isEmpty(map.get("phone")), "phone", map.get("phone"))
-                .in(!StringUtils.isEmpty(map.get("depts"))
-                                &&(map.get("depts") instanceof List)
-                                && ((List)map.get("depts")).size()>0
-                        , "dept_id", ((List)map.get("depts")).toArray());
-
+        Object phone = map.get("phone");
+        Object depts = map.get("depts");
+        queryWrapper.like(!StringUtils.isEmpty(phone), "phone", phone)
+                .in((!StringUtils.isEmpty(depts))
+                                && (depts instanceof List)
+                                && !((List) depts).isEmpty()
+                        , "dept_id",
+                        (!StringUtils.isEmpty(depts)) && (depts instanceof List) ? ((List) depts).toArray() : null);
         return queryWrapper;
     }
 }

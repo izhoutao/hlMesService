@@ -8,6 +8,7 @@ import com.haili.framework.model.response.QueryResponseResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @FeignClient(value = HlServiceList.HL_SERVICE_UCENTER)
@@ -20,4 +21,6 @@ public interface UserClient {
 
     @PostMapping("/ucenter/sequence/sn")
     public ModelResponseResult<String> nextSerialNumber(@RequestBody Map<String, Object> map);
+    @PostMapping("/ucenter/sequence/sn/{num}")
+    public ModelResponseResult<List<String>> getSerialNumberList(@PathVariable("num") String num, @RequestBody Map<String, Object> map);
 }

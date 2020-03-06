@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.client.UserClient;
-import com.haili.basic.mapper.OrderItemMapper;
-import com.haili.basic.mapper.OrderMapper;
-import com.haili.basic.service.IOrderService;
-import com.haili.framework.domain.basic.Order;
-import com.haili.framework.domain.basic.OrderItem;
+import com.haili.basic.mapper.WorkOrderMapper;
+import com.haili.basic.mapper.WorkOrderMaterialMapper;
+import com.haili.basic.service.IWorkOrderService;
+import com.haili.framework.domain.basic.WorkOrder;
+import com.haili.framework.domain.basic.WorkOrderMaterial;
 import com.haili.framework.model.response.ModelResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,30 +19,28 @@ import java.util.HashMap;
 
 /**
  * <p>
- * 服务实现类
+ *  服务实现类
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-12-16
+ * @since 2020-02-27
  */
 @Service
-public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService {
-//    @Autowired
-//    @Qualifier("orderNumberGenerator")
-//    private AbstractSerialNumberGenerator orderNumberGenerator;
-
+public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder> implements IWorkOrderService {
     @Autowired
     UserClient userClient;
+
     @Autowired
-    OrderItemMapper orderItemMapper;
+    WorkOrderMaterialMapper workOrderMaterialMapper;
+
     @Override
-    public boolean save(Order entity) {
-        if (StringUtils.isEmpty(entity.getOrderNumber())) {
+    public boolean save(WorkOrder entity) {
+        if (StringUtils.isEmpty(entity.getWorkOrderNumber())) {
             HashMap<String, Object> map = new HashMap<>();
-            map.put("bizName", "ORDER");
-            map.put("codeRuleName", "ORDER");
+            map.put("bizName", "WORK_ORDER");
+            map.put("codeRuleName", "WORK_ORDER");
             ModelResponseResult<String> result = userClient.nextSerialNumber(map);
-            entity.setOrderNumber(result.getModel().toString());
+            entity.setWorkOrderNumber(result.getModel().toString());
         }
         entity.setStatus(0);
         return super.save(entity);
@@ -51,8 +49,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public boolean removeById(Serializable id) {
         super.removeById(id);
-        LambdaQueryWrapper<OrderItem> lambdaQueryWrapper = Wrappers.<OrderItem>lambdaQuery();
-        lambdaQueryWrapper.eq(OrderItem::getOrderId, id);
-        return orderItemMapper.delete(lambdaQueryWrapper) >= 0;
+        LambdaQueryWrapper<WorkOrderMaterial> lambdaQueryWrapper = Wrappers.<WorkOrderMaterial>lambdaQuery();
+        lambdaQueryWrapper.eq(WorkOrderMaterial::getWorkOrderId, id);
+        return workOrderMaterialMapper.delete(lambdaQueryWrapper) >= 0;
     }
+
 }

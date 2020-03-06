@@ -17,4 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/basic/product")
 public class ProductController extends CrudController<Product> {
 
+/*    @PostMapping
+    @ResponseBody
+    public ModelResponseResult<T> saveBatch(@RequestBody T entity) {
+
+        service.save(entity);
+        return new ModelResponseResult<T>(CommonCode.SUCCESS, entity);
+    }*/
 }

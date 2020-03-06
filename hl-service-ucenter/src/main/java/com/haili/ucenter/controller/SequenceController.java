@@ -5,11 +5,9 @@ import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.model.response.ModelResponseResult;
 import com.haili.framework.web.CrudController;
 import com.haili.ucenter.service.impl.SequenceServiceImpl;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,5 +25,10 @@ public class SequenceController extends CrudController<Sequence> {
     public ModelResponseResult<String> nextSerialNumber(@RequestBody Map<String, Object> map) {
         String serialNumber = ((SequenceServiceImpl)service).nextSerialNumber(map);
         return new ModelResponseResult<String>(CommonCode.SUCCESS, serialNumber);
+    }
+    @PostMapping("/sn/{num}")
+    public ModelResponseResult<List<String>> getSerialNumberList(@PathVariable("num") String num, @RequestBody Map<String, Object> map){
+        List<String> serialNumberList = ((SequenceServiceImpl)service).getSerialNumberList(num, map);
+        return new ModelResponseResult<List<String>>(CommonCode.SUCCESS, serialNumberList);
     }
 }

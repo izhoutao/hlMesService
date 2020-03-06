@@ -108,4 +108,12 @@ public class Product implements Serializable {
     private LocalDateTime updateTime;
 
 
+    /**
+     * id
+     */
+    private String workOrderId;
+    /**
+     * 工单号
+     */
+    private String workOrderNumber;
 }

@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -17,42 +16,25 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-12-16
+ * @since 2020-02-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_order")
-public class Order implements Serializable {
+@TableName("tb_work_order")
+public class WorkOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * id
+     */
     private String id;
 
     /**
-     * 订单号
+     * 工单号
      */
-    private String orderNumber;
-
-    /**
-     * 客户id
-     */
-    private String customerId;
-
-    /**
-     * 客户名
-     */
-    private String customerName;
-
-    /**
-     * 订单状态：0、已创建，1、生产中，2、已完成
-     */
-    private Integer status;
-
-    /**
-     * 订单描述
-     */
-    private String description;
+    private String workOrderNumber;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -65,19 +47,42 @@ public class Order implements Serializable {
     private String updatePerson;
 
     /**
-     * 交付日期
+     * 物料id
      */
-    private LocalDate deliveryDate;
+    private String materialId;
 
     /**
-     * 开始日期
+     * 物料名称
      */
-    private LocalDate beginDate;
+    private String materialName;
 
     /**
-     * 完成日期
+     * 需求数量
      */
-    private LocalDate finishDate;
+    private Integer num;
+    /**
+     * 已上线数量
+     */
+    private Integer onLineNum;
+    /**
+     * 已完成数量
+     */
+    private Integer outputNum;
+
+    /**
+     * 工单状态：0、新建，1、已上线，2、已关闭
+     */
+    private Integer status;
+
+    /**
+     * 计划开始时间
+     */
+    private LocalDateTime schStartTime;
+
+    /**
+     * 计划结束时间
+     */
+    private LocalDateTime schCloseTime;
 
 
 }
