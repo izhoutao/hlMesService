@@ -16,25 +16,28 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2020-02-27
+ * @since 2020-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_work_order")
-public class WorkOrder implements Serializable {
+@TableName("tb_resource")
+public class Resource implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * id
-     */
     private String id;
 
+    private String code;
+
+    private String name;
+
+    private String description;
+
     /**
-     * 工单号
+     * 资源状态：0，正常、1，故障，2，停用
      */
-    private String workOrderNumber;
+    private Integer status;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -45,44 +48,5 @@ public class WorkOrder implements Serializable {
     private String createPerson;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updatePerson;
-
-    /**
-     * 物料id
-     */
-    private String materialId;
-
-    /**
-     * 物料名称
-     */
-    private String materialName;
-
-    /**
-     * 需求数量
-     */
-    private Integer num;
-    /**
-     * 已上线数量
-     */
-    private Integer onLineNum;
-    /**
-     * 已完成数量
-     */
-    private Integer outputNum;
-
-    /**
-     * 工单状态：0、新建，1、已上线，2、进行中，3、已关闭
-     */
-    private Integer status;
-
-    /**
-     * 计划开始时间
-     */
-    private LocalDateTime schStartTime;
-
-    /**
-     * 计划结束时间
-     */
-    private LocalDateTime schCloseTime;
-
 
 }
