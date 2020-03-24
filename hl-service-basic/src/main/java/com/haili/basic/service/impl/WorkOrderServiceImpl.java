@@ -9,9 +9,12 @@ import com.haili.basic.mapper.WorkOrderMaterialMapper;
 import com.haili.basic.service.IWorkOrderService;
 import com.haili.framework.domain.basic.WorkOrder;
 import com.haili.framework.domain.basic.WorkOrderMaterial;
+import com.haili.framework.domain.basic.response.WorkOrderCode;
+import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.ModelResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
@@ -26,6 +29,7 @@ import java.util.HashMap;
  * @since 2020-02-27
  */
 @Service
+@Transactional
 public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder> implements IWorkOrderService {
     @Autowired
     UserClient userClient;
@@ -44,6 +48,16 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
         }
         entity.setStatus(0);
         return super.save(entity);
+    }
+
+    @Override
+    public boolean updateById(WorkOrder entity) {
+        String id = entity.getId();
+        WorkOrder workOrder = this.baseMapper.selectById(id);
+        if(workOrder.getStatus()!=0){
+            ExceptionCast.cast(WorkOrderCode.CANNOT_EDIT_NON_NEWLY_BUILT_WORK_ORDER);
+        }
+        return super.updateById(entity);
     }
 
     @Override

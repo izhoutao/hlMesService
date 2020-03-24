@@ -34,7 +34,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
             ModelResponseResult<String> result = userClient.nextSerialNumber(map);
             entity.setOrderItemNumber(result.getModel().toString());
         }
-        entity.setStatus(0);
+//        entity.setStatus(0);
         return super.save(entity);
     }
 }

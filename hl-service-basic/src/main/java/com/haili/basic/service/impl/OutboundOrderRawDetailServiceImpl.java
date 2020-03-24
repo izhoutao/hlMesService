@@ -47,6 +47,7 @@ public class OutboundOrderRawDetailServiceImpl extends ServiceImpl<OutboundOrder
         if(outboundOrderRaw==null){
             ExceptionCast.cast(OutboundOrderRawCode.RAW_MATERIAL_RECEIPT_DOES_NOT_EXIST);
         }
+        entity.setWorkOrderNumber(outboundOrderRaw.getWorkOrderNumber());
         if (entity.getOutQuantity() == null) {
             entity.setOutQuantity(0);
         }

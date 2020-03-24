@@ -56,6 +56,8 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         BeanUtils.copyProperties(inboundOrderRawItem, entity);
         String outboundOrderRawId = outboundOrderRawDetail.getOutboundOrderRawId();
         entity.setOutboundOrderRawId(outboundOrderRawId);
+        String workOrderNumber = outboundOrderRawDetail.getWorkOrderNumber();
+        entity.setWorkOrderNumber(workOrderNumber);
         return super.save(entity);
     }
 

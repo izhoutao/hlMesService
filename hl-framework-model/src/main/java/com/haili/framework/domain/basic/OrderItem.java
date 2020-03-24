@@ -58,10 +58,10 @@ public class OrderItem implements Serializable {
      */
     private Integer num;
 
-    /**
+/*    *//**
      * 子订单状态：0、待排产，1、已排产，2、生产中，3、已完成
-     */
-    private Integer status;
+     *//*
+    private Integer status;*/
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

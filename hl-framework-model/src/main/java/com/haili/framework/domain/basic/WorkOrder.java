@@ -84,5 +84,13 @@ public class WorkOrder implements Serializable {
      */
     private LocalDateTime schCloseTime;
 
+    /**
+     * 生产路线
+     */
+    private String workflowId;
 
+    /**
+     * 线别
+     */
+    private String lineId;
 }

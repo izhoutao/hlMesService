@@ -34,6 +34,11 @@ public class OutboundOrderRawItem implements Serializable {
     private String outboundOrderRawDetailId;
 
     /**
+     * 工单号码
+     */
+    private String workOrderNumber;
+
+    /**
      * 来料编号
      */
     private String materialNumber;

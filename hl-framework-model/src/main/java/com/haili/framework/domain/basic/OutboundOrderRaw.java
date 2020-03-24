@@ -30,11 +30,7 @@ public class OutboundOrderRaw implements Serializable {
 
     private String number;
 
-    private String typeId;
-
     private String statusId;
-
-    private String vendorId;
 
     private String warehouseId;
 
