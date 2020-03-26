@@ -22,7 +22,8 @@ public class Workflow implements Serializable {
 
     private String name;
 
-    private String jsonText;
+    private String jsonTextEditor;
+    private String jsonTextWorkflow;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

@@ -93,4 +93,8 @@ public class WorkOrder implements Serializable {
      * 线别
      */
     private String lineId;
+
+
+    private String jsonTextWorkflow;
+
 }

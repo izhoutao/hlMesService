@@ -2,13 +2,9 @@ package com.haili.basic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haili.basic.mapper.InboundOrderRawItemMapper;
-import com.haili.basic.mapper.OutboundOrderRawDetailMapper;
-import com.haili.basic.mapper.OutboundOrderRawItemMapper;
+import com.haili.basic.mapper.*;
 import com.haili.basic.service.IOutboundOrderRawItemService;
-import com.haili.framework.domain.basic.InboundOrderRawItem;
-import com.haili.framework.domain.basic.OutboundOrderRawDetail;
-import com.haili.framework.domain.basic.OutboundOrderRawItem;
+import com.haili.framework.domain.basic.*;
 import com.haili.framework.domain.basic.response.OutboundOrderRawCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
@@ -32,7 +28,10 @@ import java.util.List;
 @Service
 @Transactional
 public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRawItemMapper, OutboundOrderRawItem> implements IOutboundOrderRawItemService {
-
+    @Autowired
+    WorkOrderMapper workOrderMapper;
+    @Autowired
+    WorkflowMapper workflowMapper;
     @Autowired
     OutboundOrderRawDetailMapper outboundOrderRawDetailMapper;
     @Autowired
@@ -58,6 +57,12 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         entity.setOutboundOrderRawId(outboundOrderRawId);
         String workOrderNumber = outboundOrderRawDetail.getWorkOrderNumber();
         entity.setWorkOrderNumber(workOrderNumber);
+
+        QueryWrapper<WorkOrder> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("work_order_number", entity.getProductNumber());
+        WorkOrder workOrder = workOrderMapper.selectOne(queryWrapper1);
+        String jsonTextWorkflow = workOrder.getJsonTextWorkflow();
+        entity.setJsonTextWorkflow(jsonTextWorkflow);
         return super.save(entity);
     }
 

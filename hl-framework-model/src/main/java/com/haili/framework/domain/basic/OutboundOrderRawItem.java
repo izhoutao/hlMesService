@@ -154,5 +154,6 @@ public class OutboundOrderRawItem implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updatePerson;
 
-
+    private String jsonTextWorkflow;
+    private Integer currentOperationIndex;
 }
