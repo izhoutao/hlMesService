@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -28,18 +29,14 @@ public class JournalingRewindItem implements Serializable {
 
     private String id;
 
-    private String serialNumber;
+    private String productNumber;
 
-    private String materialId;
+    private String steelGrade;
 
-    @TableField(exist = false)
-    private String materialCode;
-    @TableField(exist = false)
-    private String materialName;
-    @TableField(exist = false)
-    private String materialTypeName;
-
-    private String vendorId;
+    /**
+     * 热轧产地
+     */
+    private String hotRollOrigin;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -73,5 +70,6 @@ public class JournalingRewindItem implements Serializable {
 
     private String shiftId;
 
+    private LocalDate date;
 
 }

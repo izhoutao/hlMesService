@@ -1,12 +1,7 @@
 package com.haili.basic.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.haili.framework.domain.basic.JournalingRewindItem;
-import org.apache.ibatis.annotations.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -17,7 +12,7 @@ import java.util.List;
  * @since 2019-12-20
  */
 public interface JournalingRewindItemMapper extends BaseMapper<JournalingRewindItem> {
-    @Select("<script>" +
+/*    @Select("<script>" +
             "<when test=\"ew.customSqlSegment != ''\">" +
             "SELECT * FROM (" +
             "</when>" +
@@ -68,5 +63,5 @@ public interface JournalingRewindItemMapper extends BaseMapper<JournalingRewindI
             "</when>" +
             "</script>")
     @ResultMap("materialMap")
-    List<JournalingRewindItem> selectListPreload(@Param("ew") Wrapper<JournalingRewindItem> queryWrapper);
+    List<JournalingRewindItem> selectListPreload(@Param("ew") Wrapper<JournalingRewindItem> queryWrapper);*/
 }

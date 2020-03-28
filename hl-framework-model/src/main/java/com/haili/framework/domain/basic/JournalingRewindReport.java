@@ -21,32 +21,22 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_journaling_rewind")
-public class JournalingRewind implements Serializable {
+@TableName("tb_journaling_rewind_report")
+public class JournalingRewindReport implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String id;
 
-    private String reportDate;
-
-    private Double totalLossWeight;
-
-    private Double totalInputWeight;
+    private String date;
 
     private String shiftId;
 
     private Integer producedCoilNumber;
 
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Double totalInputWeight;
 
-    @TableField(fill = FieldFill.INSERT)
-    private String createPerson;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updatePerson;
+    private Double totalLossWeight;
 
     private Double totalOutputWeight;
 
@@ -54,17 +44,32 @@ public class JournalingRewind implements Serializable {
 
     private Double capacityUtilization;
 
-    private Integer expectedAttendance;
+    private Integer expectedAttendanceNum;
 
-    private Integer actualAttendance;
+    private Integer actualAttendanceNum;
+    private String actualAttendance;
 
     private String shiftLeader;
 
     private String supervisor;
 
+    private String inspector;
+
     private String mattersRecord;
 
     private String shiftHandover;
+
+    private Integer status;
+
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+    @TableField(fill = FieldFill.INSERT)
+    private String createPerson;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String updatePerson;
+
 
 
 }

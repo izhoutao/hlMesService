@@ -156,4 +156,5 @@ public class OutboundOrderRawItem implements Serializable {
 
     private String jsonTextWorkflow;
     private Integer currentOperationIndex;
+    private String currentOperationLabel;
 }

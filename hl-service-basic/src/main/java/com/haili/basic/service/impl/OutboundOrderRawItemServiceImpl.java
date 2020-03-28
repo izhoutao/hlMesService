@@ -8,6 +8,7 @@ import com.haili.framework.domain.basic.*;
 import com.haili.framework.domain.basic.response.OutboundOrderRawCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
+import com.haili.framework.utils.WorkflowUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -30,8 +32,6 @@ import java.util.List;
 public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRawItemMapper, OutboundOrderRawItem> implements IOutboundOrderRawItemService {
     @Autowired
     WorkOrderMapper workOrderMapper;
-    @Autowired
-    WorkflowMapper workflowMapper;
     @Autowired
     OutboundOrderRawDetailMapper outboundOrderRawDetailMapper;
     @Autowired
@@ -59,10 +59,13 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         entity.setWorkOrderNumber(workOrderNumber);
 
         QueryWrapper<WorkOrder> queryWrapper1 = new QueryWrapper<>();
-        queryWrapper1.eq("work_order_number", entity.getProductNumber());
+        queryWrapper1.eq("work_order_number", entity.getWorkOrderNumber());
         WorkOrder workOrder = workOrderMapper.selectOne(queryWrapper1);
         String jsonTextWorkflow = workOrder.getJsonTextWorkflow();
         entity.setJsonTextWorkflow(jsonTextWorkflow);
+        entity.setCurrentOperationIndex(0);
+        Map workflowContext = WorkflowUtil.getWorkflowContext(jsonTextWorkflow, 0);
+        entity.setCurrentOperationLabel((String) workflowContext.get("label"));
         return super.save(entity);
     }
 

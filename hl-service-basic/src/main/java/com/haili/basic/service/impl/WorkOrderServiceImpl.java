@@ -52,8 +52,6 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
             ModelResponseResult<String> result = userClient.nextSerialNumber(map);
             entity.setWorkOrderNumber(result.getModel().toString());
         }
-
-
         String workflowId = entity.getWorkflowId();
         if (StringUtils.isEmpty(workflowId)) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);

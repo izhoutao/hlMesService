@@ -20,11 +20,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/basic/journalingrewinditem")
 public class JournalingRewindItemController extends CrudController<JournalingRewindItem> {
+
     @Override
     protected QueryWrapper<JournalingRewindItem> extractWrapperFromRequestMap(Map<String, Object> map) {
-        QueryWrapper<JournalingRewindItem> queryWrapper = new QueryWrapper<>();
-        queryWrapper.gt(!StringUtils.isEmpty(map.get("journalingBeginTime")), "end_time", map.get("journalingBeginTime"));
+        QueryWrapper<JournalingRewindItem> queryWrapper = super.extractWrapperFromRequestMap(map);
+        queryWrapper.gt(!StringUtils.isEmpty(map.get("journalingBeginTime")), "begin_time", map.get("journalingBeginTime"));
         queryWrapper.lt(!StringUtils.isEmpty(map.get("journalingEndTime")), "end_time", map.get("journalingEndTime"));
         return queryWrapper;
     }
+
+
 }
