@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_journaling_rewind_item")
-public class JournalingRewindItem implements Serializable {
+@TableName("tb_journaling_anneal_item")
+public class JournalingAnnealItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class JournalingRewindItem implements Serializable {
     /**
      * 报工单id
      */
-    private String journalingRewindId;
+    private String journalingAnnealId;
 
     /**
      * 钢卷编号
@@ -44,11 +44,6 @@ public class JournalingRewindItem implements Serializable {
      */
     private String steelGrade;
 
-    /**
-     * 热轧产地
-     */
-    private String hotRollOrigin;
-
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
@@ -59,54 +54,59 @@ public class JournalingRewindItem implements Serializable {
     private String updatePerson;
 
     /**
-     * 进料厚度
+     * 进料宽度(mm)
+     */
+    private Integer inputWidth;
+
+    /**
+     * 进料厚度(mm)
      */
     private Integer inputThickness;
 
     /**
-     * 进料重量
+     * 进料重量(kg)
      */
     private Integer inputWeight;
 
     /**
-     * 生产速度
+     * 操作各区温度（逗号分隔）
      */
-    private Integer processVelocity;
+    private String operationTemperatures;
 
     /**
-     * 焊机电流
+     * 操作TV
      */
-    private Integer welderCurrent;
+    private Integer operationTv;
 
     /**
-     * 焊机速度
+     * 操作速度
      */
-    private Integer welderVelocity;
+    private Integer operationSpeed;
 
     /**
-     * 上机时间
+     * 操作开始时间
      */
     private LocalDateTime beginTime;
 
     /**
-     * 下机时间
+     * 操作结束时间
      */
     private LocalDateTime endTime;
 
     /**
-     * 出料长度
+     * 用时(min)
      */
-    private Integer outputLength;
+    private Long costTime;
 
     /**
-     * 出料重量
+     * 出料重量(kg)
      */
     private Integer outputWeight;
 
     /**
-     * 损耗原因
+     * 出料重量损耗(kg)
      */
-    private String lossReason;
+    private Integer outputWeightLoss;
 
     /**
      * 班别id

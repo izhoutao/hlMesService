@@ -3,7 +3,7 @@ package com.haili.basic.mapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.haili.framework.domain.basic.JournalingRewindReport;
+import com.haili.framework.domain.basic.JournalingProductionShiftReport;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Zhou Tao
  * @since 2019-12-20
  */
-public interface JournalingRewindReportMapper extends BaseMapper<JournalingRewindReport> {
+public interface JournalingProductionShiftReportMapper extends BaseMapper<JournalingProductionShiftReport> {
     @Select("<script>" +
             "SELECT * FROM ( " +
             "SELECT " +
@@ -39,11 +39,29 @@ public interface JournalingRewindReportMapper extends BaseMapper<JournalingRewin
             "report.matters_record AS matters_record, " +
             "report.shift_handover AS shift_handover, " +
             "report.status AS status, " +
+            "report.type AS type, " +
             "report.create_time AS create_time, " +
             "report.update_time AS update_time, " +
             "report.create_person AS create_person, " +
             "report.update_person AS update_person " +
-            "FROM tb_journaling_rewind_report report, tb_journaling_rewind_item item, tb_user USER " +
+            "FROM tb_journaling_rewind_report report, " +
+            "<choose> " +
+            "<when test=\"type == 0\">" +
+            "tb_journaling_rewind_item item, " +
+            "</when>" +
+            "<when test=\"type == 1\">" +
+            "tb_journaling_rolling_mill_item item, " +
+            "</when>" +
+            "<when test=\"type == 2\">" +
+            "tb_journaling_anneal_item item, " +
+            "</when>" +
+            "<when test=\"type == 3\">" +
+            "tb_journaling_finishing_tension_leveler_item item, " +
+            "</when>" +
+            "<otherwise> " +
+            "</otherwise> " +
+            "</choose> " +
+            "tb_user USER " +
             "WHERE item.date = report.date AND item.shift_id = report.shift_id AND item.create_person = USER.id " +
             "GROUP BY item.date, item.shift_id) r " +
             "${ew.customSqlSegment}" +
@@ -68,12 +86,13 @@ public interface JournalingRewindReportMapper extends BaseMapper<JournalingRewin
             @Result(column = "matters_record", property = "mattersRecord"),
             @Result(column = "shift_handover", property = "shiftHandover"),
             @Result(column = "status", property = "status"),
+            @Result(column = "type", property = "type"),
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime"),
             @Result(column = "create_person", property = "createPerson"),
             @Result(column = "update_person", property = "updatePerson")
     })
-    IPage<JournalingRewindReport> getPage(IPage<JournalingRewindReport> page, @Param("ew") Wrapper<JournalingRewindReport> queryWrapper);
+    IPage<JournalingProductionShiftReport> getPage(IPage<JournalingProductionShiftReport> page, @Param("ew") Wrapper<JournalingProductionShiftReport> queryWrapper);
 
     @Select("<script>" +
             "SELECT * FROM ( " +
@@ -97,17 +116,35 @@ public interface JournalingRewindReportMapper extends BaseMapper<JournalingRewin
             "report.matters_record AS matters_record, " +
             "report.shift_handover AS shift_handover, " +
             "report.status AS status, " +
+            "report.type AS type, " +
             "report.create_time AS create_time, " +
             "report.update_time AS update_time, " +
             "report.create_person AS create_person, " +
             "report.update_person AS update_person " +
-            "FROM tb_journaling_rewind_report report, tb_journaling_rewind_item item, tb_user USER " +
+            "FROM tb_journaling_rewind_report report, " +
+            "<choose> " +
+            "<when test=\"type == 0\">" +
+            "tb_journaling_rewind_item item, " +
+            "</when>" +
+            "<when test=\"type == 1\">" +
+            "tb_journaling_rolling_mill_item item, " +
+            "</when>" +
+            "<when test=\"type == 2\">" +
+            "tb_journaling_anneal_item item, " +
+            "</when>" +
+            "<when test=\"type == 3\">" +
+            "tb_journaling_finishing_tension_leveler_item item, " +
+            "</when>" +
+            "<otherwise> " +
+            "</otherwise> " +
+            "</choose> " +
+            "tb_user USER " +
             "WHERE item.date = report.date AND item.shift_id = report.shift_id AND item.create_person = USER.id " +
             "GROUP BY item.date, item.shift_id) r " +
             "${ew.customSqlSegment}" +
             "</script>")
     @ResultMap("reportMap")
-    List<JournalingRewindReport> getList(@Param("ew") Wrapper<JournalingRewindReport> queryWrapper);
+    List<JournalingProductionShiftReport> getList(@Param("ew") Wrapper<JournalingProductionShiftReport> queryWrapper);
 
 
 }

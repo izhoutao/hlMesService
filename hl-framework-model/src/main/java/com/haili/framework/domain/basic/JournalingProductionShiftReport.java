@@ -21,8 +21,8 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_journaling_rewind_report")
-public class JournalingRewindReport implements Serializable {
+@TableName("tb_journaling_production_shift_report")
+public class JournalingProductionShiftReport implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -63,6 +63,8 @@ public class JournalingRewindReport implements Serializable {
     private String shiftHandover;
 
     private Integer status;
+
+    private Integer type;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

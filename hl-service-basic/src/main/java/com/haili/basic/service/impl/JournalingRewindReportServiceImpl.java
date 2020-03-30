@@ -65,7 +65,12 @@ public class JournalingRewindReportServiceImpl extends ServiceImpl<JournalingRew
         String inspector = entity.getInspector();
         List<String> roles = userJwt.getRoles();
         Boolean isUnauthorised = true;
-        Boolean[] bArr1 = {roles.contains("rewindShiftLeader"), roles.contains("supervisor"), roles.contains("inspector")};
+        Boolean[] bArr1 = {roles.contains("rewindShiftLeader")
+                || roles.contains("rollingMillShiftLeader")
+                || roles.contains("annealShiftLeader")
+                || roles.contains("finishingTensionLevelerShiftLeader")
+                , roles.contains("supervisor")
+                , roles.contains("inspector")};
         Boolean[] bArr2 = {!StringUtils.isEmpty(shiftLeader), !StringUtils.isEmpty(supervisor), !StringUtils.isEmpty(inspector)};
         for (int i = 2; i >= 0; i--) {
             if (bArr1[i]) {
@@ -86,12 +91,10 @@ public class JournalingRewindReportServiceImpl extends ServiceImpl<JournalingRew
         if (bArr1[1] && bArr2[1] && StringUtils.isEmpty(journalingRewindReport.getSupervisor())) {
             entity.setSupervisor(id);
             entity.setStatus(2);
-
         }
         if (bArr1[2] && bArr2[2] && StringUtils.isEmpty(journalingRewindReport.getInspector())) {
             entity.setInspector(id);
             entity.setStatus(3);
-
         }
         return super.updateById(entity);
     }

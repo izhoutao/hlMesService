@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_journaling_rewind_item")
-public class JournalingRewindItem implements Serializable {
+@TableName("tb_journaling_rolling_mill_item")
+public class JournalingRollingMillItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class JournalingRewindItem implements Serializable {
     /**
      * 报工单id
      */
-    private String journalingRewindId;
+    private String journalingRollingMillId;
 
     /**
      * 钢卷编号
@@ -44,11 +44,6 @@ public class JournalingRewindItem implements Serializable {
      */
     private String steelGrade;
 
-    /**
-     * 热轧产地
-     */
-    private String hotRollOrigin;
-
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
@@ -59,54 +54,39 @@ public class JournalingRewindItem implements Serializable {
     private String updatePerson;
 
     /**
-     * 进料厚度
+     * 进料厚度(mm)
      */
     private Integer inputThickness;
 
     /**
-     * 进料重量
+     * 进料重量(kg)
      */
     private Integer inputWeight;
 
     /**
-     * 生产速度
+     * 轧延参数-总道次数
      */
-    private Integer processVelocity;
+    private Integer paramTotalRollingPass;
 
     /**
-     * 焊机电流
+     * 轧延参数-总轧下率(%)
      */
-    private Integer welderCurrent;
+    private Integer paramTotalReductionRate;
 
     /**
-     * 焊机速度
+     * 出料厚度(mm)
      */
-    private Integer welderVelocity;
+    private Integer outputThickness;
 
     /**
-     * 上机时间
-     */
-    private LocalDateTime beginTime;
-
-    /**
-     * 下机时间
-     */
-    private LocalDateTime endTime;
-
-    /**
-     * 出料长度
+     * 出料长度(mm)
      */
     private Integer outputLength;
 
     /**
-     * 出料重量
+     * 出料重量(kg)
      */
     private Integer outputWeight;
-
-    /**
-     * 损耗原因
-     */
-    private String lossReason;
 
     /**
      * 班别id
@@ -122,6 +102,21 @@ public class JournalingRewindItem implements Serializable {
      * 状态：0，新建；1，班长已审核；2，主管已审核; 3，呈阅已审核;
      */
     private Integer status;
+
+    /**
+     * 辊号
+     */
+    private String rollerNumber;
+
+    /**
+     * 辊类别
+     */
+    private String rollerType;
+
+    /**
+     * 辊更换原因
+     */
+    private String rollerReplaceReason;
 
 
 }

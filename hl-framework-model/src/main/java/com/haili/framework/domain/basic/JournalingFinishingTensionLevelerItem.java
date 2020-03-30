@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_journaling_rewind_item")
-public class JournalingRewindItem implements Serializable {
+@TableName("tb_journaling_finishing_tension_leveler_item")
+public class JournalingFinishingTensionLevelerItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class JournalingRewindItem implements Serializable {
     /**
      * 报工单id
      */
-    private String journalingRewindId;
+    private String journalingFinishingTensionLevelerId;
 
     /**
      * 钢卷编号
@@ -45,9 +45,9 @@ public class JournalingRewindItem implements Serializable {
     private String steelGrade;
 
     /**
-     * 热轧产地
+     * 表面品级
      */
-    private String hotRollOrigin;
+    private String surfaceFinish;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -59,29 +59,74 @@ public class JournalingRewindItem implements Serializable {
     private String updatePerson;
 
     /**
-     * 进料厚度
+     * 进料厚度(mm)
      */
     private Integer inputThickness;
 
     /**
-     * 进料重量
+     * 进料宽度(mm)
+     */
+    private Integer inputWidth;
+
+    /**
+     * 进料重量(kg)
      */
     private Integer inputWeight;
 
     /**
-     * 生产速度
+     * 生产方式：0，精整；1，拉矫
      */
-    private Integer processVelocity;
+    private Integer paramProductionMode;
 
     /**
-     * 焊机电流
+     * 入口张力(KN)
      */
-    private Integer welderCurrent;
+    private Integer paramInletTesion;
 
     /**
-     * 焊机速度
+     * 总轧制力(T)
      */
-    private Integer welderVelocity;
+    private Integer paramTotalRollingForce;
+
+    /**
+     * 出口张力(KN)
+     */
+    private Integer paramOutletTesion;
+
+    /**
+     * 延伸率(%)
+     */
+    private Integer paramPercentageElongation;
+
+    /**
+     * 出料厚度(mm)
+     */
+    private Integer outputThickness;
+
+    /**
+     * 出料长度(mm)
+     */
+    private Integer outputLength;
+
+    /**
+     * 出料重量(kg)
+     */
+    private Integer outputWeight;
+
+    /**
+     * 出料重量损耗(kg)
+     */
+    private Integer outputWeightLoss;
+
+    /**
+     * 套筒重量(kg)
+     */
+    private Integer outputSleeveWeight;
+
+    /**
+     * 出料速度(m/min)
+     */
+    private Integer outputSpeed;
 
     /**
      * 上机时间
@@ -94,19 +139,9 @@ public class JournalingRewindItem implements Serializable {
     private LocalDateTime endTime;
 
     /**
-     * 出料长度
+     * 用时(min)
      */
-    private Integer outputLength;
-
-    /**
-     * 出料重量
-     */
-    private Integer outputWeight;
-
-    /**
-     * 损耗原因
-     */
-    private String lossReason;
+    private Long costTime;
 
     /**
      * 班别id

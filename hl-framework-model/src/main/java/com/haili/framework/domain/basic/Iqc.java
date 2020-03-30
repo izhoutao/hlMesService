@@ -61,7 +61,6 @@ public class Iqc implements Serializable {
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
-
     @TableField(fill = FieldFill.INSERT)
     private String createPerson;
     @TableField(fill = FieldFill.INSERT_UPDATE)
