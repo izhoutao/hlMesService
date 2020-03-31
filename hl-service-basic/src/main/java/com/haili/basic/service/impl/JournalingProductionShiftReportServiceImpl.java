@@ -18,6 +18,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -164,5 +165,34 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
             }
         }
         return super.updateById(entity);
+    }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        JournalingProductionShiftReport journalingProductionShiftReport = this.baseMapper.selectById(id);
+        if (journalingProductionShiftReport == null) {
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
+        }
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HlOauth2Util hlOauth2Util = new HlOauth2Util();
+        HlOauth2Util.UserJwt userJwt = hlOauth2Util.getUserJwtFromHeader(request);
+        if (userJwt == null) {
+            ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
+        }
+        Integer status = journalingProductionShiftReport.getStatus();
+        if (status > 1) {
+            ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+        }
+        List<String> roles = userJwt.getRoles();
+        Boolean[] isShiftLeaderArr = {roles.contains("rewindShiftLeader"),
+                roles.contains("rollingMillShiftLeader"),
+                roles.contains("annealShiftLeader"),
+                roles.contains("finishingTensionLevelerShiftLeader")
+        };
+        Integer type = journalingProductionShiftReport.getType();
+        if (!isShiftLeaderArr[type]) {
+            ExceptionCast.cast(CommonCode.UNAUTHORISE);
+        }
+        return super.removeById(id);
     }
 }
