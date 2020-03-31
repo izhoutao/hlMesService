@@ -44,7 +44,7 @@ public interface JournalingRewindReportMapper extends BaseMapper<JournalingRewin
             "report.create_person AS create_person, " +
             "report.update_person AS update_person " +
             "FROM tb_journaling_rewind_report report, tb_journaling_rewind_item item, tb_user USER " +
-            "WHERE item.date = report.date AND item.shift_id = report.shift_id AND item.create_person = USER.id " +
+            "WHERE item.date = report.date AND item.shift_id = report.shift_id AND item.create_person = USER.id AND USER.deleted = 0 " +
             "GROUP BY item.date, item.shift_id) r " +
             "${ew.customSqlSegment}" +
             "</script>")
@@ -102,7 +102,7 @@ public interface JournalingRewindReportMapper extends BaseMapper<JournalingRewin
             "report.create_person AS create_person, " +
             "report.update_person AS update_person " +
             "FROM tb_journaling_rewind_report report, tb_journaling_rewind_item item, tb_user USER " +
-            "WHERE item.date = report.date AND item.shift_id = report.shift_id AND item.create_person = USER.id " +
+            "WHERE item.date = report.date AND item.shift_id = report.shift_id AND item.create_person = USER.id AND USER.deleted = 0 " +
             "GROUP BY item.date, item.shift_id) r " +
             "${ew.customSqlSegment}" +
             "</script>")

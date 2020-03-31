@@ -53,10 +53,13 @@ public class JournalingProductionShiftReport implements Serializable {
     private String actualAttendanceName;
 
     private String shiftLeader;
+    private String shiftLeaderName;
 
     private String supervisor;
+    private String supervisorName;
 
     private String inspector;
+    private String inspectorName;
 
     private String mattersRecord;
 

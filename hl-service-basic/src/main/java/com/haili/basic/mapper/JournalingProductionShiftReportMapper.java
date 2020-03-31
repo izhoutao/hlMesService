@@ -3,6 +3,7 @@ package com.haili.basic.mapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.haili.framework.domain.basic.JournalingProductionShiftReport;
 import org.apache.ibatis.annotations.*;
 
@@ -34,8 +35,11 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "GROUP_CONCAT( DISTINCT item.create_person ) AS actual_attendance , " +
             "GROUP_CONCAT( DISTINCT user.name ) AS actual_attendance_name, " +
             "report.shift_leader AS shift_leader, " +
+            "report.shift_leader_name AS shift_leader_name, " +
             "report.supervisor AS supervisor, " +
+            "report.supervisor_name AS supervisor_name, " +
             "report.inspector AS inspector, " +
+            "report.inspector_name AS inspector_name, " +
             "report.matters_record AS matters_record, " +
             "report.shift_handover AS shift_handover, " +
             "report.status AS status, " +
@@ -44,18 +48,18 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.update_time AS update_time, " +
             "report.create_person AS create_person, " +
             "report.update_person AS update_person " +
-            "FROM tb_journaling_rewind_report report, " +
+            "FROM tb_journaling_production_shift_report report, " +
             "<choose> " +
-            "<when test=\"type == 0\">" +
+            "<when test=\"et.type == 0\">" +
             "tb_journaling_rewind_item item, " +
             "</when>" +
-            "<when test=\"type == 1\">" +
+            "<when test=\"et.type == 1\">" +
             "tb_journaling_rolling_mill_item item, " +
             "</when>" +
-            "<when test=\"type == 2\">" +
+            "<when test=\"et.type == 2\">" +
             "tb_journaling_anneal_item item, " +
             "</when>" +
-            "<when test=\"type == 3\">" +
+            "<when test=\"et.type == 3\">" +
             "tb_journaling_finishing_tension_leveler_item item, " +
             "</when>" +
             "<otherwise> " +
@@ -81,8 +85,11 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             @Result(column = "actual_attendance", property = "actualAttendance"),
             @Result(column = "actual_attendance_name", property = "actualAttendanceName"),
             @Result(column = "shift_leader", property = "shiftLeader"),
+            @Result(column = "shift_leader_name", property = "shiftLeaderName"),
             @Result(column = "supervisor", property = "supervisor"),
+            @Result(column = "supervisor_name", property = "supervisorName"),
             @Result(column = "inspector", property = "inspector"),
+            @Result(column = "inspector_name", property = "inspectorName"),
             @Result(column = "matters_record", property = "mattersRecord"),
             @Result(column = "shift_handover", property = "shiftHandover"),
             @Result(column = "status", property = "status"),
@@ -92,7 +99,7 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             @Result(column = "create_person", property = "createPerson"),
             @Result(column = "update_person", property = "updatePerson")
     })
-    IPage<JournalingProductionShiftReport> getPage(IPage<JournalingProductionShiftReport> page, @Param("ew") Wrapper<JournalingProductionShiftReport> queryWrapper);
+    IPage<JournalingProductionShiftReport> getPage(IPage<JournalingProductionShiftReport> page, @Param("ew") Wrapper<JournalingProductionShiftReport> queryWrapper,@Param(Constants.ENTITY) JournalingProductionShiftReport entity);
 
     @Select("<script>" +
             "SELECT * FROM ( " +
@@ -111,8 +118,11 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "GROUP_CONCAT( DISTINCT item.create_person ) AS actual_attendance , " +
             "GROUP_CONCAT( DISTINCT user.name ) AS actual_attendance_name, " +
             "report.shift_leader AS shift_leader, " +
+            "report.shift_leader_name AS shift_leader_name, " +
             "report.supervisor AS supervisor, " +
+            "report.supervisor_name AS supervisor_name, " +
             "report.inspector AS inspector, " +
+            "report.inspector_name AS inspector_name, " +
             "report.matters_record AS matters_record, " +
             "report.shift_handover AS shift_handover, " +
             "report.status AS status, " +
@@ -121,18 +131,18 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.update_time AS update_time, " +
             "report.create_person AS create_person, " +
             "report.update_person AS update_person " +
-            "FROM tb_journaling_rewind_report report, " +
+            "FROM tb_journaling_production_shift_report report, " +
             "<choose> " +
-            "<when test=\"type == 0\">" +
+            "<when test=\"et.type == 0\">" +
             "tb_journaling_rewind_item item, " +
             "</when>" +
-            "<when test=\"type == 1\">" +
+            "<when test=\"et.type == 1\">" +
             "tb_journaling_rolling_mill_item item, " +
             "</when>" +
-            "<when test=\"type == 2\">" +
+            "<when test=\"et.type == 2\">" +
             "tb_journaling_anneal_item item, " +
             "</when>" +
-            "<when test=\"type == 3\">" +
+            "<when test=\"et.type == 3\">" +
             "tb_journaling_finishing_tension_leveler_item item, " +
             "</when>" +
             "<otherwise> " +
@@ -144,7 +154,7 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "${ew.customSqlSegment}" +
             "</script>")
     @ResultMap("reportMap")
-    List<JournalingProductionShiftReport> getList(@Param("ew") Wrapper<JournalingProductionShiftReport> queryWrapper);
+    List<JournalingProductionShiftReport> getList(@Param("ew") Wrapper<JournalingProductionShiftReport> queryWrapper,@Param(Constants.ENTITY) JournalingProductionShiftReport entity);
 
 
 }

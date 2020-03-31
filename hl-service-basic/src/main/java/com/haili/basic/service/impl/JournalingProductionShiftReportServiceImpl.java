@@ -1,11 +1,13 @@
 package com.haili.basic.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.JournalingProductionShiftReportMapper;
 import com.haili.basic.service.IJournalingProductionShiftReportService;
 import com.haili.framework.domain.basic.JournalingProductionShiftReport;
+import com.haili.framework.domain.basic.response.JournalingProductionShiftReportCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.utils.HlOauth2Util;
@@ -32,13 +34,13 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
 
     @Override
     public IPage<JournalingProductionShiftReport> page(IPage<JournalingProductionShiftReport> page, Wrapper<JournalingProductionShiftReport> queryWrapper) {
-        IPage<JournalingProductionShiftReport> page1 = this.baseMapper.getPage(page, queryWrapper);
+        IPage<JournalingProductionShiftReport> page1 = this.baseMapper.getPage(page, queryWrapper, queryWrapper.getEntity());
         return page1;
     }
 
     @Override
     public List<JournalingProductionShiftReport> list(Wrapper<JournalingProductionShiftReport> queryWrapper) {
-        List<JournalingProductionShiftReport> list = this.baseMapper.getList(queryWrapper);
+        List<JournalingProductionShiftReport> list = this.baseMapper.getList(queryWrapper, queryWrapper.getEntity());
         return list;
     }
 
@@ -97,32 +99,69 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
         String shiftLeader = entity.getShiftLeader();
         String supervisor = entity.getSupervisor();
         String inspector = entity.getInspector();
-        Boolean isUnauthorised = true;
+        String shiftLeader1 = journalingProductionShiftReport.getShiftLeader();
+        String supervisor1 = journalingProductionShiftReport.getSupervisor();
+        String inspector1 = journalingProductionShiftReport.getInspector();
+        Integer status = journalingProductionShiftReport.getStatus();
         Boolean[] bArr1 = {isShiftLeaderArr[type], isSupervisor, isInspector};
         Boolean[] bArr2 = {!StringUtils.isEmpty(shiftLeader), !StringUtils.isEmpty(supervisor), !StringUtils.isEmpty(inspector)};
-        for (int i = 2; i >= 0; i--) {
-            if (bArr1[i]) {
-                isUnauthorised = false;
-                break;
-            } else if (bArr2[i]) {
-                break;
+        Boolean[] bArr3 = {!StrUtil.equals(shiftLeader, shiftLeader1),
+                !StrUtil.equals(supervisor, supervisor1),
+                !StrUtil.equals(inspector, inspector1)};
+        String id = userJwt.getId();
+        String name = userJwt.getName();
+        for (int i = 0; i < status - 1; i++) {
+            if (bArr2[i]) {
+                ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
             }
         }
-        if (isUnauthorised) {
-            ExceptionCast.cast(CommonCode.UNAUTHORISE);
-        }
-        String id = userJwt.getId();
-        if (bArr1[0] && bArr2[0] && StringUtils.isEmpty(journalingProductionShiftReport.getShiftLeader())) {
-            entity.setShiftLeader(id);
-            entity.setStatus(1);
-        }
-        if (bArr1[1] && bArr2[1] && StringUtils.isEmpty(journalingProductionShiftReport.getSupervisor())) {
-            entity.setSupervisor(id);
-            entity.setStatus(2);
-        }
-        if (bArr1[2] && bArr2[2] && StringUtils.isEmpty(journalingProductionShiftReport.getInspector())) {
-            entity.setInspector(id);
-            entity.setStatus(3);
+        if (status == 0) {
+            if (bArr1[0] && bArr2[0]) {
+                entity.setShiftLeader(id);
+                entity.setShiftLeaderName(name);
+                entity.setStatus(1);
+            } else if (!bArr1[0] && bArr2[0]) {
+                ExceptionCast.cast(CommonCode.UNAUTHORISE);
+            }
+        } else if (status == 1) {
+            entity = new JournalingProductionShiftReport().setId(entity.getId());
+            if (bArr1[1] && bArr2[1]) {
+                entity.setSupervisor(id);
+                entity.setSupervisorName(name);
+                entity.setStatus(2);
+            } else if (!bArr1[1] && bArr2[1]) {
+                ExceptionCast.cast(CommonCode.UNAUTHORISE);
+            } else if (bArr1[0] && bArr2[0] && !bArr3[0]) {
+                entity.setShiftLeader(id);
+                entity.setShiftLeaderName(name);
+                entity.setStatus(1);
+            } else {
+                ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+            }
+        } else if (status == 2) {
+            entity = new JournalingProductionShiftReport().setId(entity.getId());
+            if (bArr1[2] && bArr2[2]) {
+                entity.setInspector(id);
+                entity.setInspectorName(name);
+                entity.setStatus(3);
+            } else if (!bArr1[2] && bArr2[2]) {
+                ExceptionCast.cast(CommonCode.UNAUTHORISE);
+            } else if (bArr1[1] && bArr2[1] && !bArr3[1]) {
+                entity.setSupervisor(id);
+                entity.setSupervisorName(name);
+                entity.setStatus(2);
+            } else {
+                ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+            }
+        } else if (status == 3) {
+            if (bArr1[2] && bArr2[2] && !bArr3[2]) {
+                entity = new JournalingProductionShiftReport().setId(entity.getId());
+                entity.setInspector(id);
+                entity.setInspectorName(name);
+                entity.setStatus(3);
+            } else {
+                ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+            }
         }
         return super.updateById(entity);
     }
