@@ -16,15 +16,9 @@ import java.util.List;
  */
 public interface OutboundOrderRawItemMapper extends BaseMapper<OutboundOrderRawItem> {
     @Select("<script> " +
-            "SELECT product_number " +
-            "FROM " +
-            "tb_inbound_order_raw_item " +
-            "WHERE " +
-            "product_number NOT IN ( " +
-            "SELECT " +
-            "product_number " +
-            "FROM " +
-            "tb_outbound_order_raw_item) " +
+            "SELECT inbound.product_number AS product_number " +
+            "FROM tb_inbound_order_raw_item inbound, tb_outbound_order_raw_item outbound " +
+            "WHERE inbound.product_number = outbound.product_number AND UNIX_TIMESTAMP( inbound.time ) > UNIX_TIMESTAMP( outbound.time)" +
             "</script>")
 /*    @Results(id = "outboundOrderDetailMap", value = {
             @Result(column = "id", property = "id"),

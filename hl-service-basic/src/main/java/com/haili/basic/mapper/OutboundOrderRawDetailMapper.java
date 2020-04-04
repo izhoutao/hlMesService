@@ -18,16 +18,11 @@ import java.util.List;
  */
 public interface OutboundOrderRawDetailMapper extends BaseMapper<OutboundOrderRawDetail> {
     @Select("<script>" +
-            "<when test=\"ew.customSqlSegment != ''\">" +
-            "SELECT * FROM (" +
-            "</when>" +
             "SELECT tb_outbound_order_raw_detail.*, tb_material.code material_code,tb_material.name material_name " +
             "FROM tb_outbound_order_raw_detail " +
             "LEFT JOIN tb_material " +
-            "ON tb_outbound_order_raw_detail.material_id=tb_material.id" +
-            "<when test=\"ew.customSqlSegment != ''\">" +
-            ") m ${ew.customSqlSegment}" +
-            "</when>" +
+            "ON tb_outbound_order_raw_detail.material_id=tb_material.id " +
+            "${ew.customSqlSegment}" +
             "</script>")
     @Results(id = "outboundOrderRawDetailMap", value = {
             @Result(column = "id", property = "id"),
@@ -43,16 +38,11 @@ public interface OutboundOrderRawDetailMapper extends BaseMapper<OutboundOrderRa
     IPage<OutboundOrderRawDetail> selectPagePreload(IPage<OutboundOrderRawDetail> page, @Param("ew") Wrapper<OutboundOrderRawDetail> queryWrapper);
 
     @Select("<script>" +
-            "<when test=\"ew.customSqlSegment != ''\">" +
-            "SELECT * FROM (" +
-            "</when>" +
             "SELECT tb_outbound_order_raw_detail.*, tb_material.code material_code,tb_material.name material_name " +
             "FROM tb_outbound_order_raw_detail " +
             "LEFT JOIN tb_material " +
-            "ON tb_outbound_order_raw_detail.material_id=tb_material.id" +
-            "<when test=\"ew.customSqlSegment != ''\">" +
-            ") m ${ew.customSqlSegment}" +
-            "</when>" +
+            "ON tb_outbound_order_raw_detail.material_id=tb_material.id " +
+            "${ew.customSqlSegment}" +
             "</script>")
     @ResultMap("outboundOrderRawDetailMap")
     List<OutboundOrderRawDetail> selectListPreload(@Param("ew") Wrapper<OutboundOrderRawDetail> queryWrapper);

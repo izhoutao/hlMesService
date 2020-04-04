@@ -25,7 +25,7 @@ public class WorkflowUtil {
 
     }
 
-    private static Map getNextWorkflowContext(String jsonTextWorkflow, Integer index, String checkResult) {
+    public static Map getNextWorkflowContext(String jsonTextWorkflow, Integer index, String checkResult) {
         Map workflowContext = WorkflowUtil.getWorkflowContext(jsonTextWorkflow, index);
         //String label = (String) workflowContext.get("label");
         Map[] nexts = (Map[]) ((JSONArray) workflowContext.get("next")).toArray(HashMap.class);
@@ -46,4 +46,18 @@ public class WorkflowUtil {
         HashMap[] workflowContexts = (HashMap[]) jsonArray.toArray(HashMap.class);
         return workflowContexts[index];
     }
+
+    public static Integer getWorkflowContextIndex(String jsonTextWorkflow, String label) {
+        JSONArray jsonArray = JSONUtil.parseArray(jsonTextWorkflow);
+        HashMap[] workflowContexts = (HashMap[]) jsonArray.toArray(HashMap.class);
+        for (int i = 0; i < workflowContexts.length; i++) {
+            String label1 = (String) workflowContexts[i].get("label");
+            if (label1.equals(label)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
 }

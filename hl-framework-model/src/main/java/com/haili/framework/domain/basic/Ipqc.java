@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-12-15
+ * @since 2020-04-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,9 +30,95 @@ public class Ipqc implements Serializable {
     private String id;
 
     /**
-     * 序列号
+     * 检验日期
      */
-    private String serialNumber;
+    private LocalDate inspectDate;
+
+    /**
+     * 报工日期
+     */
+    private LocalDate date;
+
+
+    /**
+     * 热轧产地
+     */
+    private String hotRollOrigin;
+
+    /**
+     * 制程
+     */
+    private String operation;
+
+    /**
+     * 下制程
+     */
+    private String nextOperation;
+
+    /**
+     * 班别
+     */
+    private String shiftId;
+
+    /**
+     * 钢种
+     */
+    private String steelGrade;
+
+    /**
+     * 表面品级
+     */
+    private String surfaceFinish;
+
+    /**
+     * 用途
+     */
+    private String uses;
+
+    /**
+     * 客户
+     */
+    private String customerId;
+
+    /**
+     * 钢卷编号
+     */
+    private String productNumber;
+
+    /**
+     * 原料编号
+     */
+    private String materialNumber;
+
+    /**
+     * 等级
+     */
+    private String grade;
+
+    /**
+     * 有害缺陷率（%）
+     */
+    private Integer harmfulDefectPercent;
+
+    /**
+     * 等级评分
+     */
+    private String gradeScore;
+
+    /**
+     * 退火TV
+     */
+    private Integer annealTv;
+
+    /**
+     * 退火硬度
+     */
+    private Integer annealHardness;
+
+    /**
+     * 轧/平道次
+     */
+    private String rollingPass;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -44,52 +130,63 @@ public class Ipqc implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updatePerson;
 
+    /**
+     * 建议使用表面
+     */
+    private String recommendedSurface;
+
+    /**
+     * 开卷方式
+     */
+    private String unwindMethod;
+
+    /**
+     * 交接事项
+     */
+    private String handoverMatters;
+
+    /**
+     * 备注
+     */
+    private String note;
+
+    /**
+     * 品检员
+     */
     private String inspector;
 
     /**
-     * 检验日期
+     * 品检员姓名
      */
-    private LocalDate inspectDate;
+    private String inspectorName;
 
     /**
-     * 是否已提交
+     * 品检员结论
      */
-    private Boolean isMark;
+    private String inspectorResult;
 
     /**
-     * 线别
+     * 复判员
      */
-    private String lineId;
+    private String checker;
 
     /**
-     * 班别
+     * 复判员姓名
      */
-    private String shiftId;
+    private String checkerName;
 
     /**
-     * 料号
+     * 复判员结论
      */
-    private String materialId;
-    @TableField(exist = false)
-    private String materialCode;
-    @TableField(exist = false)
-    private String materialName;
-    @TableField(exist = false)
-    private String materialTypeName;
+    private String checkerResult;
 
-    private String materialTypeId;
+    /**
+     * 测量值
+     */
+    private String measurement;
 
-    private String customerId;
-
-    private String nextOperationId;
-
-    private String surfaceGrade;
-
-    private String uses;
-
-    private String checkList;
-
-    private String defectList;
-
-
+    /**
+     * 状态
+     */
+    private String status;
 }

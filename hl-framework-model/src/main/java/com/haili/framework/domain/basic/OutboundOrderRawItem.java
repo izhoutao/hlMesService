@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -124,9 +123,9 @@ public class OutboundOrderRawItem implements Serializable {
     private String barcode;
 
     /**
-     * 日期
+     * 出库时间
      */
-    private LocalDate date;
+    private LocalDateTime time;
 
     /**
      * 备注
@@ -157,4 +156,5 @@ public class OutboundOrderRawItem implements Serializable {
     private String jsonTextWorkflow;
     private Integer currentOperationIndex;
     private String currentOperationLabel;
+
 }
