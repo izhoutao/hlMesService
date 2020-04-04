@@ -46,7 +46,7 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.checker, " +
             "ipqc.checker_name, " +
             "ipqc.checker_result, " +
-            "ipqc.measurement " +
+            "ipqc.measurement, " +
             "ipqc.status " +
             "FROM " +
             "(SELECT '重卷' AS operation, product_number, date FROM tb_journaling_rewind_item UNION " +
@@ -125,7 +125,7 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.checker, " +
             "ipqc.checker_name, " +
             "ipqc.checker_result, " +
-            "ipqc.measurement " +
+            "ipqc.measurement, " +
             "ipqc.status " +
             "FROM " +
             "(SELECT '重卷' AS operation, product_number, date FROM tb_journaling_rewind_item UNION " +

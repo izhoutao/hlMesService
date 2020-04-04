@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-04-02
 */
 @RestController
-@RequestMapping("/basic/qc-defect")
+@RequestMapping("/basic/qcdefect")
 public class QcDefectController extends CrudController<QcDefect> {
 
 }

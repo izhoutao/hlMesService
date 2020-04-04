@@ -10,9 +10,9 @@ import lombok.ToString;
  * Created by admin on 2018/3/5.
  */
 @ToString
-public enum OutboundOrderRawCode implements ResultCode {
+public enum IpqcCode implements ResultCode {
 
-    WORK_ORDER_IS_NULL(false,25001,"工单号不能为空！"),
+    COIL_CURRENT_PROCESS_CANNOT_BE_MODIFIED(false,25001,"不能修改钢卷当前制程！"),
     WORK_ORDER_DOES_NOT_EXIST(false,25002,"工单不存在！"),
     RAW_MATERIAL_RECEIPT_DOES_NOT_EXIST(false,25003,"工单发料出库单不存在！"),
     RAW_MATERIAL_DOES_NOT_EXIST(false,25004,"原料钢卷料不存在！"),
@@ -28,16 +28,16 @@ public enum OutboundOrderRawCode implements ResultCode {
     //提示信息
     @ApiModelProperty(value = "操作提示", example = "操作过于频繁！", required = true)
     String message;
-    private OutboundOrderRawCode(boolean success, int code, String message){
+    private IpqcCode(boolean success, int code, String message){
         this.success = success;
         this.code = code;
         this.message = message;
     }
-    private static final ImmutableMap<Integer, OutboundOrderRawCode> CACHE;
+    private static final ImmutableMap<Integer, IpqcCode> CACHE;
 
     static {
-        final ImmutableMap.Builder<Integer, OutboundOrderRawCode> builder = ImmutableMap.builder();
-        for (OutboundOrderRawCode commonCode : values()) {
+        final ImmutableMap.Builder<Integer, IpqcCode> builder = ImmutableMap.builder();
+        for (IpqcCode commonCode : values()) {
             builder.put(commonCode.code(), commonCode);
         }
         CACHE = builder.build();

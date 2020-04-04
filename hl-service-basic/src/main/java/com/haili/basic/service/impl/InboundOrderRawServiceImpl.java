@@ -1,7 +1,5 @@
 package com.haili.basic.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.client.UserClient;
 import com.haili.basic.mapper.InboundOrderRawDetailMapper;
@@ -9,15 +7,12 @@ import com.haili.basic.mapper.InboundOrderRawItemMapper;
 import com.haili.basic.mapper.InboundOrderRawMapper;
 import com.haili.basic.service.IInboundOrderRawService;
 import com.haili.framework.domain.basic.InboundOrderRaw;
-import com.haili.framework.domain.basic.InboundOrderRawDetail;
-import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.model.response.ModelResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -37,6 +32,7 @@ public class InboundOrderRawServiceImpl extends ServiceImpl<InboundOrderRawMappe
     InboundOrderRawDetailMapper inboundOrderRawDetailMapper;
     @Autowired
     InboundOrderRawItemMapper inboundOrderRawItemMapper;
+
     @Override
     public boolean save(InboundOrderRaw entity) {
         if (StringUtils.isEmpty(entity.getNumber())) {
@@ -64,15 +60,15 @@ public class InboundOrderRawServiceImpl extends ServiceImpl<InboundOrderRawMappe
         return inboundOrderRawItemMapper.delete(lambdaQueryWrapper1) >= 0;
     }*/
 
-    @Override
+/*    @Override
     public boolean removeById(Serializable id) {
-        super.removeById(id);
-        LambdaQueryWrapper<InboundOrderRawDetail> lambdaQueryWrapper = Wrappers.<InboundOrderRawDetail>lambdaQuery();
+*//*        LambdaQueryWrapper<InboundOrderRawDetail> lambdaQueryWrapper = Wrappers.<InboundOrderRawDetail>lambdaQuery();
         lambdaQueryWrapper.eq(InboundOrderRawDetail::getInboundOrderRawId, id);
         inboundOrderRawDetailMapper.delete(lambdaQueryWrapper);
         LambdaQueryWrapper<InboundOrderRawItem> lambdaQueryWrapper1 = Wrappers.<InboundOrderRawItem>lambdaQuery();
         lambdaQueryWrapper1.eq(InboundOrderRawItem::getInboundOrderRawId, id);
-        return inboundOrderRawItemMapper.delete(lambdaQueryWrapper1) >= 0;
-    }
+        inboundOrderRawItemMapper.delete(lambdaQueryWrapper1);*//*
+        return super.removeById(id);
+    }*/
 
 }

@@ -18,7 +18,7 @@ public class UserJwt extends User {
     private String avatar;
     private String department;
     private List<String> roles;
-    private List<String> menus;
+//    private List<String> menus;
 
     public UserJwt(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);

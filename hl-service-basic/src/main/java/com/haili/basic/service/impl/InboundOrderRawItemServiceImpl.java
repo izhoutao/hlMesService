@@ -1,6 +1,5 @@
 package com.haili.basic.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.InboundOrderRawDetailMapper;
 import com.haili.basic.mapper.InboundOrderRawItemMapper;
@@ -48,23 +47,14 @@ public class InboundOrderRawItemServiceImpl extends ServiceImpl<InboundOrderRawI
 
     @Override
     public boolean updateById(InboundOrderRawItem entity) {
-        InboundOrderRawItem inboundOrderRawItem = this.baseMapper.selectById(entity.getId());
-        QueryWrapper<InboundOrderRawItem> inboundOrderRawItemQueryWrapper = new QueryWrapper<>();
-        InboundOrderRawItem inboundOrderRawItem1 = this.baseMapper.selectOne(inboundOrderRawItemQueryWrapper);
-        if (inboundOrderRawItem == null || inboundOrderRawItem1 == null
-                || StringUtils.isEmpty(inboundOrderRawItem.getInboundOrderRawDetailId())
-                || StringUtils.isEmpty(inboundOrderRawItem1.getInboundOrderRawDetailId())
-                || !inboundOrderRawItem.getInboundOrderRawDetailId().equals(inboundOrderRawItem1.getInboundOrderRawDetailId())
-        ) {
-            ExceptionCast.cast(CommonCode.FAIL);
+        String id = entity.getId();
+        String inboundOrderRawDetailId = entity.getInboundOrderRawDetailId();
+        InboundOrderRawItem inboundOrderRawItem = this.baseMapper.selectById(id);
+        String inboundOrderRawDetailId1 = inboundOrderRawItem.getInboundOrderRawDetailId();
+        if (!StringUtils.isEmpty(inboundOrderRawDetailId) && !inboundOrderRawDetailId.equals(inboundOrderRawDetailId1)) {
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
-        String inboundOrderDetailId = entity.getInboundOrderRawDetailId();
-        InboundOrderRawDetail inboundOrderRawDetail = inboundOrderRawDetailMapper.selectById(inboundOrderDetailId);
-        if (inboundOrderRawDetail == null) {
-            ExceptionCast.cast(InboundOrderRawCode.RAW_MATERIAL_RECEIPT_DOES_NOT_EXIST);
-        }
-        String inboundOrderRawId = inboundOrderRawDetail.getInboundOrderRawId();
-        entity.setInboundOrderRawId(inboundOrderRawId);
+
         return super.updateById(entity);
     }
 
