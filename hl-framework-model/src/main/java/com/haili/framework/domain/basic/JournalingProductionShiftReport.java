@@ -34,15 +34,15 @@ public class JournalingProductionShiftReport implements Serializable {
 
     private Integer producedCoilNumber;
 
-    private Double totalInputWeight;
+    private Float totalInputWeight;
 
-    private Double totalLossWeight;
+    private Float totalLossWeight;
 
-    private Double totalOutputWeight;
+    private Float totalOutputWeight;
 
-    private Double outputRate;
+    private Float outputRate;
 
-    private Double capacityUtilization;
+    private Float capacityUtilization;
 
     private Integer expectedAttendanceNum;
 

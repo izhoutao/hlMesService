@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -58,12 +57,12 @@ public class JournalingRollingMillItem implements Serializable {
     /**
      * 进料厚度(mm)
      */
-    private Integer inputThickness;
+    private Float inputThickness;
 
     /**
      * 进料重量(kg)
      */
-    private Integer inputWeight;
+    private Float inputWeight;
 
     /**
      * 轧延参数-总道次数
@@ -73,22 +72,22 @@ public class JournalingRollingMillItem implements Serializable {
     /**
      * 轧延参数-总轧下率(%)
      */
-    private Integer paramTotalReductionRate;
+    private Float paramTotalReductionRate;
 
     /**
      * 出料厚度(mm)
      */
-    private Integer outputThickness;
+    private Float outputThickness;
 
     /**
      * 出料长度(mm)
      */
-    private Integer outputLength;
+    private Float outputLength;
 
     /**
      * 出料重量(kg)
      */
-    private Integer outputWeight;
+    private Float outputWeight;
 
     /**
      * 班别id

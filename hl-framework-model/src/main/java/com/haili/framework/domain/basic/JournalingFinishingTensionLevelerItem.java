@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -64,17 +62,17 @@ public class JournalingFinishingTensionLevelerItem implements Serializable {
     /**
      * 进料厚度(mm)
      */
-    private Integer inputThickness;
+    private Float inputThickness;
 
     /**
      * 进料宽度(mm)
      */
-    private Integer inputWidth;
+    private Float inputWidth;
 
     /**
      * 进料重量(kg)
      */
-    private Integer inputWeight;
+    private Float inputWeight;
 
     /**
      * 生产方式：0，精整；1，拉矫
@@ -84,52 +82,52 @@ public class JournalingFinishingTensionLevelerItem implements Serializable {
     /**
      * 入口张力(KN)
      */
-    private Integer paramInletTesion;
+    private Float paramInletTesion;
 
     /**
      * 总轧制力(T)
      */
-    private Integer paramTotalRollingForce;
+    private Float paramTotalRollingForce;
 
     /**
      * 出口张力(KN)
      */
-    private Integer paramOutletTesion;
+    private Float paramOutletTesion;
 
     /**
      * 延伸率(%)
      */
-    private Integer paramPercentageElongation;
+    private Float paramPercentageElongation;
 
     /**
      * 出料厚度(mm)
      */
-    private Integer outputThickness;
+    private Float outputThickness;
 
     /**
      * 出料长度(mm)
      */
-    private Integer outputLength;
+    private Float outputLength;
 
     /**
      * 出料重量(kg)
      */
-    private Integer outputWeight;
+    private Float outputWeight;
 
     /**
      * 出料重量损耗(kg)
      */
-    private Integer outputWeightLoss;
+    private Float outputWeightLoss;
 
     /**
      * 套筒重量(kg)
      */
-    private Integer outputSleeveWeight;
+    private Float outputSleeveWeight;
 
     /**
      * 出料速度(m/min)
      */
-    private Integer outputSpeed;
+    private Float outputSpeed;
 
     /**
      * 上机时间

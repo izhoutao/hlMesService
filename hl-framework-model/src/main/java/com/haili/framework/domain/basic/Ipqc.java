@@ -102,7 +102,7 @@ public class Ipqc implements Serializable {
     /**
      * 有害缺陷率（%）
      */
-    private Integer harmfulDefectPercent;
+    private Float harmfulDefectPercent;
 
     /**
      * 等级评分
@@ -112,12 +112,12 @@ public class Ipqc implements Serializable {
     /**
      * 退火TV
      */
-    private Integer annealTv;
+    private Float annealTv;
 
     /**
      * 退火硬度
      */
-    private Integer annealHardness;
+    private Float annealHardness;
 
     /**
      * 轧/平道次

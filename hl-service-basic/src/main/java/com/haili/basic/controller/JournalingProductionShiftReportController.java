@@ -37,6 +37,7 @@ public class JournalingProductionShiftReportController extends CrudController<Jo
         map.put("id", entity.getId());
         map.put("type", entity.getType());
         QueryWrapper<JournalingProductionShiftReport> queryWrapper = super.extractWrapperFromRequestMap(map);
+        queryWrapper.eq("id", entity.getId());
         List<JournalingProductionShiftReport> list = service.list(queryWrapper);
         if (list != null && list.size() > 0) {
             return new ModelResponseResult<JournalingProductionShiftReport>(CommonCode.SUCCESS, list.get(0));

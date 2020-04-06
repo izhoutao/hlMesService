@@ -55,17 +55,17 @@ public class InboundOrderRawItem implements Serializable {
     /**
      * 宽度(mm)
      */
-    private Integer width;
+    private Float width;
 
     /**
      * 厚度(mm)
      */
-    private Integer thickness;
+    private Float thickness;
 
     /**
      * 长度(mm)
      */
-    private Integer length;
+    private Float length;
 
     /**
      * 标签规格mm*mm
@@ -80,22 +80,22 @@ public class InboundOrderRawItem implements Serializable {
     /**
      * 标签净重(kg)
      */
-    private Integer labelNetWeight;
+    private Float labelNetWeight;
 
     /**
      * 标签毛重(kg)
      */
-    private Integer labelGrossWeight;
+    private Float labelGrossWeight;
 
     /**
      * 实磅净重(kg)
      */
-    private Integer netWeight;
+    private Float netWeight;
 
     /**
      * 实磅毛重(kg)
      */
-    private Integer grossWeight;
+    private Float grossWeight;
 
     /**
      * 边部

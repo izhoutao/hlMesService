@@ -59,7 +59,7 @@ public class WorkOrder implements Serializable {
     /**
      * 需求数量
      */
-    private Integer num;
+    private Float num;
     /**
      * 已上线数量
      */

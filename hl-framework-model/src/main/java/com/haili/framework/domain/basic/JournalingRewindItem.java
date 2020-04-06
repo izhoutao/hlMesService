@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -64,27 +62,27 @@ public class JournalingRewindItem implements Serializable {
     /**
      * 进料厚度
      */
-    private Integer inputThickness;
+    private Float inputThickness;
 
     /**
      * 进料重量
      */
-    private Integer inputWeight;
+    private Float inputWeight;
 
     /**
      * 生产速度
      */
-    private Integer processVelocity;
+    private Float processVelocity;
 
     /**
      * 焊机电流
      */
-    private Integer welderCurrent;
+    private Float welderCurrent;
 
     /**
      * 焊机速度
      */
-    private Integer welderVelocity;
+    private Float welderVelocity;
 
     /**
      * 上机时间
@@ -99,12 +97,12 @@ public class JournalingRewindItem implements Serializable {
     /**
      * 出料长度
      */
-    private Integer outputLength;
+    private Float outputLength;
 
     /**
      * 出料重量
      */
-    private Integer outputWeight;
+    private Float outputWeight;
 
     /**
      * 损耗原因

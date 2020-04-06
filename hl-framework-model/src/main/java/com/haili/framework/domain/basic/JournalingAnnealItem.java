@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,17 +57,17 @@ public class JournalingAnnealItem implements Serializable {
     /**
      * 进料宽度(mm)
      */
-    private Integer inputWidth;
+    private Float inputWidth;
 
     /**
      * 进料厚度(mm)
      */
-    private Integer inputThickness;
+    private Float inputThickness;
 
     /**
      * 进料重量(kg)
      */
-    private Integer inputWeight;
+    private Float inputWeight;
 
     /**
      * 操作各区温度（逗号分隔）
@@ -79,12 +77,12 @@ public class JournalingAnnealItem implements Serializable {
     /**
      * 操作TV
      */
-    private Integer operationTv;
+    private Float operationTv;
 
     /**
      * 操作速度
      */
-    private Integer operationSpeed;
+    private Float operationSpeed;
 
     /**
      * 操作开始时间
@@ -104,12 +102,12 @@ public class JournalingAnnealItem implements Serializable {
     /**
      * 出料重量(kg)
      */
-    private Integer outputWeight;
+    private Float outputWeight;
 
     /**
      * 出料重量损耗(kg)
      */
-    private Integer outputWeightLoss;
+    private Float outputWeightLoss;
 
     /**
      * 班别id
