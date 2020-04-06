@@ -51,13 +51,8 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
         return list;
     }
 
-
     @Override
-    public boolean save(Ipqc entity) {
-        return saveOrUpdateIpqc(entity);
-    }
-
-    private boolean saveOrUpdateIpqc(Ipqc entity) {
+    public boolean saveOrUpdate(Ipqc entity) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HlOauth2Util hlOauth2Util = new HlOauth2Util();
         HlOauth2Util.UserJwt userJwt = hlOauth2Util.getUserJwtFromHeader(request);
@@ -65,7 +60,7 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
             ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
         }
         List<String> roles = userJwt.getRoles();
-        String id = userJwt.getId();
+//        String id = userJwt.getId();
         String staffId = userJwt.getStaffId();
         String name = userJwt.getName();
         boolean isQcInspector = roles.contains("qcInspector");
@@ -84,9 +79,12 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
         }
         String operation = entity.getOperation();
         String productNumber = entity.getProductNumber();
-        String id1 = entity.getId();
-        if (!StringUtils.isEmpty(id1)) {
-            Ipqc ipqc = this.baseMapper.selectById(id1);
+        String id = entity.getId();
+        if (!StringUtils.isEmpty(id)) {
+            Ipqc ipqc = this.baseMapper.selectById(id);
+            if (ipqc == null) {
+                ExceptionCast.cast(IpqcCode.IPQC_NOT_EXIST);
+            }
             String operation1 = ipqc.getOperation();
             String productNumber1 = ipqc.getProductNumber();
             if ((StringUtils.isEmpty(operation) && operation.equals(operation1))
@@ -94,7 +92,6 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
                 ExceptionCast.cast(IpqcCode.COIL_CURRENT_PROCESS_CANNOT_BE_MODIFIED);
             }
         }
-
         String inspectorResult = entity.getInspectorResult();
         if (!StringUtils.isEmpty(inspectorResult)) {
             QueryWrapper<OutboundOrderRawItem> wrapper = new QueryWrapper<>();
@@ -102,22 +99,23 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
             wrapper.eq("current_operation_label", operation);
             OutboundOrderRawItem outboundOrderRawItem = outboundOrderRawItemMapper.selectOne(wrapper);
             String jsonTextWorkflow = outboundOrderRawItem.getJsonTextWorkflow();
-            Integer workflowContextIndex = WorkflowUtil.getWorkflowContextIndex(jsonTextWorkflow, operation);
-            Map nextWorkflowContext = WorkflowUtil.getNextWorkflowContext(jsonTextWorkflow, workflowContextIndex, inspectorResult);
+            Map nextWorkflowContext = WorkflowUtil.getNextWorkflowContext(jsonTextWorkflow, operation, inspectorResult);
+
             if (nextWorkflowContext == null) {
                 ExceptionCast.cast(CommonCode.INVALID_PARAM);
             }
             String label = (String) nextWorkflowContext.get("label");
+/*
             Integer index = (Integer) nextWorkflowContext.get("index");
             outboundOrderRawItem.setCurrentOperationLabel(label);
             outboundOrderRawItem.setCurrentOperationIndex(index);
+*/
+
+            outboundOrderRawItem.setNextOperationLabel(label);
+            outboundOrderRawItem.setNextOperationStatus(0);
             outboundOrderRawItemMapper.updateById(outboundOrderRawItem);
         }
         return super.saveOrUpdate(entity);
     }
 
-    @Override
-    public boolean updateById(Ipqc entity) {
-        return super.saveOrUpdate(entity);
-    }
 }

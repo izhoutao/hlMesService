@@ -21,6 +21,7 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
     @Select("<script>" +
             "SELECT " +
             "item.*, " +
+            "ipqc.id, " +
             "ipqc.inspect_date, " +
             "ipqc.hot_roll_origin, " +
             "ipqc.next_operation, " +
@@ -100,6 +101,7 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
     @Select("<script>" +
             "SELECT " +
             "item.*, " +
+            "ipqc.id, " +
             "ipqc.inspect_date, " +
             "ipqc.hot_roll_origin, " +
             "ipqc.next_operation, " +

@@ -10,11 +10,10 @@ import lombok.ToString;
  * Created by admin on 2018/3/5.
  */
 @ToString
-public enum IpqcCode implements ResultCode {
+public enum QcDefectCode implements ResultCode {
 
-    COIL_CURRENT_PROCESS_CANNOT_BE_MODIFIED(false,25001,"不能修改钢卷当前制程！"),
-    IPQC_NOT_EXIST(false,25001,"质检单不存在！");
-    //操作代码
+    QC_DEFECT_IPQC_NOT_EXIST(false,25001,"质检单不存在，请先保存创建！"),    //操作代码
+    QC_DEFECT_IPQC_CANNOT_CHANGE(false,25001,"无法变更所属质检单！");    //操作代码
     @ApiModelProperty(value = "操作是否成功", example = "true", required = true)
     boolean success;
 
@@ -24,16 +23,16 @@ public enum IpqcCode implements ResultCode {
     //提示信息
     @ApiModelProperty(value = "操作提示", example = "操作过于频繁！", required = true)
     String message;
-    private IpqcCode(boolean success, int code, String message){
+    private QcDefectCode(boolean success, int code, String message){
         this.success = success;
         this.code = code;
         this.message = message;
     }
-    private static final ImmutableMap<Integer, IpqcCode> CACHE;
+    private static final ImmutableMap<Integer, QcDefectCode> CACHE;
 
     static {
-        final ImmutableMap.Builder<Integer, IpqcCode> builder = ImmutableMap.builder();
-        for (IpqcCode commonCode : values()) {
+        final ImmutableMap.Builder<Integer, QcDefectCode> builder = ImmutableMap.builder();
+        for (QcDefectCode commonCode : values()) {
             builder.put(commonCode.code(), commonCode);
         }
         CACHE = builder.build();

@@ -2,6 +2,7 @@ package com.haili.framework.utils;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class WorkflowUtil {
         Map nextWorkflowContext = null;
         for (int i = 0; i < nexts.length; i++) {
             String condition = (String) nexts[i].get("condition");
-            if (checkResult.equals(condition)) {
+            if (StringUtils.isEmpty(condition) || checkResult.equals(condition)) {
                 Integer nextIndex = (Integer) nexts[i].get("index");
                 nextWorkflowContext = WorkflowUtil.getWorkflowContext(jsonTextWorkflow, nextIndex);
                 break;
@@ -58,6 +59,36 @@ public class WorkflowUtil {
         }
         return -1;
     }
+
+
+    public static Map getNextWorkflowContext(String jsonTextWorkflow, String label, String checkResult) {
+        Map workflowContext = WorkflowUtil.getWorkflowContext(jsonTextWorkflow, label);
+        //String label = (String) workflowContext.get("label");
+        Map[] nexts = (Map[]) ((JSONArray) workflowContext.get("next")).toArray(HashMap.class);
+        Map nextWorkflowContext = null;
+        for (int i = 0; i < nexts.length; i++) {
+            String condition = (String) nexts[i].get("condition");
+            if (StringUtils.isEmpty(condition) || checkResult.equals(condition)) {
+                Integer nextIndex = (Integer) nexts[i].get("index");
+                nextWorkflowContext = WorkflowUtil.getWorkflowContext(jsonTextWorkflow, nextIndex);
+                break;
+            }
+        }
+        return nextWorkflowContext;
+    }
+
+    public static Map getWorkflowContext(String jsonTextWorkflow, String label) {
+        JSONArray jsonArray = JSONUtil.parseArray(jsonTextWorkflow);
+        HashMap[] workflowContexts = (HashMap[]) jsonArray.toArray(HashMap.class);
+        for (int i = 0; i < workflowContexts.length; i++) {
+            String label1 = (String) workflowContexts[i].get("label");
+            if (label1.equals(label)) {
+                return workflowContexts[i];
+            }
+        }
+        return null;
+    }
+
 
 
 }

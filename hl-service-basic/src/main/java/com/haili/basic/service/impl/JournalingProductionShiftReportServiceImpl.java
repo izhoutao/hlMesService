@@ -2,15 +2,19 @@ package com.haili.basic.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haili.basic.mapper.JournalingProductionShiftReportMapper;
+import com.haili.basic.mapper.*;
 import com.haili.basic.service.IJournalingProductionShiftReportService;
-import com.haili.framework.domain.basic.JournalingProductionShiftReport;
+import com.haili.framework.domain.basic.*;
 import com.haili.framework.domain.basic.response.JournalingProductionShiftReportCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.utils.HlOauth2Util;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -19,7 +23,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -32,6 +38,17 @@ import java.util.List;
 @Service
 @Transactional
 public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<JournalingProductionShiftReportMapper, JournalingProductionShiftReport> implements IJournalingProductionShiftReportService {
+
+    @Autowired
+    OutboundOrderRawItemMapper outboundOrderRawItemMapper;
+    @Autowired
+    JournalingRewindItemMapper journalingRewindItemMapper;
+    @Autowired
+    JournalingRollingMillItemMapper journalingRollingMillItemMapper;
+    @Autowired
+    JournalingAnnealItemMapper journalingAnnealItemMapper;
+    @Autowired
+    JournalingFinishingTensionLevelerItemMapper journalingFinishingTensionLevelerItemMapper;
 
     @Override
     public IPage<JournalingProductionShiftReport> page(IPage<JournalingProductionShiftReport> page, Wrapper<JournalingProductionShiftReport> queryWrapper) {
@@ -121,6 +138,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
                 entity.setShiftLeader(id);
                 entity.setShiftLeaderName(name);
                 entity.setStatus(1);
+                updateOutboundOrderRawItemCurrentLabel(journalingProductionShiftReport, type);
             } else if (!bArr1[0] && bArr2[0]) {
                 ExceptionCast.cast(CommonCode.UNAUTHORISE);
             }
@@ -165,6 +183,45 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
             }
         }
         return super.updateById(entity);
+    }
+
+    private void updateOutboundOrderRawItemCurrentLabel(JournalingProductionShiftReport journalingProductionShiftReport, Integer type) {
+        List<String> productNumbers = new ArrayList<>();
+        String journalingItemType = "";
+        if (type == 0) {
+            journalingItemType = "重卷";
+            LambdaQueryWrapper<JournalingRewindItem> lambdaQueryWrapper = Wrappers.lambdaQuery();
+            lambdaQueryWrapper.eq(JournalingRewindItem::getDate, journalingProductionShiftReport.getDate())
+                    .eq(JournalingRewindItem::getShiftId, journalingProductionShiftReport.getShiftId());
+            List<JournalingRewindItem> journalingRewindItems = journalingRewindItemMapper.selectList(lambdaQueryWrapper);
+            productNumbers = journalingRewindItems.stream().map(item -> item.getProductNumber()).collect(Collectors.toList());
+        } else if (type == 1) {
+            journalingItemType = "轧机";
+            LambdaQueryWrapper<JournalingRollingMillItem> lambdaQueryWrapper = Wrappers.lambdaQuery();
+            lambdaQueryWrapper.eq(JournalingRollingMillItem::getDate, journalingProductionShiftReport.getDate())
+                    .eq(JournalingRollingMillItem::getShiftId, journalingProductionShiftReport.getShiftId());
+            List<JournalingRollingMillItem> journalingRollingMillItems = journalingRollingMillItemMapper.selectList(lambdaQueryWrapper);
+            productNumbers = journalingRollingMillItems.stream().map(item -> item.getProductNumber()).collect(Collectors.toList());
+        } else if (type == 2) {
+            journalingItemType = "退火炉";
+            LambdaQueryWrapper<JournalingAnnealItem> lambdaQueryWrapper = Wrappers.lambdaQuery();
+            lambdaQueryWrapper.eq(JournalingAnnealItem::getDate, journalingProductionShiftReport.getDate())
+                    .eq(JournalingAnnealItem::getShiftId, journalingProductionShiftReport.getShiftId());
+            List<JournalingAnnealItem> journalingAnnealItems = journalingAnnealItemMapper.selectList(lambdaQueryWrapper);
+            productNumbers = journalingAnnealItems.stream().map(item -> item.getProductNumber()).collect(Collectors.toList());
+        } else if (type == 3) {
+            journalingItemType = "精整拉矫";
+            LambdaQueryWrapper<JournalingFinishingTensionLevelerItem> lambdaQueryWrapper = Wrappers.lambdaQuery();
+            lambdaQueryWrapper.eq(JournalingFinishingTensionLevelerItem::getDate, journalingProductionShiftReport.getDate())
+                    .eq(JournalingFinishingTensionLevelerItem::getShiftId, journalingProductionShiftReport.getShiftId());
+            List<JournalingFinishingTensionLevelerItem> journalingFinishingTensionLevelerItems = journalingFinishingTensionLevelerItemMapper.selectList(lambdaQueryWrapper);
+            productNumbers = journalingFinishingTensionLevelerItems.stream().map(item -> item.getProductNumber()).collect(Collectors.toList());
+        }
+        LambdaUpdateWrapper<OutboundOrderRawItem> lambdaUpdateWrapper = Wrappers.lambdaUpdate();
+        lambdaUpdateWrapper.in(OutboundOrderRawItem::getProductNumber, productNumbers)
+                .eq(OutboundOrderRawItem::getNextOperationLabel, journalingItemType)
+                .set(OutboundOrderRawItem::getCurrentOperationLabel, journalingItemType);
+        outboundOrderRawItemMapper.update(null, lambdaUpdateWrapper);
     }
 
     @Override

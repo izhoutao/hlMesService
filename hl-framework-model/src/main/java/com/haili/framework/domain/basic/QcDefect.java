@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -27,10 +28,12 @@ public class QcDefect implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;
-
+    @NotBlank(message = "所属ipqc质检单不能为空")
     private String ipqcId;
-
+    @NotBlank(message = "缺陷不能为空")
     private String defectId;
+    @NotBlank(message = "缺陷组不能为空")
+    private String defectGroupId;
 
     /**
      * 上面

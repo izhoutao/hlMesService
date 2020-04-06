@@ -2,13 +2,18 @@ package com.haili.basic.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.haili.framework.domain.basic.Ipqc;
+import com.haili.framework.model.response.CommonCode;
+import com.haili.framework.model.response.ModelResponseResult;
 import com.haili.framework.model.response.QueryResponseResult;
+import com.haili.framework.model.response.ResponseResult;
 import com.haili.framework.web.CrudController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +31,22 @@ public class IpqcController extends CrudController<Ipqc> {
 
     @Override
     @PreAuthorize("hasAuthority('ipqc')")
-    public QueryResponseResult<Ipqc> list(Map<String, Object> map) {
+    public QueryResponseResult<Ipqc> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ipqc')")
+    public ModelResponseResult<Ipqc> save(@RequestBody @Valid Ipqc entity) {
+        service.saveOrUpdate(entity);
+        return new ModelResponseResult<Ipqc>(CommonCode.SUCCESS, entity);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ipqc')")
+    public ResponseResult updateById(@RequestBody @Valid Ipqc entity) {
+        service.saveOrUpdate(entity);
+        return new ResponseResult(CommonCode.SUCCESS);
     }
 
     @Override
@@ -35,8 +54,8 @@ public class IpqcController extends CrudController<Ipqc> {
         QueryWrapper<Ipqc> queryWrapper = super.extractWrapperFromRequestMap(map);
         queryWrapper.eq(!StringUtils.isEmpty(map.get("productNumber")), "item.product_number", map.get("productNumber"));
         queryWrapper.eq(!StringUtils.isEmpty(map.get("operation")), "item.operation", map.get("operation"));
-        queryWrapper.isNull(!StringUtils.isEmpty(map.get("inspectorConfirm"))&&((Integer)map.get("inspectorConfirm")==0), "inspector");
-        queryWrapper.isNotNull(!StringUtils.isEmpty(map.get("inspectorConfirm"))&&((Integer)map.get("inspectorConfirm")==1), "inspector");
+        queryWrapper.isNull(!StringUtils.isEmpty(map.get("inspectorConfirm")) && ((Integer) map.get("inspectorConfirm") == 0), "inspector");
+        queryWrapper.isNotNull(!StringUtils.isEmpty(map.get("inspectorConfirm")) && ((Integer) map.get("inspectorConfirm") == 1), "inspector");
         queryWrapper.eq(!StringUtils.isEmpty(map.get("inspectorResult")), "inspector_result", map.get("inspectorResult"));
         Object dateRange = map.get("dateRange");
         if (dateRange instanceof List && dateRange != null && ((List) dateRange).size() == 2) {

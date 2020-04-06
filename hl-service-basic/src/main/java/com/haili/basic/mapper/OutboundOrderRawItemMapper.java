@@ -20,8 +20,9 @@ import java.util.List;
 public interface OutboundOrderRawItemMapper extends BaseMapper<OutboundOrderRawItem> {
     @Select("<script> " +
             "SELECT inbound.product_number AS product_number " +
-            "FROM tb_inbound_order_raw_item inbound, tb_outbound_order_raw_item outbound " +
-            "WHERE inbound.product_number = outbound.product_number AND UNIX_TIMESTAMP( inbound.time ) > UNIX_TIMESTAMP( outbound.time)" +
+            "FROM tb_inbound_order_raw_item inbound LEFT JOIN tb_outbound_order_raw_item outbound " +
+            "ON inbound.product_number = outbound.product_number " +
+            "WHERE ISNULL(outbound.time) OR UNIX_TIMESTAMP(inbound.time) > UNIX_TIMESTAMP(outbound.time) " +
             "</script>")
 /*    @Results(id = "outboundOrderDetailMap", value = {
             @Result(column = "id", property = "id"),
@@ -31,10 +32,9 @@ public interface OutboundOrderRawItemMapper extends BaseMapper<OutboundOrderRawI
 
     @Select("<script> " +
             "SELECT inbound.* " +
-            "FROM tb_inbound_order_raw_item inbound, tb_outbound_order_raw_item outbound " +
-            "WHERE " +
-            "inbound.product_number = outbound.product_number " +
-            "AND UNIX_TIMESTAMP( inbound.time ) > UNIX_TIMESTAMP( outbound.time) " +
+            "FROM tb_inbound_order_raw_item inbound LEFT JOIN tb_outbound_order_raw_item outbound " +
+            "ON inbound.product_number = outbound.product_number " +
+            "WHERE (ISNULL(outbound.time) OR UNIX_TIMESTAMP(inbound.time) > UNIX_TIMESTAMP(outbound.time)) " +
             "AND inbound.product_number = #{productNumber} " +
             "</script>")
     @Results(id = "inboundOrderItemMap", value = {

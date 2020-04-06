@@ -6,13 +6,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.InboundOrderRawItemMapper;
 import com.haili.basic.mapper.InboundOrderRawMapper;
 import com.haili.basic.mapper.JournalingFinishingTensionLevelerItemMapper;
+import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.service.IJournalingFinishingTensionLevelerItemService;
-import com.haili.framework.domain.basic.InboundOrderRaw;
-import com.haili.framework.domain.basic.InboundOrderRawItem;
-import com.haili.framework.domain.basic.JournalingFinishingTensionLevelerItem;
+import com.haili.framework.domain.basic.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.time.Duration;
 
 /**
@@ -29,12 +29,25 @@ public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImp
     InboundOrderRawItemMapper inboundOrderRawItemMapper;
     @Autowired
     InboundOrderRawMapper inboundOrderRawMapper;
+
+    @Autowired
+    OutboundOrderRawItemMapper outboundOrderRawItemMapper;
+
     @Override
     public boolean save(JournalingFinishingTensionLevelerItem entity) {
+        String productNumber = entity.getProductNumber();
+        updateOutboundOrderRawItem(productNumber,1);
         setSteelGradeAndCostTimeAndOutputWeightLoss(entity);
         return super.save(entity);
     }
-
+    private void updateOutboundOrderRawItem(String productNumber, Integer nextOperationStatus) {
+        LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
+        lambdaQueryWrapper.eq(OutboundOrderRawItem::getProductNumber, productNumber);
+        lambdaQueryWrapper.eq(OutboundOrderRawItem::getNextOperationLabel, "精整拉矫");
+        OutboundOrderRawItem outboundOrderRawItem = outboundOrderRawItemMapper.selectOne(lambdaQueryWrapper);
+        outboundOrderRawItem.setNextOperationStatus(nextOperationStatus);
+        outboundOrderRawItemMapper.updateById(outboundOrderRawItem);
+    }
     private void setSteelGradeAndCostTimeAndOutputWeightLoss(JournalingFinishingTensionLevelerItem entity) {
         String productNumber = entity.getProductNumber();
         LambdaQueryWrapper<InboundOrderRawItem> lambdaQueryWrapper = Wrappers.<InboundOrderRawItem>lambdaQuery();
@@ -54,7 +67,15 @@ public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImp
 
     @Override
     public boolean updateById(JournalingFinishingTensionLevelerItem entity) {
+        String productNumber = entity.getProductNumber();
+        updateOutboundOrderRawItem(productNumber, 1);
         setSteelGradeAndCostTimeAndOutputWeightLoss(entity);
         return super.updateById(entity);
+    }
+    @Override
+    public boolean removeById(Serializable id) {
+        JournalingFinishingTensionLevelerItem journalingFinishingTensionLevelerItem = this.baseMapper.selectById(id);
+        updateOutboundOrderRawItem(journalingFinishingTensionLevelerItem.getProductNumber(), 0);
+        return super.removeById(id);
     }
 }

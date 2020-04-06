@@ -68,9 +68,9 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         WorkOrder workOrder = workOrderMapper.selectOne(queryWrapper1);
         String jsonTextWorkflow = workOrder.getJsonTextWorkflow();
         entity.setJsonTextWorkflow(jsonTextWorkflow);
-        entity.setCurrentOperationIndex(0);
         Map workflowContext = WorkflowUtil.getWorkflowContext(jsonTextWorkflow, 0);
-        entity.setCurrentOperationLabel((String) workflowContext.get("label"));
+        entity.setNextOperationLabel((String) workflowContext.get("label"));
+        entity.setNextOperationStatus(0);
         return super.save(entity);
     }
 

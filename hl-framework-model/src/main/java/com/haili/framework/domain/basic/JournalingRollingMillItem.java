@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -96,6 +98,8 @@ public class JournalingRollingMillItem implements Serializable {
     /**
      * 日期
      */
+    @NotNull(message = "报工日期不能为空")
+//    @Past(message = "报工日期必须是一个过去的日期")
     private LocalDate date;
 
     /**
