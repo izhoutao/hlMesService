@@ -51,8 +51,8 @@ public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImp
     private void setSteelGradeAndCostTimeAndOutputWeightLoss(JournalingFinishingTensionLevelerItem entity) {
         String productNumber = entity.getProductNumber();
         LambdaQueryWrapper<InboundOrderRawItem> lambdaQueryWrapper = Wrappers.<InboundOrderRawItem>lambdaQuery();
-        lambdaQueryWrapper.eq(InboundOrderRawItem::getProductNumber, productNumber);
-        InboundOrderRawItem inboundOrderRawItem = inboundOrderRawItemMapper.selectOne(lambdaQueryWrapper);
+        lambdaQueryWrapper.eq(InboundOrderRawItem::getProductNumber, productNumber).orderByDesc(InboundOrderRawItem::getTime);
+        InboundOrderRawItem inboundOrderRawItem = inboundOrderRawItemMapper.selectList(lambdaQueryWrapper).get(0);
         String inboundOrderRawId = inboundOrderRawItem.getInboundOrderRawId();
         InboundOrderRaw inboundOrderRaw = inboundOrderRawMapper.selectById(inboundOrderRawId);
         String steelGrade = inboundOrderRawItem.getSteelGrade();

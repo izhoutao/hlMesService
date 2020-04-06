@@ -24,7 +24,7 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.id AS id, " +
             "report.date AS date, " +
             "report.shift_id AS shift_id, " +
-            "COUNT(*) AS produced_coil_number, " +
+            "COUNT(item.product_number) AS produced_coil_number, " +
             "SUM( item.input_weight ) AS total_input_weight, " +
             "SUM( item.output_weight ) AS total_output_weight, " +
             "SUM( item.input_weight ) - SUM( item.output_weight ) AS total_loss_weight, " +
@@ -48,26 +48,26 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.update_time AS update_time, " +
             "report.create_person AS create_person, " +
             "report.update_person AS update_person " +
-            "FROM tb_journaling_production_shift_report report, " +
+            "FROM tb_journaling_production_shift_report report LEFT JOIN " +
             "<choose> " +
-            "<when test=\"et.type == 0\">" +
-            "tb_journaling_rewind_item item, " +
+            "<when test='et.type == 0'>" +
+            "tb_journaling_rewind_item item " +
             "</when>" +
-            "<when test=\"et.type == 1\">" +
-            "tb_journaling_rolling_mill_item item, " +
+            "<when test='et.type == 1'>" +
+            "tb_journaling_rolling_mill_item item " +
             "</when>" +
-            "<when test=\"et.type == 2\">" +
-            "tb_journaling_anneal_item item, " +
+            "<when test='et.type == 2'>" +
+            "tb_journaling_anneal_item item " +
             "</when>" +
-            "<when test=\"et.type == 3\">" +
-            "tb_journaling_finishing_tension_leveler_item item, " +
+            "<when test='et.type == 3'>" +
+            "tb_journaling_finishing_tension_leveler_item item " +
             "</when>" +
             "<otherwise> " +
             "</otherwise> " +
             "</choose> " +
-            "tb_user USER " +
-            "WHERE item.date = report.date AND item.shift_id = report.shift_id AND item.create_person = USER.id " +
-            "GROUP BY item.date, item.shift_id) r " +
+            "ON item.date = report.date AND item.shift_id = report.shift_id " +
+            "LEFT JOIN tb_user USER ON item.create_person = USER.id " +
+            "GROUP BY report.date, report.shift_id, report.type ) r " +
             "${ew.customSqlSegment}" +
             "</script>")
     @Results(id = "reportMap", value = {
@@ -107,7 +107,7 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.id AS id, " +
             "report.date AS date, " +
             "report.shift_id AS shift_id, " +
-            "COUNT(*) AS produced_coil_number, " +
+            "COUNT(item.product_number) AS produced_coil_number, " +
             "SUM( item.input_weight ) AS total_input_weight, " +
             "SUM( item.output_weight ) AS total_output_weight, " +
             "SUM( item.input_weight ) - SUM( item.output_weight ) AS total_loss_weight, " +
@@ -131,26 +131,26 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.update_time AS update_time, " +
             "report.create_person AS create_person, " +
             "report.update_person AS update_person " +
-            "FROM tb_journaling_production_shift_report report, " +
+            "FROM tb_journaling_production_shift_report report LEFT JOIN " +
             "<choose> " +
-            "<when test=\"et.type == 0\">" +
-            "tb_journaling_rewind_item item, " +
+            "<when test='et.type == 0'>" +
+            "tb_journaling_rewind_item item " +
             "</when>" +
-            "<when test=\"et.type == 1\">" +
-            "tb_journaling_rolling_mill_item item, " +
+            "<when test='et.type == 1'>" +
+            "tb_journaling_rolling_mill_item item " +
             "</when>" +
-            "<when test=\"et.type == 2\">" +
-            "tb_journaling_anneal_item item, " +
+            "<when test='et.type == 2'>" +
+            "tb_journaling_anneal_item item " +
             "</when>" +
-            "<when test=\"et.type == 3\">" +
-            "tb_journaling_finishing_tension_leveler_item item, " +
+            "<when test='et.type == 3'>" +
+            "tb_journaling_finishing_tension_leveler_item item " +
             "</when>" +
             "<otherwise> " +
             "</otherwise> " +
             "</choose> " +
-            "tb_user USER " +
-            "WHERE item.date = report.date AND item.shift_id = report.shift_id AND item.create_person = USER.id " +
-            "GROUP BY item.date, item.shift_id) r " +
+            "ON item.date = report.date AND item.shift_id = report.shift_id " +
+            "LEFT JOIN tb_user USER ON item.create_person = USER.id " +
+            "GROUP BY report.date, report.shift_id, report.type ) r " +
             "${ew.customSqlSegment}" +
             "</script>")
     @ResultMap("reportMap")

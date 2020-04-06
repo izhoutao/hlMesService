@@ -1,8 +1,6 @@
 package com.haili.basic.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.haili.framework.domain.basic.JournalingProductionShiftReport;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
@@ -17,6 +15,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,9 +33,11 @@ public class JournalingProductionShiftReportController extends CrudController<Jo
     @Override
     public ModelResponseResult<JournalingProductionShiftReport> save(@RequestBody JournalingProductionShiftReport entity) {
         ModelResponseResult<JournalingProductionShiftReport> result = super.save(entity);
-        LambdaQueryWrapper<JournalingProductionShiftReport> lambdaQueryWrapper = Wrappers.<JournalingProductionShiftReport>lambdaQuery();
-        lambdaQueryWrapper.eq(JournalingProductionShiftReport::getId, entity.getId());
-        List<JournalingProductionShiftReport> list = service.list(lambdaQueryWrapper);
+        HashMap<String, Object> map = new HashMap();
+        map.put("id", entity.getId());
+        map.put("type", entity.getType());
+        QueryWrapper<JournalingProductionShiftReport> queryWrapper = super.extractWrapperFromRequestMap(map);
+        List<JournalingProductionShiftReport> list = service.list(queryWrapper);
         if (list != null && list.size() > 0) {
             return new ModelResponseResult<JournalingProductionShiftReport>(CommonCode.SUCCESS, list.get(0));
         } else {
