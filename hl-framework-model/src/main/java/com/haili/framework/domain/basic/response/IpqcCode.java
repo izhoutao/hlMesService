@@ -13,7 +13,8 @@ import lombok.ToString;
 public enum IpqcCode implements ResultCode {
 
     COIL_CURRENT_PROCESS_CANNOT_BE_MODIFIED(false,25001,"不能修改钢卷当前制程！"),
-    IPQC_NOT_EXIST(false,25001,"质检单不存在！");
+    IPQC_NOT_EXIST(false,25002,"质检单不存在！"),
+    IPQC_INSPECTOR_RESULT_CANNOT_BE_MODIFIED(false,25003,"不能修改质检单判定结果！");
     //操作代码
     @ApiModelProperty(value = "操作是否成功", example = "true", required = true)
     boolean success;

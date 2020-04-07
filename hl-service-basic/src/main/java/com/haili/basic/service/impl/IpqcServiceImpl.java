@@ -98,9 +98,11 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
             wrapper.eq("product_number", entity.getProductNumber());
             wrapper.eq("current_operation_label", operation);
             OutboundOrderRawItem outboundOrderRawItem = outboundOrderRawItemMapper.selectOne(wrapper);
+            if (outboundOrderRawItem == null) {
+                ExceptionCast.cast(IpqcCode.IPQC_INSPECTOR_RESULT_CANNOT_BE_MODIFIED);
+            }
             String jsonTextWorkflow = outboundOrderRawItem.getJsonTextWorkflow();
             Map nextWorkflowContext = WorkflowUtil.getNextWorkflowContext(jsonTextWorkflow, operation, inspectorResult);
-
             if (nextWorkflowContext == null) {
                 ExceptionCast.cast(CommonCode.INVALID_PARAM);
             }
