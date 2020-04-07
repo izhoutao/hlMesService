@@ -199,7 +199,6 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
         }
         status = entity.getStatus();
         if (status != null && status != 0) {
-
             updateJournalingItemStatus(date, shiftId, status, mappers[type]);
         }
         return super.updateById(entity);
@@ -236,8 +235,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
         outboundOrderRawItemMapper.update(null, lambdaUpdateWrapper);
     }
 
-
-/*
+    /*
     private void updateOutboundOrderRawItemCurrentLabel(LocalDate date, String shiftId, Integer type) {
         List<String> productNumbers = new ArrayList<>();
         String journalingItemType = "";
@@ -276,7 +274,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
                 .set(OutboundOrderRawItem::getCurrentOperationLabel, journalingItemType);
         outboundOrderRawItemMapper.update(null, lambdaUpdateWrapper);
     }
-*/
+ */
 
     @Override
     public boolean removeById(Serializable id) {

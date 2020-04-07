@@ -90,6 +90,7 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
                 entity.setChecker(null);
                 entity.setCheckerName(null);
             }
+            entity.setStatus(null);
         }
 
         String operation = entity.getOperation();

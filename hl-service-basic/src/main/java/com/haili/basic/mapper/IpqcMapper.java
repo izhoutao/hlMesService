@@ -25,7 +25,7 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.inspect_date, " +
             "ipqc.hot_roll_origin, " +
             "ipqc.next_operation, " +
-            "ipqc.shift_id, " +
+//            "ipqc.shift_id, " +
             "ipqc.steel_grade, " +
             "ipqc.surface_finish, " +
             "ipqc.uses, " +
@@ -50,10 +50,10 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.measurement, " +
             "ipqc.status " +
             "FROM " +
-            "(SELECT '重卷' AS operation, product_number, date FROM tb_journaling_rewind_item UNION " +
-            "SELECT '轧机' AS operation, product_number, date FROM tb_journaling_rolling_mill_item UNION " +
-            "SELECT '退火炉' AS operation, product_number, date FROM tb_journaling_anneal_item UNION " +
-            "SELECT '精整拉矫' AS operation, product_number, date FROM tb_journaling_finishing_tension_leveler_item ) " +
+            "(SELECT '重卷' AS operation, product_number, date, shift_id FROM tb_journaling_rewind_item UNION " +
+            "SELECT '轧机' AS operation, product_number, date, shift_id FROM tb_journaling_rolling_mill_item UNION " +
+            "SELECT '退火炉' AS operation, product_number, date, shift_id FROM tb_journaling_anneal_item UNION " +
+            "SELECT '精整拉矫' AS operation, product_number, date, shift_id FROM tb_journaling_finishing_tension_leveler_item ) " +
             "item LEFT JOIN tb_ipqc ipqc ON item.product_number = ipqc.product_number AND item.operation = ipqc.operation " +
             "${ew.customSqlSegment}" +
             "</script>")
@@ -105,7 +105,7 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.inspect_date, " +
             "ipqc.hot_roll_origin, " +
             "ipqc.next_operation, " +
-            "ipqc.shift_id, " +
+//            "ipqc.shift_id, " +
             "ipqc.steel_grade, " +
             "ipqc.surface_finish, " +
             "ipqc.uses, " +
@@ -130,10 +130,10 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.measurement, " +
             "ipqc.status " +
             "FROM " +
-            "(SELECT '重卷' AS operation, product_number, date FROM tb_journaling_rewind_item UNION " +
-            "SELECT '轧机' AS operation, product_number, date FROM tb_journaling_rolling_mill_item UNION " +
-            "SELECT '退火炉' AS operation, product_number, date FROM tb_journaling_anneal_item UNION " +
-            "SELECT '精整拉矫' AS operation, product_number, date FROM tb_journaling_finishing_tension_leveler_item ) " +
+            "(SELECT '重卷' AS operation, product_number, date, shift_id FROM tb_journaling_rewind_item UNION " +
+            "SELECT '轧机' AS operation, product_number, date, shift_id FROM tb_journaling_rolling_mill_item UNION " +
+            "SELECT '退火炉' AS operation, product_number, date, shift_id FROM tb_journaling_anneal_item UNION " +
+            "SELECT '精整拉矫' AS operation, product_number, date, shift_id FROM tb_journaling_finishing_tension_leveler_item ) " +
             "item LEFT JOIN tb_ipqc ipqc ON item.product_number = ipqc.product_number AND item.operation = ipqc.operation " +
             "${ew.customSqlSegment}" +
             "</script>")
