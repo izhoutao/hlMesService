@@ -8,7 +8,13 @@ import com.haili.basic.mapper.InboundOrderRawMapper;
 import com.haili.basic.mapper.JournalingAnnealItemMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.service.IJournalingAnnealItemService;
-import com.haili.framework.domain.basic.*;
+import com.haili.framework.domain.basic.InboundOrderRaw;
+import com.haili.framework.domain.basic.InboundOrderRawItem;
+import com.haili.framework.domain.basic.JournalingAnnealItem;
+import com.haili.framework.domain.basic.OutboundOrderRawItem;
+import com.haili.framework.domain.basic.response.JournalingProductionShiftReportCode;
+import com.haili.framework.exception.ExceptionCast;
+import com.haili.framework.model.response.CommonCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +70,16 @@ public class JournalingAnnealItemServiceImpl extends ServiceImpl<JournalingAnnea
 
     @Override
     public boolean updateById(JournalingAnnealItem entity) {
+        String id = entity.getId();
+        JournalingAnnealItem journalingAnnealItem = this.baseMapper.selectById(id);
+        Integer status = journalingAnnealItem.getStatus();
+        if(status!=0){
+            ExceptionCast.cast(JournalingProductionShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_MODIFY);
+        }
         String productNumber = entity.getProductNumber();
+        if(!productNumber.equals(entity.getProductNumber())){
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
+        }
         updateOutboundOrderRawItem(productNumber, 1);
         setSteelGradeAndCostTimeAndOutputWeightLoss(entity);
         return super.updateById(entity);
@@ -73,6 +88,10 @@ public class JournalingAnnealItemServiceImpl extends ServiceImpl<JournalingAnnea
     @Override
     public boolean removeById(Serializable id) {
         JournalingAnnealItem journalingAnnealItem = this.baseMapper.selectById(id);
+        Integer status = journalingAnnealItem.getStatus();
+        if(status!=0){
+            ExceptionCast.cast(JournalingProductionShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_DELETE);
+        }
         updateOutboundOrderRawItem(journalingAnnealItem.getProductNumber(), 0);
         return super.removeById(id);
     }
