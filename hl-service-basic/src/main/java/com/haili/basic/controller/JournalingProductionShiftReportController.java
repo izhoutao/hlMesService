@@ -15,6 +15,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ import java.util.Map;
 @RequestMapping("/basic/journalingproductionshiftreport")
 public class JournalingProductionShiftReportController extends CrudController<JournalingProductionShiftReport> {
     @Override
-    public ModelResponseResult<JournalingProductionShiftReport> save(@RequestBody JournalingProductionShiftReport entity) {
+    public ModelResponseResult<JournalingProductionShiftReport> save(@RequestBody @Valid JournalingProductionShiftReport entity) {
         ModelResponseResult<JournalingProductionShiftReport> result = super.save(entity);
         HashMap<String, Object> map = new HashMap();
         map.put("id", entity.getId());

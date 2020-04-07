@@ -190,7 +190,7 @@ public class Ipqc implements Serializable {
     private String measurement;
 
     /**
-     * 状态
+     * 状态：0，未提交；1：品检员已提交；2：复判员已提交。
      */
-    private String status;
+    private Integer status;
 }

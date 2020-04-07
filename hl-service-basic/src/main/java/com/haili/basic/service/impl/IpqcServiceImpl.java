@@ -69,14 +69,29 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
         if (!isQcInspector && !isQcChecker && !isAdmin) {
             ExceptionCast.cast(CommonCode.UNAUTHORISE);
         }
-        if (isQcInspector || isAdmin) {
-            entity.setInspector(staffId);
-            entity.setInspectorName(name);
+        Integer status = entity.getStatus();
+        if (status != null && status != 0) {
+            if (isQcInspector) {
+                entity.setInspector(staffId);
+                entity.setInspectorName(name);
+                entity.setStatus(1);
+            }
+            if (isQcChecker) {
+                entity.setChecker(staffId);
+                entity.setCheckerName(name);
+                entity.setStatus(2);
+            }
+        } else {
+            if (isQcInspector) {
+                entity.setInspector(null);
+                entity.setInspectorName(null);
+            }
+            if (isQcChecker) {
+                entity.setChecker(null);
+                entity.setCheckerName(null);
+            }
         }
-        if (isQcChecker || isAdmin) {
-            entity.setChecker(staffId);
-            entity.setCheckerName(name);
-        }
+
         String operation = entity.getOperation();
         String productNumber = entity.getProductNumber();
         String id = entity.getId();
@@ -92,10 +107,11 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
                 ExceptionCast.cast(IpqcCode.COIL_CURRENT_PROCESS_CANNOT_BE_MODIFIED);
             }
         }
+
         String inspectorResult = entity.getInspectorResult();
-        if (!StringUtils.isEmpty(inspectorResult)) {
+        if (!StringUtils.isEmpty(inspectorResult) && status != null && status != 0) {
             QueryWrapper<OutboundOrderRawItem> wrapper = new QueryWrapper<>();
-            wrapper.eq("product_number", entity.getProductNumber());
+            wrapper.eq("product_number", productNumber);
             wrapper.eq("current_operation_label", operation);
             OutboundOrderRawItem outboundOrderRawItem = outboundOrderRawItemMapper.selectOne(wrapper);
             if (outboundOrderRawItem == null) {

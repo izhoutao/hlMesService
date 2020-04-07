@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -27,9 +29,9 @@ public class JournalingProductionShiftReport implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;
-
-    private String date;
-
+    @NotNull(message = "日期不能为空")
+    private LocalDate date;
+    @NotNull(message = "班别不能为空")
     private String shiftId;
 
     private Integer producedCoilNumber;
