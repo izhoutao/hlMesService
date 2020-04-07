@@ -33,7 +33,7 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.expected_attendance_num as expected_attendance_num, " +
             "COUNT( DISTINCT item.create_person ) AS actual_attendance_num, " +
             "GROUP_CONCAT( DISTINCT item.create_person ) AS actual_attendance , " +
-            "GROUP_CONCAT( DISTINCT user.name ) AS actual_attendance_name, " +
+            "GROUP_CONCAT( DISTINCT USER.name ) AS actual_attendance_name, " +
             "report.shift_leader AS shift_leader, " +
             "report.shift_leader_name AS shift_leader_name, " +
             "report.supervisor AS supervisor, " +
@@ -116,7 +116,7 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.expected_attendance_num as expected_attendance_num, " +
             "COUNT( DISTINCT item.create_person ) AS actual_attendance_num, " +
             "GROUP_CONCAT( DISTINCT item.create_person ) AS actual_attendance , " +
-            "GROUP_CONCAT( DISTINCT user.name ) AS actual_attendance_name, " +
+            "GROUP_CONCAT( DISTINCT USER.name ) AS actual_attendance_name, " +
             "report.shift_leader AS shift_leader, " +
             "report.shift_leader_name AS shift_leader_name, " +
             "report.supervisor AS supervisor, " +

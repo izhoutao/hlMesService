@@ -21,7 +21,8 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     username: root
     password: comac.123
-    url: ${DATASOURCE_URL:jdbc:mysql://localhost:3306/hl_user?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true}
+    url: ${DATASOURCE_URL:jdbc:mysql://115.29.190.60:3306/hl_user?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true}
+    #url: ${DATASOURCE_URL:jdbc:mysql://localhost:3306/hl_user?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true}
     hikari:
       # 是否自动提交
       auto-commit: true
