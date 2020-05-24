@@ -19,6 +19,7 @@ public class Operation implements Serializable {
     private String code;
     private String name;
     private String description;
+    private Integer sequenceNumber;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)

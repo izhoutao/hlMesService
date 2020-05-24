@@ -30,4 +30,11 @@ public class QcDefectController extends CrudController<QcDefect> {
     public ResponseResult updateById(@RequestBody @Valid QcDefect entity) {
         return super.updateById(entity);
     }
+
+/*    @PostMapping
+    @ResponseBody
+    public ModelResponseResult<List<QcDefect>> saveBatch(@RequestBody List<QcDefect> qcDefects) {
+        service.saveBatch(qcDefects);
+        return new ModelResponseResult<List<QcDefect>>(CommonCode.SUCCESS, qcDefects);
+    }*/
 }

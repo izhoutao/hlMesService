@@ -30,14 +30,14 @@ public class InboundOrderRawItemController extends CrudController<InboundOrderRa
     @Autowired
     UserClient userClient;
 
-    @GetMapping("/psn/{num}")
-    public ModelResponseResult<List<String>> getProductSerialNumbers(@PathVariable("num") String num) {
+    @GetMapping("/psn/{codeRule}/{num}")
+    public ModelResponseResult<List<String>> getProductSerialNumbers(@PathVariable("codeRule") String codeRule,@PathVariable("num") String num) {
         if (!NumberUtil.isInteger(num)) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
         HashMap<String, Object> map = new HashMap<>();
-        map.put("bizName", "WORK_ORDER_PRODUCT");
-        map.put("codeRuleName", "WORK_ORDER_PRODUCT");
+        map.put("bizName", codeRule);
+        map.put("codeRuleName", codeRule);
 //        ModelResponseResult<List<String>> result = userClient.getSerialNumberList(num, map);
         return userClient.getSerialNumberList(num, map);
     }

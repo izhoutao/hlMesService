@@ -17,7 +17,7 @@ public class WorkflowUtil {
     public static void main(String[] args) {
 
         String jsonTextWorkflow = "[{\"next\": [{\"index\": 1, \"condition\": \"\"}], \"label\": \"重卷\"}, {\"next\": [{\"index\": 2}], \"label\": \"轧机\"}, {\"next\": [{\"index\": 3}], \"label\": \"退火\"}, {\"next\": [], \"label\": \"精整拉矫\"}]";
-        jsonTextWorkflow = "[{\"label\": \"重卷\",\"next\": [{\"index\": 1,\"condition\": \"RETURN\"},{\"index\": 2,\"condition\": \"FAIL\"}]},{\"label\": \"轧机\",\"next\": [{\"index\": 3,\"condition\": \"RETURN\"}]},{\"label\": \"退火\",\"next\": [{\"index\": 0,\"condition\": \"RETURN\"}]},{\"label\": \"精整拉矫\",\"next\": []}]";
+        jsonTextWorkflow = "[{\"label\": \"重卷\",\"next\": [{\"index\": 1,\"condition\": \"RETURN\"},{\"index\": 2,\"condition\": \"FAIL\"}]},{\"label\": \"轧机\",\"next\": [{\"index\": 3,\"condition\": \"RETURN\"}]},{\"label\": \"退火炉\",\"next\": [{\"index\": 0,\"condition\": \"RETURN\"}]},{\"label\": \"精整拉矫\",\"next\": []}]";
         Integer index = 0;
         String checkResult = "RETURN";
         //getNextWorkflowContext

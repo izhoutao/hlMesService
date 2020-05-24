@@ -33,12 +33,12 @@ public class InboundOrderRawItem implements Serializable {
     private String inboundOrderRawDetailId;
 
     /**
-     * 来料编号
+     * 原料编号
      */
     private String materialNumber;
 
     /**
-     * 钢卷编号
+     * 我司钢卷编号
      */
     private String productNumber;
 

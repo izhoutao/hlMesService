@@ -1,14 +1,17 @@
 package com.haili.basic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.IpqcMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.service.IIpqcService;
 import com.haili.framework.domain.basic.Ipqc;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
+import com.haili.framework.domain.basic.QcDefect;
 import com.haili.framework.domain.basic.response.IpqcCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
@@ -24,6 +27,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -38,6 +42,8 @@ import java.util.Map;
 public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements IIpqcService {
     @Autowired
     OutboundOrderRawItemMapper outboundOrderRawItemMapper;
+    @Autowired
+    QcDefectServiceImpl qcDefectServiceImpl;
 
     @Override
     public IPage<Ipqc> page(IPage<Ipqc> page, Wrapper<Ipqc> queryWrapper) {
@@ -134,7 +140,17 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
             outboundOrderRawItem.setNextOperationStatus(0);
             outboundOrderRawItemMapper.updateById(outboundOrderRawItem);
         }
-        return super.saveOrUpdate(entity);
+        super.saveOrUpdate(entity);
+        String ipqcId = entity.getId();
+        List<QcDefect> defectList = entity.getDefectList();
+        defectList = defectList.stream().filter(defect->!StringUtils.isEmpty(defect.getDefectCode())).map(defect->{
+            return defect.setIpqcId(ipqcId);
+        }).collect(Collectors.toList());
+        LambdaQueryWrapper<QcDefect> lambdaQueryWrapper = Wrappers.<QcDefect>lambdaQuery();
+        lambdaQueryWrapper.eq(QcDefect::getIpqcId, ipqcId);
+        qcDefectServiceImpl.remove(lambdaQueryWrapper);
+        qcDefectServiceImpl.saveBatch(defectList);
+        return true;
     }
 
 }

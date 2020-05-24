@@ -30,11 +30,12 @@ public class QcDefect implements Serializable {
     private String id;
     @NotBlank(message = "所属ipqc质检单不能为空")
     private String ipqcId;
-    @NotBlank(message = "缺陷不能为空")
-    private String defectId;
-    @NotBlank(message = "缺陷组不能为空")
-    private String defectGroupId;
-
+    /*    @NotBlank(message = "缺陷不能为空")
+        private String defectId;
+        @NotBlank(message = "缺陷组不能为空")
+        private String defectGroupId;*/
+    @NotBlank(message = "缺陷码不能为空")
+    private String defectCode;
     /**
      * 上面
      */
