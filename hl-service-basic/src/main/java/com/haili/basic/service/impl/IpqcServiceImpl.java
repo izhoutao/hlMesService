@@ -77,12 +77,12 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
         }
         Integer status = entity.getStatus();
         if (status != null && status != 0) {
-            if (isQcInspector) {
+            if (isQcInspector && status == 1) {
                 entity.setInspector(staffId);
                 entity.setInspectorName(name);
                 entity.setStatus(1);
             }
-            if (isQcChecker) {
+            if (isQcChecker && status == 2) {
                 entity.setChecker(staffId);
                 entity.setCheckerName(name);
                 entity.setStatus(2);
@@ -143,7 +143,7 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
         super.saveOrUpdate(entity);
         String ipqcId = entity.getId();
         List<QcDefect> defectList = entity.getDefectList();
-        defectList = defectList.stream().filter(defect->!StringUtils.isEmpty(defect.getDefectCode())).map(defect->{
+        defectList = defectList.stream().filter(defect -> !StringUtils.isEmpty(defect.getDefectCode())).map(defect -> {
             return defect.setIpqcId(ipqcId);
         }).collect(Collectors.toList());
         LambdaQueryWrapper<QcDefect> lambdaQueryWrapper = Wrappers.<QcDefect>lambdaQuery();

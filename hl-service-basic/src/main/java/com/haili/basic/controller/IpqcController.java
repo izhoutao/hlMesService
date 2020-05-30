@@ -30,20 +30,20 @@ import java.util.Map;
 public class IpqcController extends CrudController<Ipqc> {
 
     @Override
-    @PreAuthorize("hasAuthority('ipqc')")
+    @PreAuthorize("hasAnyAuthority('ipqc_maint','ipqc_check','ipqc_query')")
     public QueryResponseResult<Ipqc> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ipqc')")
+    @PreAuthorize("hasAnyAuthority('ipqc_maint','ipqc_check')")
     public ModelResponseResult<Ipqc> save(@RequestBody @Valid Ipqc entity) {
         service.saveOrUpdate(entity);
         return new ModelResponseResult<Ipqc>(CommonCode.SUCCESS, entity);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ipqc')")
+    @PreAuthorize("hasAnyAuthority('ipqc_maint','ipqc_check')")
     public ResponseResult updateById(@RequestBody @Valid Ipqc entity) {
         service.saveOrUpdate(entity);
         return new ResponseResult(CommonCode.SUCCESS);
