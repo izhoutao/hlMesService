@@ -130,7 +130,7 @@ public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImp
         LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
         lambdaQueryWrapper.eq(OutboundOrderRawItem::getProductNumber, productNumber);
 
-        lambdaQueryWrapper.ne(OutboundOrderRawItem::getNextOperationLabel, "成品入库");
+        lambdaQueryWrapper.ne(OutboundOrderRawItem::getNextOperationLabel, "");
         OutboundOrderRawItem outboundOrderRawItem = outboundOrderRawItemMapper.selectOne(lambdaQueryWrapper);
         if (outboundOrderRawItem == null) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
