@@ -1,5 +1,7 @@
 package com.haili.basic.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,11 +18,16 @@ import com.haili.framework.domain.basic.response.IpqcCode;
 import com.haili.framework.domain.basic.response.JournalingProductionShiftReportCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
+import com.haili.framework.utils.WorkflowUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -51,13 +58,9 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
 
     @Override
     public boolean save(JournalingRewindItem entity) {
-        String productNumber = entity.getProductNumber();
-        updateOutboundOrderRawItem(productNumber, 1);
         setSteelGradeAndHotRollOrigin(entity);
-        return super.save(entity);
-    }
-
-    private void updateOutboundOrderRawItem(String productNumber, Integer nextOperationStatus) {
+        super.save(entity);
+        String productNumber = entity.getProductNumber();
         LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
         lambdaQueryWrapper.eq(OutboundOrderRawItem::getProductNumber, productNumber);
         lambdaQueryWrapper.eq(OutboundOrderRawItem::getNextOperationLabel, "重卷");
@@ -65,8 +68,28 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
         if (outboundOrderRawItem == null) {
             ExceptionCast.cast(IpqcCode.IPQC_INSPECTOR_RESULT_CANNOT_BE_MODIFIED);
         }
-        outboundOrderRawItem.setNextOperationStatus(nextOperationStatus);
+        outboundOrderRawItem.setCurrentOperationLabel("重卷");
+        String jsonTextWorkflow = outboundOrderRawItem.getJsonTextWorkflow();
+        Map nextWorkflowContext = WorkflowUtil.getNextWorkflowContext(jsonTextWorkflow, "重卷", "OK");
+        if (nextWorkflowContext == null) {
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
+        }
+        String label = (String) nextWorkflowContext.get("label");
+        outboundOrderRawItem.setNextOperationLabel(label);
+
+        String operationHistory = outboundOrderRawItem.getOperationHistory();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("itemId", entity.getId());
+        map.put("operationName", "重卷");
+        List<Map> maps = JSON.parseArray(operationHistory, Map.class);
+        if (maps == null) {
+            maps = new ArrayList<>();
+        }
+        maps.add(map);
+        operationHistory = JSON.toJSONString(maps);
+        outboundOrderRawItem.setOperationHistory(operationHistory);
         outboundOrderRawItemMapper.updateById(outboundOrderRawItem);
+        return true;
     }
 
     private void setSteelGradeAndHotRollOrigin(JournalingRewindItem entity) {
@@ -86,15 +109,17 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
     public boolean updateById(JournalingRewindItem entity) {
         String id = entity.getId();
         JournalingRewindItem journalingRewindItem = this.baseMapper.selectById(id);
+        if (journalingRewindItem == null) {
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
+        }
         Integer status = journalingRewindItem.getStatus();
-        if(status!=0){
+        if (status != 0) {
             ExceptionCast.cast(JournalingProductionShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_MODIFY);
         }
         String productNumber = journalingRewindItem.getProductNumber();
-        if(!productNumber.equals(entity.getProductNumber())){
+        if (!productNumber.equals(entity.getProductNumber())) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
-        updateOutboundOrderRawItem(productNumber, 1);
         setSteelGradeAndHotRollOrigin(entity);
         return super.updateById(entity);
     }
@@ -103,10 +128,40 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
     public boolean removeById(Serializable id) {
         JournalingRewindItem journalingRewindItem = this.baseMapper.selectById(id);
         Integer status = journalingRewindItem.getStatus();
-        if(status!=0){
+        if (status != 0) {
             ExceptionCast.cast(JournalingProductionShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_DELETE);
         }
-        updateOutboundOrderRawItem(journalingRewindItem.getProductNumber(), 0);
+        String productNumber = journalingRewindItem.getProductNumber();
+        LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
+        lambdaQueryWrapper.eq(OutboundOrderRawItem::getProductNumber, productNumber);
+
+        lambdaQueryWrapper.ne(OutboundOrderRawItem::getNextOperationLabel, "成品入库");
+        OutboundOrderRawItem outboundOrderRawItem = outboundOrderRawItemMapper.selectOne(lambdaQueryWrapper);
+        if (outboundOrderRawItem == null) {
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
+        }
+        String operationHistory = outboundOrderRawItem.getOperationHistory();
+        List<Map> maps = JSON.parseArray(operationHistory, Map.class);
+        int size = maps.size();
+        if (size == 0) {
+            ExceptionCast.cast(CommonCode.FAIL);
+        }
+        Map map = maps.get(size - 1);
+        String itemId = (String) map.get("itemId");
+        if (!StrUtil.equals(itemId, (String) id)) {
+            ExceptionCast.cast(CommonCode.FAIL);
+        }
+        String previousOperation;
+        if (size == 1) {
+            previousOperation = "";
+        } else {
+            previousOperation = (String) (maps.get(size - 2).get("operationName"));
+        }
+        outboundOrderRawItem.setCurrentOperationLabel(previousOperation);
+        outboundOrderRawItem.setNextOperationLabel("重卷");
+        maps.remove(size - 1);
+        outboundOrderRawItem.setOperationHistory(JSON.toJSONString(maps));
+        outboundOrderRawItemMapper.updateById(outboundOrderRawItem);
         return super.removeById(id);
     }
 }

@@ -39,7 +39,10 @@ public class JournalingRollingMillItem implements Serializable {
      * 钢卷编号
      */
     private String productNumber;
-
+    /**
+     * 原料编号
+     */
+    private String materialNumber;
     /**
      * 钢种
      */

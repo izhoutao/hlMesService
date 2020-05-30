@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * <p>
@@ -63,6 +62,12 @@ public class Ipqc implements Serializable {
      * 班别
      */
     private String shiftId;
+
+    /**
+     * 报工id
+     */
+    @TableField(exist = false)
+    private String itemId;
 
     /**
      * 钢种
@@ -193,8 +198,7 @@ public class Ipqc implements Serializable {
     /**
      * 缺陷列表
      */
-    @TableField(exist = false)
-    private List<QcDefect> defectList;
+    private String defectList;
 
     /**
      * 状态：0，未提交；1：品检员已提交；2：复判员已提交。

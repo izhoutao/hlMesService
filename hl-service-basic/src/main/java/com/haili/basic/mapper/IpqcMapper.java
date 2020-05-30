@@ -30,7 +30,6 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.surface_finish, " +
             "ipqc.uses, " +
             "ipqc.customer_id, " +
-            "ipqc.material_number, " +
             "ipqc.grade, " +
             "ipqc.harmful_defect_percent, " +
             "ipqc.grade_score, " +
@@ -48,12 +47,13 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.checker_name, " +
             "ipqc.checker_result, " +
             "ipqc.measurement, " +
+            "ipqc.defect_list, " +
             "ipqc.status " +
             "FROM " +
-            "(SELECT '重卷' AS operation, product_number, date, shift_id FROM tb_journaling_rewind_item UNION " +
-            "SELECT '轧机' AS operation, product_number, date, shift_id FROM tb_journaling_rolling_mill_item UNION " +
-            "SELECT '退火炉' AS operation, product_number, date, shift_id FROM tb_journaling_anneal_item UNION " +
-            "SELECT '精整拉矫' AS operation, product_number, date, shift_id FROM tb_journaling_finishing_tension_leveler_item ) " +
+            "(SELECT '重卷' AS operation, product_number,material_number, date, shift_id, id AS item_id FROM tb_journaling_rewind_item UNION " +
+//            "SELECT '轧机' AS operation, product_number,material_number, date, shift_id, id AS item_id FROM tb_journaling_rolling_mill_item UNION " +
+            "SELECT '退火炉' AS operation, product_number,material_number, date, shift_id, id AS item_id FROM tb_journaling_anneal_item UNION " +
+            "SELECT '精整拉矫' AS operation, product_number,material_number, date, shift_id, id AS item_id FROM tb_journaling_finishing_tension_leveler_item ) " +
             "item LEFT JOIN tb_ipqc ipqc ON item.product_number = ipqc.product_number AND item.operation = ipqc.operation AND item.date = ipqc.date AND item.shift_id = ipqc.shift_id " +
             "${ew.customSqlSegment}" +
             "</script>")
@@ -62,6 +62,7 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
 //            @Result(column = "inspect_date", property = "inspectDate"),
             @Result(column = "date", property = "date"),
             @Result(column = "shift_id", property = "shiftId"),
+            @Result(column = "item_id", property = "itemId"),
             @Result(column = "hot_roll_origin", property = "hotRollOrigin"),
             @Result(column = "operation", property = "operation"),
             @Result(column = "next_operation", property = "nextOperation"),
@@ -89,6 +90,7 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             @Result(column = "checker_name", property = "checkerName"),
             @Result(column = "checker_result", property = "checkerResult"),
             @Result(column = "measurement", property = "measurement"),
+            @Result(column = "defect_list", property = "defectList"),
             @Result(column = "status", property = "status"),
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime"),
@@ -110,7 +112,6 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.surface_finish, " +
             "ipqc.uses, " +
             "ipqc.customer_id, " +
-            "ipqc.material_number, " +
             "ipqc.grade, " +
             "ipqc.harmful_defect_percent, " +
             "ipqc.grade_score, " +
@@ -128,12 +129,13 @@ public interface IpqcMapper extends BaseMapper<Ipqc> {
             "ipqc.checker_name, " +
             "ipqc.checker_result, " +
             "ipqc.measurement, " +
+            "ipqc.defect_list, " +
             "ipqc.status " +
             "FROM " +
-            "(SELECT '重卷' AS operation, product_number, date, shift_id FROM tb_journaling_rewind_item UNION " +
-            "SELECT '轧机' AS operation, product_number, date, shift_id FROM tb_journaling_rolling_mill_item UNION " +
-            "SELECT '退火炉' AS operation, product_number, date, shift_id FROM tb_journaling_anneal_item UNION " +
-            "SELECT '精整拉矫' AS operation, product_number, date, shift_id FROM tb_journaling_finishing_tension_leveler_item ) " +
+            "(SELECT '重卷' AS operation, product_number,material_number, date, shift_id, id AS item_id FROM tb_journaling_rewind_item UNION " +
+//            "SELECT '轧机' AS operation, product_number,material_number, date, shift_id, id AS item_id FROM tb_journaling_rolling_mill_item UNION " +
+            "SELECT '退火炉' AS operation, product_number,material_number, date, shift_id, id AS item_id FROM tb_journaling_anneal_item UNION " +
+            "SELECT '精整拉矫' AS operation, product_number,material_number, date, shift_id, id AS item_id FROM tb_journaling_finishing_tension_leveler_item ) " +
             "item LEFT JOIN tb_ipqc ipqc ON item.product_number = ipqc.product_number AND item.operation = ipqc.operation AND item.date = ipqc.date AND item.shift_id = ipqc.shift_id " +
             "${ew.customSqlSegment}" +
             "</script>")

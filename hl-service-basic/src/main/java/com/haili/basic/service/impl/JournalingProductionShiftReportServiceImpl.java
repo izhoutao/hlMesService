@@ -2,17 +2,13 @@ package com.haili.basic.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.*;
 import com.haili.basic.service.IJournalingProductionShiftReportService;
 import com.haili.framework.domain.basic.JournalingProductionShiftReport;
-import com.haili.framework.domain.basic.OutboundOrderRawItem;
 import com.haili.framework.domain.basic.response.JournalingProductionShiftReportCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
@@ -26,10 +22,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -153,7 +147,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
                 entity.setShiftLeader(id);
                 entity.setShiftLeaderName(name);
                 entity.setStatus(1);
-                updateOutboundOrderRawItemCurrentLabel(date, shiftId, type, mappers[type]);
+                //updateOutboundOrderRawItemCurrentLabel(date, shiftId, type, mappers[type]);
             } else if (!bArr1[0] && bArr2[0]) {
                 ExceptionCast.cast(CommonCode.UNAUTHORISE);
             }
@@ -212,7 +206,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
         mapper.update(null, updateWrapper);
     }
 
-    private <T> void updateOutboundOrderRawItemCurrentLabel(LocalDate date, String shiftId, Integer type, BaseMapper<T> mapper) {
+    /*    private <T> void updateOutboundOrderRawItemCurrentLabel(LocalDate date, String shiftId, Integer type, BaseMapper<T> mapper) {
         String journalingItemType = new String[]{"重卷", "轧机", "退火炉", "精整拉矫"}[type];
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("date", date)
@@ -233,7 +227,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
                 .eq(OutboundOrderRawItem::getNextOperationLabel, journalingItemType)
                 .set(OutboundOrderRawItem::getCurrentOperationLabel, journalingItemType);
         outboundOrderRawItemMapper.update(null, lambdaUpdateWrapper);
-    }
+    }*/
 
     /*
     private void updateOutboundOrderRawItemCurrentLabel(LocalDate date, String shiftId, Integer type) {

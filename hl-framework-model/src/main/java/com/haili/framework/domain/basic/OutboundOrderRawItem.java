@@ -157,5 +157,6 @@ public class OutboundOrderRawItem implements Serializable {
     private String currentOperationLabel;
     private String nextOperationLabel;
     private Integer nextOperationStatus;
+    private String operationHistory;
 
 }

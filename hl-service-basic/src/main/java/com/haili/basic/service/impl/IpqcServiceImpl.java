@@ -1,5 +1,6 @@
 package com.haili.basic.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -121,28 +122,21 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
             wrapper.eq("product_number", productNumber);
             wrapper.eq("current_operation_label", operation);
             OutboundOrderRawItem outboundOrderRawItem = outboundOrderRawItemMapper.selectOne(wrapper);
-            if (outboundOrderRawItem == null) {
-                ExceptionCast.cast(IpqcCode.IPQC_INSPECTOR_RESULT_CANNOT_BE_MODIFIED);
-            }
-            String jsonTextWorkflow = outboundOrderRawItem.getJsonTextWorkflow();
-            Map nextWorkflowContext = WorkflowUtil.getNextWorkflowContext(jsonTextWorkflow, operation, inspectorResult);
-            if (nextWorkflowContext == null) {
-                ExceptionCast.cast(CommonCode.INVALID_PARAM);
-            }
-            String label = (String) nextWorkflowContext.get("label");
-/*
-            Integer index = (Integer) nextWorkflowContext.get("index");
-            outboundOrderRawItem.setCurrentOperationLabel(label);
-            outboundOrderRawItem.setCurrentOperationIndex(index);
-*/
+            if (outboundOrderRawItem != null) {
+                String jsonTextWorkflow = outboundOrderRawItem.getJsonTextWorkflow();
+                Map nextWorkflowContext = WorkflowUtil.getNextWorkflowContext(jsonTextWorkflow, operation, inspectorResult);
+                if (nextWorkflowContext != null) {
+                    String label = (String) nextWorkflowContext.get("label");
+                    outboundOrderRawItem.setNextOperationLabel(label);
+                    outboundOrderRawItemMapper.updateById(outboundOrderRawItem);
+                }
 
-            outboundOrderRawItem.setNextOperationLabel(label);
-            outboundOrderRawItem.setNextOperationStatus(0);
-            outboundOrderRawItemMapper.updateById(outboundOrderRawItem);
+            }
+
         }
         super.saveOrUpdate(entity);
         String ipqcId = entity.getId();
-        List<QcDefect> defectList = entity.getDefectList();
+        List<QcDefect> defectList = JSON.parseArray(entity.getDefectList(), QcDefect.class);
         defectList = defectList.stream().filter(defect -> !StringUtils.isEmpty(defect.getDefectCode())).map(defect -> {
             return defect.setIpqcId(ipqcId);
         }).collect(Collectors.toList());
