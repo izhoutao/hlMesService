@@ -138,7 +138,7 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
         String ipqcId = entity.getId();
         List<QcDefect> defectList = JSON.parseArray(entity.getDefectList(), QcDefect.class);
         defectList = defectList.stream().filter(defect -> !StringUtils.isEmpty(defect.getDefectCode())).map(defect -> {
-            return defect.setIpqcId(ipqcId);
+            return defect.setId(null).setIpqcId(ipqcId);
         }).collect(Collectors.toList());
         LambdaQueryWrapper<QcDefect> lambdaQueryWrapper = Wrappers.<QcDefect>lambdaQuery();
         lambdaQueryWrapper.eq(QcDefect::getIpqcId, ipqcId);
