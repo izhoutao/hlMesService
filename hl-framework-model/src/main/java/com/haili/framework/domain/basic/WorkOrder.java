@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Zhou Tao
@@ -85,16 +85,38 @@ public class WorkOrder implements Serializable {
     private LocalDateTime schCloseTime;
 
     /**
-     * 生产路线
+     * 线别id
+     */
+    private String lineId;
+
+    /**
+     * 工艺路线id
      */
     private String workflowId;
 
     /**
-     * 线别
+     * 工艺路线json
      */
-    private String lineId;
-
-
     private String jsonTextWorkflow;
+    /**
+     * 生产要求
+     */
+    private String requirements;
+    /**
+     * 目标宽度
+     */
+    private String targetWidth;
+    /**
+     * 宽度容差
+     */
+    private String toleranceWidth;
+    /**
+     * 目标厚度
+     */
+    private String targetThickness;
+    /**
+     * 厚度容差
+     */
+    private String toleranceThickness;
 
 }
