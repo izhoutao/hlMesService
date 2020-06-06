@@ -1,11 +1,15 @@
 package com.haili.basic.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.InboundOrderRawDetailMapper;
 import com.haili.basic.mapper.InboundOrderRawItemMapper;
+import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.service.IInboundOrderRawItemService;
 import com.haili.framework.domain.basic.InboundOrderRawDetail;
 import com.haili.framework.domain.basic.InboundOrderRawItem;
+import com.haili.framework.domain.basic.OutboundOrderRawItem;
 import com.haili.framework.domain.basic.response.InboundOrderRawCode;
 import com.haili.framework.exception.ExceptionCast;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,8 @@ public class InboundOrderRawItemServiceImpl extends ServiceImpl<InboundOrderRawI
 
     @Autowired
     InboundOrderRawDetailMapper inboundOrderRawDetailMapper;
+    @Autowired
+    OutboundOrderRawItemMapper outboundOrderRawItemMapper;
 
     @Override
     public boolean save(InboundOrderRawItem entity) {
@@ -59,4 +65,26 @@ public class InboundOrderRawItemServiceImpl extends ServiceImpl<InboundOrderRawI
         inboundOrderRawDetailMapper.updateById(inboundOrderRawDetail);
         return super.removeById(id);
     }
+
+    public InboundOrderRawItem getByOutboundRawItemProductNumber(String productNumber) {
+        String topAncestorOutboundRawItemProductNumber = getTopAncestorOutboundRawItemProductNumber(productNumber);
+        LambdaQueryWrapper<InboundOrderRawItem> lambdaQueryWrapper = Wrappers.lambdaQuery();
+        lambdaQueryWrapper.eq(InboundOrderRawItem::getProductNumber, topAncestorOutboundRawItemProductNumber).orderByDesc(InboundOrderRawItem::getTime);
+        InboundOrderRawItem inboundOrderRawItem = this.baseMapper.selectList(lambdaQueryWrapper).get(0);
+        return inboundOrderRawItem;
+    }
+
+    private String getTopAncestorOutboundRawItemProductNumber(String productNumber) {
+        LambdaQueryWrapper<OutboundOrderRawItem> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(OutboundOrderRawItem::getProductNumber, productNumber);
+        OutboundOrderRawItem outboundOrderRawItem = outboundOrderRawItemMapper.selectOne(queryWrapper);
+        String parentId = outboundOrderRawItem.getParentId();
+        while (parentId != null) {
+            outboundOrderRawItem = outboundOrderRawItemMapper.selectById(parentId);
+            parentId = outboundOrderRawItem.getParentId();
+        }
+        productNumber = outboundOrderRawItem.getProductNumber();
+        return productNumber;
+    }
+    
 }

@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haili.basic.mapper.InboundOrderRawItemMapper;
 import com.haili.basic.mapper.InboundOrderRawMapper;
 import com.haili.basic.mapper.JournalingRewindItemMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
@@ -50,7 +49,7 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
             return this.baseMapper.selectListPreload(queryWrapper);
         }*/
     @Autowired
-    InboundOrderRawItemMapper inboundOrderRawItemMapper;
+    InboundOrderRawItemServiceImpl inboundOrderRawItemServiceImpl;
     @Autowired
     InboundOrderRawMapper inboundOrderRawMapper;
     @Autowired
@@ -94,9 +93,7 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
 
     private void setSteelGradeAndHotRollOrigin(JournalingRewindItem entity) {
         String productNumber = entity.getProductNumber();
-        LambdaQueryWrapper<InboundOrderRawItem> lambdaQueryWrapper = Wrappers.<InboundOrderRawItem>lambdaQuery();
-        lambdaQueryWrapper.eq(InboundOrderRawItem::getProductNumber, productNumber).orderByDesc(InboundOrderRawItem::getTime);
-        InboundOrderRawItem inboundOrderRawItem = inboundOrderRawItemMapper.selectList(lambdaQueryWrapper).get(0);
+        InboundOrderRawItem inboundOrderRawItem = inboundOrderRawItemServiceImpl.getByOutboundRawItemProductNumber(productNumber);
         String inboundOrderRawId = inboundOrderRawItem.getInboundOrderRawId();
         InboundOrderRaw inboundOrderRaw = inboundOrderRawMapper.selectById(inboundOrderRawId);
         String hotRollOrigin = inboundOrderRaw.getHotRollOrigin();

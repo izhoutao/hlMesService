@@ -5,12 +5,10 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haili.basic.mapper.InboundOrderRawItemMapper;
 import com.haili.basic.mapper.InboundOrderRawMapper;
 import com.haili.basic.mapper.JournalingFinishingTensionLevelerItemMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.service.IJournalingFinishingTensionLevelerItemService;
-import com.haili.framework.domain.basic.InboundOrderRaw;
 import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.domain.basic.JournalingFinishingTensionLevelerItem;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
@@ -39,11 +37,11 @@ import java.util.Map;
  */
 @Service
 public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImpl<JournalingFinishingTensionLevelerItemMapper, JournalingFinishingTensionLevelerItem> implements IJournalingFinishingTensionLevelerItemService {
-    @Autowired
-    InboundOrderRawItemMapper inboundOrderRawItemMapper;
+
     @Autowired
     InboundOrderRawMapper inboundOrderRawMapper;
-
+    @Autowired
+    InboundOrderRawItemServiceImpl inboundOrderRawItemServiceImpl;
     @Autowired
     OutboundOrderRawItemMapper outboundOrderRawItemMapper;
 
@@ -86,11 +84,7 @@ public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImp
 
     private void setSteelGradeAndCostTimeAndOutputWeightLoss(JournalingFinishingTensionLevelerItem entity) {
         String productNumber = entity.getProductNumber();
-        LambdaQueryWrapper<InboundOrderRawItem> lambdaQueryWrapper = Wrappers.<InboundOrderRawItem>lambdaQuery();
-        lambdaQueryWrapper.eq(InboundOrderRawItem::getProductNumber, productNumber).orderByDesc(InboundOrderRawItem::getTime);
-        InboundOrderRawItem inboundOrderRawItem = inboundOrderRawItemMapper.selectList(lambdaQueryWrapper).get(0);
-        String inboundOrderRawId = inboundOrderRawItem.getInboundOrderRawId();
-        InboundOrderRaw inboundOrderRaw = inboundOrderRawMapper.selectById(inboundOrderRawId);
+        InboundOrderRawItem inboundOrderRawItem = inboundOrderRawItemServiceImpl.getByOutboundRawItemProductNumber(productNumber);
         String steelGrade = inboundOrderRawItem.getSteelGrade();
         entity.setSteelGrade(steelGrade);
         String surfaceFinish = inboundOrderRawItem.getSurfaceFinish();

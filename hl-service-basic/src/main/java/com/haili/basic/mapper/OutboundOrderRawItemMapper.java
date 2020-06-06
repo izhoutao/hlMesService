@@ -67,7 +67,4 @@ public interface OutboundOrderRawItemMapper extends BaseMapper<OutboundOrderRawI
     })
     InboundOrderRawItem getStoredRawItem(String productNumber);
 
-
-
-
 }

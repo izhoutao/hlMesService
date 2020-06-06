@@ -2,16 +2,14 @@ package com.haili.basic.controller;
 
 import cn.hutool.core.util.NumberUtil;
 import com.haili.basic.client.UserClient;
+import com.haili.basic.service.impl.InboundOrderRawItemServiceImpl;
 import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.model.response.ModelResponseResult;
 import com.haili.framework.web.CrudController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,4 +39,15 @@ public class InboundOrderRawItemController extends CrudController<InboundOrderRa
 //        ModelResponseResult<List<String>> result = userClient.getSerialNumberList(num, map);
         return userClient.getSerialNumberList(num, map);
     }
+
+
+    @GetMapping("/outboundrawitemproductnumber/{productNumber}")
+    @ResponseBody
+    public ModelResponseResult<InboundOrderRawItem> getByOutboundRawItemProductNumber(@PathVariable("productNumber") String productNumber) {
+        InboundOrderRawItem obj = ((InboundOrderRawItemServiceImpl)service).getByOutboundRawItemProductNumber(productNumber);
+        return new ModelResponseResult<>(CommonCode.SUCCESS, obj);
+    }
+
+
+
 }
