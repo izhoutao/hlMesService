@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 public enum OperationCode implements ResultCode {
 
-    OPERATION_TYPE_ALREADY_EXISTS(false,23001,"操作类型已存在！");
+    OPERATION_TYPE_ALREADY_EXISTS(false,25301,"操作类型已存在！");
 
 
     //操作代码

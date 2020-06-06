@@ -12,8 +12,8 @@ import lombok.ToString;
 @ToString
 public enum QcDefectCode implements ResultCode {
 
-    QC_DEFECT_IPQC_NOT_EXIST(false,25001,"质检单不存在，请先保存创建！"),    //操作代码
-    QC_DEFECT_IPQC_CANNOT_CHANGE(false,25001,"无法变更所属质检单！");    //操作代码
+    QC_DEFECT_IPQC_NOT_EXIST(false,25501,"质检单不存在，请先保存创建！"),    //操作代码
+    QC_DEFECT_IPQC_CANNOT_CHANGE(false,25502,"无法变更所属质检单！");    //操作代码
     @ApiModelProperty(value = "操作是否成功", example = "true", required = true)
     boolean success;
 

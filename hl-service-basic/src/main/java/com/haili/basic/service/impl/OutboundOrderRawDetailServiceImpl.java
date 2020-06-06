@@ -2,7 +2,6 @@ package com.haili.basic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.OutboundOrderRawDetailMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
@@ -13,7 +12,6 @@ import com.haili.framework.domain.basic.OutboundOrderRaw;
 import com.haili.framework.domain.basic.OutboundOrderRawDetail;
 import com.haili.framework.domain.basic.response.OutboundOrderRawCode;
 import com.haili.framework.exception.ExceptionCast;
-import com.haili.framework.model.response.CommonCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,20 +64,14 @@ public class OutboundOrderRawDetailServiceImpl extends ServiceImpl<OutboundOrder
 
     @Override
     public boolean updateById(OutboundOrderRawDetail entity) {
-        String id = entity.getId();
-        String outboundOrderRawId = entity.getOutboundOrderRawId();
-        OutboundOrderRawDetail outboundOrderRawDetail = this.baseMapper.selectById(id);
-        String outboundOrderRawId1 = outboundOrderRawDetail.getOutboundOrderRawId();
-        if (!StringUtils.isEmpty(outboundOrderRawId) && !outboundOrderRawId.equals(outboundOrderRawId1)) {
-            ExceptionCast.cast(CommonCode.INVALID_PARAM);
-        }
+        entity.setOutboundOrderRawId(null);
         entity.setWorkOrderNumber(null);
         entity.setQuantity(null);
         return super.updateById(entity);
     }
 
-
-/*    @Override
+/*
+    @Override
     public boolean removeById(Serializable id) {
         LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
         lambdaQueryWrapper.eq(OutboundOrderRawItem::getOutboundOrderRawDetailId, id);

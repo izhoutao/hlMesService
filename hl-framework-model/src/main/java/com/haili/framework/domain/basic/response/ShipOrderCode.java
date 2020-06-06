@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 public enum ShipOrderCode implements ResultCode {
 
-    ORDER_NOT_EXISTS(false,26001,"订单不存在！");
+    ORDER_NOT_EXISTS(false,25601,"订单不存在！");
 
 
     //操作代码

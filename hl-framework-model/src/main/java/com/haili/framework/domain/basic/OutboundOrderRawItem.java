@@ -159,4 +159,13 @@ public class OutboundOrderRawItem implements Serializable {
     private Integer nextOperationStatus;
     private String operationHistory;
 
+    /**
+     * 状态：0，有效；1无效
+     */
+    private Integer status;
+    /**
+     * 父钢卷id
+     */
+    private String parentId;
+
 }

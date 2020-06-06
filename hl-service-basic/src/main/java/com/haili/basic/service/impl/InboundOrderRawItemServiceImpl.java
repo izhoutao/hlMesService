@@ -8,11 +8,9 @@ import com.haili.framework.domain.basic.InboundOrderRawDetail;
 import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.domain.basic.response.InboundOrderRawCode;
 import com.haili.framework.exception.ExceptionCast;
-import com.haili.framework.model.response.CommonCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 
@@ -47,14 +45,8 @@ public class InboundOrderRawItemServiceImpl extends ServiceImpl<InboundOrderRawI
 
     @Override
     public boolean updateById(InboundOrderRawItem entity) {
-        String id = entity.getId();
-        String inboundOrderRawDetailId = entity.getInboundOrderRawDetailId();
-        InboundOrderRawItem inboundOrderRawItem = this.baseMapper.selectById(id);
-        String inboundOrderRawDetailId1 = inboundOrderRawItem.getInboundOrderRawDetailId();
-        if (!StringUtils.isEmpty(inboundOrderRawDetailId) && !inboundOrderRawDetailId.equals(inboundOrderRawDetailId1)) {
-            ExceptionCast.cast(CommonCode.INVALID_PARAM);
-        }
-
+        entity.setInboundOrderRawId(null);
+        entity.setInboundOrderRawDetailId(null);
         return super.updateById(entity);
     }
 

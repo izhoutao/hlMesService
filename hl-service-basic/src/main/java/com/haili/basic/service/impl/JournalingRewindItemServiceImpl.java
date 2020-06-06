@@ -14,8 +14,8 @@ import com.haili.framework.domain.basic.InboundOrderRaw;
 import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.domain.basic.JournalingRewindItem;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
-import com.haili.framework.domain.basic.response.IpqcCode;
 import com.haili.framework.domain.basic.response.JournalingProductionShiftReportCode;
+import com.haili.framework.domain.basic.response.OutboundOrderRawCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.utils.WorkflowUtil;
@@ -66,7 +66,7 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
         lambdaQueryWrapper.eq(OutboundOrderRawItem::getNextOperationLabel, "重卷");
         OutboundOrderRawItem outboundOrderRawItem = outboundOrderRawItemMapper.selectOne(lambdaQueryWrapper);
         if (outboundOrderRawItem == null) {
-            ExceptionCast.cast(IpqcCode.IPQC_INSPECTOR_RESULT_CANNOT_BE_MODIFIED);
+            ExceptionCast.cast(OutboundOrderRawCode.CANNOT_CHOOSE_THIS_PRODUCT_NUMBER);
         }
         outboundOrderRawItem.setCurrentOperationLabel("重卷");
         String jsonTextWorkflow = outboundOrderRawItem.getJsonTextWorkflow();

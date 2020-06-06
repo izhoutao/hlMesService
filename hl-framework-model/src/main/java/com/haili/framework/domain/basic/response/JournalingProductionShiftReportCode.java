@@ -12,9 +12,9 @@ import lombok.ToString;
 @ToString
 public enum JournalingProductionShiftReportCode implements ResultCode {
 
-    PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED(false, 23001, "生产班报表已被审批！"),
-    JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_MODIFY(false, 23002, "无法修改已被审批报工记录！"),
-    JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_DELETE(false, 23003, "无法删除已被审批报工记录！");
+    PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED(false, 25201, "生产班报表已被审批！"),
+    JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_MODIFY(false, 25202, "无法修改已被审批报工记录！"),
+    JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_DELETE(false, 25203, "无法删除已被审批报工记录！");
 
     //操作代码
     @ApiModelProperty(value = "操作是否成功", example = "true", required = true)
