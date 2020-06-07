@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Zhou Tao
@@ -47,10 +47,12 @@ public class InboundOrderProductItemServiceImpl extends ServiceImpl<InboundOrder
     InboundOrderRawMapper inboundOrderRawMapper;
     @Autowired
     OutboundOrderRawItemMapper outboundOrderRawItemMapper;
+    @Autowired
+    WorkOrderServiceImpl workOrderServiceImpl;
 
     @Override
     public boolean save(InboundOrderProductItem entity) {
-        super.save(entity);
+
         String productNumber = entity.getProductNumber();
         LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
         lambdaQueryWrapper.eq(OutboundOrderRawItem::getProductNumber, productNumber);
@@ -62,21 +64,17 @@ public class InboundOrderProductItemServiceImpl extends ServiceImpl<InboundOrder
         outboundOrderRawItem.setCurrentOperationLabel("成品入库");
         outboundOrderRawItem.setNextOperationLabel("");
         outboundOrderRawItemMapper.updateById(outboundOrderRawItem);
+        entity.setMaterialNumber(outboundOrderRawItem.getMaterialNumber());
+        entity.setSteelGrade(outboundOrderRawItem.getSteelGrade());
+        entity.setWorkOrderNumber(outboundOrderRawItem.getWorkOrderNumber());
+        super.save(entity);
+        workOrderServiceImpl.updateWorkOrder(outboundOrderRawItem.getWorkOrderNumber());
         return true;
     }
 
     @Override
     public boolean updateById(InboundOrderProductItem entity) {
-        String id = entity.getId();
-        InboundOrderProductItem inboundOrderProductItem = this.baseMapper.selectById(id);
-        if (inboundOrderProductItem == null) {
-            ExceptionCast.cast(CommonCode.INVALID_PARAM);
-        }
-
-        String productNumber = inboundOrderProductItem.getProductNumber();
-        if (!productNumber.equals(entity.getProductNumber())) {
-            ExceptionCast.cast(CommonCode.INVALID_PARAM);
-        }
+        entity.setProductNumber(null).setMaterialNumber(null).setWorkOrderNumber(null);
         return super.updateById(entity);
     }
 
@@ -103,7 +101,9 @@ public class InboundOrderProductItemServiceImpl extends ServiceImpl<InboundOrder
         outboundOrderRawItem.setCurrentOperationLabel(previousOperation);
         outboundOrderRawItem.setNextOperationLabel("成品入库");
         outboundOrderRawItemMapper.updateById(outboundOrderRawItem);
-        return super.removeById(id);
+        super.removeById(id);
+        workOrderServiceImpl.updateWorkOrder(outboundOrderRawItem.getWorkOrderNumber());
+        return true;
     }
 
 }

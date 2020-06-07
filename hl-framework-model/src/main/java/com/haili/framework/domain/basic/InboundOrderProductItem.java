@@ -57,27 +57,27 @@ public class InboundOrderProductItem implements Serializable {
     /**
      * 净重(kg)
      */
-    private String netWeight;
+    private Float netWeight;
 
     /**
      * 毛重(kg)
      */
-    private String grossWeight;
+    private Float grossWeight;
 
     /**
      * 参考厚度(mm)
      */
-    private String referenceThickness;
+    private Float referenceThickness;
 
     /**
      * 参考宽度(mm)
      */
-    private String referenceWidth;
+    private Float referenceWidth;
 
     /**
      * 参考长度(mm)
      */
-    private String referenceLength;
+    private Float referenceLength;
 
     /**
      * 边部

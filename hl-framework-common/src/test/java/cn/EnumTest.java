@@ -24,7 +24,12 @@ public class EnumTest {
         Float b = 2f;
         System.out.println(NumberUtil.compare(a,b));
         System.out.println("asdasd"+(char)('A' + 1));*/
-        Integer a = null;
-        System.out.println(a==1);
+        String a = null;
+        Integer b =1;
+        System.out.println(b.equals(a));
+
+
+
+
     }
 }

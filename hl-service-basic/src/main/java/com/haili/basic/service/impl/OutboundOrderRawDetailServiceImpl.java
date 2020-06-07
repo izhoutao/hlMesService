@@ -64,9 +64,7 @@ public class OutboundOrderRawDetailServiceImpl extends ServiceImpl<OutboundOrder
 
     @Override
     public boolean updateById(OutboundOrderRawDetail entity) {
-        entity.setOutboundOrderRawId(null);
-        entity.setWorkOrderNumber(null);
-        entity.setQuantity(null);
+        entity.setOutboundOrderRawId(null).setWorkOrderNumber(null).setQuantity(null);
         return super.updateById(entity);
     }
 

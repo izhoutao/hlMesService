@@ -58,8 +58,7 @@ public class InboundOrderRawDetailServiceImpl extends ServiceImpl<InboundOrderRa
 
     @Override
     public boolean updateById(InboundOrderRawDetail entity) {
-        entity.setInboundOrderRawId(null);
-        entity.setReceivedQuantity(null);
+        entity.setInboundOrderRawId(null).setReceivedQuantity(null);
         return super.updateById(entity);
     }
 

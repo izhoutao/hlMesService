@@ -46,6 +46,9 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
     @Autowired
     InboundOrderRawItemMapper inboundOrderRawItemMapper;
 
+    @Autowired
+    WorkOrderServiceImpl workOrderServiceImpl;
+
     @Override
     public boolean save(OutboundOrderRawItem entity) {
         String outboundOrderDetailId = entity.getOutboundOrderRawDetailId();
@@ -65,6 +68,7 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         String workOrderNumber = outboundOrderRawDetail.getWorkOrderNumber();
         entity.setWorkOrderNumber(workOrderNumber);
 
+
         QueryWrapper<WorkOrder> queryWrapper1 = new QueryWrapper<>();
         queryWrapper1.eq("work_order_number", workOrderNumber);
         WorkOrder workOrder = workOrderMapper.selectOne(queryWrapper1);
@@ -74,7 +78,9 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
 //        entity.setCurrentOperationLabel((String) workflowContext.get("label"));
         entity.setNextOperationLabel((String) workflowContext.get("label"));
         entity.setStatus(0);
-        return super.save(entity);
+        super.save(entity);
+        workOrderServiceImpl.updateWorkOrder(workOrderNumber);
+        return true;
     }
 
     @Override
@@ -103,7 +109,9 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         OutboundOrderRawDetail outboundOrderRawDetail = outboundOrderRawDetailMapper.selectById(outboundOrderRawDetailId);
         outboundOrderRawDetail.setOutQuantity(outboundOrderRawDetail.getOutQuantity() - 1);
         outboundOrderRawDetailMapper.updateById(outboundOrderRawDetail);
-        return super.removeById(id);
+        super.removeById(id);
+        workOrderServiceImpl.updateWorkOrder(outboundOrderRawItem.getWorkOrderNumber());
+        return true;
     }
 
     @Override
@@ -141,8 +149,7 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         entity.setTime(LocalDateTime.now());
         entity.setStatus(2);
 
-        entity.setOutboundOrderRawDetailId(null);
-        entity.setOutboundOrderRawId(null);
+        entity.setOutboundOrderRawDetailId(null).setOutboundOrderRawId(null);
 
         if (entity.getId() == null) {
             lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();

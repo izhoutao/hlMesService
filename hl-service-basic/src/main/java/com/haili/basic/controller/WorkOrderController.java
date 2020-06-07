@@ -1,6 +1,7 @@
 package com.haili.basic.controller;
 
 import cn.hutool.core.util.NumberUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.haili.basic.client.UserClient;
 import com.haili.framework.domain.basic.WorkOrder;
 import com.haili.framework.exception.ExceptionCast;
@@ -8,6 +9,7 @@ import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.model.response.ModelResponseResult;
 import com.haili.framework.web.CrudController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -43,4 +46,16 @@ public class WorkOrderController extends CrudController<WorkOrder> {
     }
 
 
+    @Override
+    protected QueryWrapper<WorkOrder> extractWrapperFromRequestMap(Map<String, Object> map) {
+        QueryWrapper<WorkOrder> queryWrapper = super.extractWrapperFromRequestMap(map);
+        queryWrapper.eq(!StringUtils.isEmpty(map.get("productNumber")), "product_number", map.get("productNumber"));
+        queryWrapper.eq(!StringUtils.isEmpty(map.get("status")), "status", map.get("status"));
+        Object dateRange = map.get("dateRange");
+        if (dateRange instanceof List && dateRange != null && ((List) dateRange).size() == 2) {
+            queryWrapper.gt(!StringUtils.isEmpty(map.get("dateRange")), "date", ((List) dateRange).get(0));
+            queryWrapper.lt(!StringUtils.isEmpty(map.get("dateRange")), "date", ((List) dateRange).get(1));
+        }
+        return queryWrapper;
+    }
 }

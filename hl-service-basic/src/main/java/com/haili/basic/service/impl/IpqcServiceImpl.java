@@ -90,12 +90,10 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
             }
         } else {
             if (isQcInspector) {
-                entity.setInspector(null);
-                entity.setInspectorName(null);
+                entity.setInspector(null).setInspectorName(null);
             }
             if (isQcChecker) {
-                entity.setChecker(null);
-                entity.setCheckerName(null);
+                entity.setChecker(null).setCheckerName(null);
             }
             entity.setStatus(null);
         }

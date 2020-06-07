@@ -63,11 +63,11 @@ public class WorkOrder implements Serializable {
     /**
      * 已上线数量
      */
-    private Integer onLineNum;
+    private Float onLineNum;
     /**
      * 已完成数量
      */
-    private Integer outputNum;
+    private Float outputNum;
 
     /**
      * 工单状态：0、新建，1、已上线，2、进行中，3、已关闭
