@@ -204,7 +204,11 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         }
         lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
         lambdaQueryWrapper.eq(OutboundOrderRawItem::getParentId, outboundOrderRawItem.getId());
-        this.baseMapper.delete(lambdaQueryWrapper);
+        try {
+            this.baseMapper.delete(lambdaQueryWrapper);
+        } catch (Exception e) {
+            ExceptionCast.cast(OutboundOrderRawCode.CANNOT_UNDO_SPLIT);
+        }
         outboundOrderRawItem.setStatus(0);
         return this.baseMapper.updateById(outboundOrderRawItem);
     }
