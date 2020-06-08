@@ -1,16 +1,12 @@
 package com.haili.basic.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.haili.framework.domain.basic.JournalingRewindReport;
+import com.haili.framework.domain.basic.JournalingGrindShiftReport;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
-import com.haili.framework.model.response.ModelResponseResult;
 import com.haili.framework.utils.HlOauth2Util;
 import com.haili.framework.web.CrudController;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -22,31 +18,33 @@ import java.util.Map;
 
 /**
  * <p>
- * 控制器
+ *  控制器
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-12-20
- */
+ * @since 2020-06-08
+*/
 @RestController
-@RequestMapping("/basic/journalingrewindreport")
-public class JournalingRewindReportController extends CrudController<JournalingRewindReport> {
-    @Override
-    public ModelResponseResult<JournalingRewindReport> save(@RequestBody JournalingRewindReport entity) {
-        ModelResponseResult<JournalingRewindReport> result = super.save(entity);
-        LambdaQueryWrapper<JournalingRewindReport> lambdaQueryWrapper = Wrappers.<JournalingRewindReport>lambdaQuery();
-        lambdaQueryWrapper.eq(JournalingRewindReport::getId, entity.getId());
-        List<JournalingRewindReport> list = service.list(lambdaQueryWrapper);
+@RequestMapping("/basic/journalinggrindshiftreport")
+public class JournalingGrindShiftReportController extends CrudController<JournalingGrindShiftReport> {
+/*    @Override
+    public ModelResponseResult<JournalingGrindShiftReport> save(@RequestBody @Valid JournalingGrindShiftReport entity) {
+        ModelResponseResult<JournalingGrindShiftReport> result = super.save(entity);
+        HashMap<String, Object> map = new HashMap();
+        map.put("id", entity.getId());
+        QueryWrapper<JournalingGrindShiftReport> queryWrapper = super.extractWrapperFromRequestMap(map);
+        queryWrapper.eq("id", entity.getId());
+        List<JournalingGrindShiftReport> list = service.list(queryWrapper);
         if (list != null && list.size() > 0) {
-            return new ModelResponseResult<JournalingRewindReport>(CommonCode.SUCCESS, list.get(0));
+            return new ModelResponseResult<JournalingGrindShiftReport>(CommonCode.SUCCESS, list.get(0));
         } else {
             return result;
         }
-    }
+    }*/
 
     @Override
-    protected QueryWrapper<JournalingRewindReport> extractWrapperFromRequestMap(Map<String, Object> map) {
-        QueryWrapper<JournalingRewindReport> queryWrapper = super.extractWrapperFromRequestMap(map);
+    protected QueryWrapper<JournalingGrindShiftReport> extractWrapperFromRequestMap(Map<String, Object> map) {
+        QueryWrapper<JournalingGrindShiftReport> queryWrapper = super.extractWrapperFromRequestMap(map);
         queryWrapper.eq(!StringUtils.isEmpty(map.get("date")), "date", map.get("date"));
         queryWrapper.eq(!StringUtils.isEmpty(map.get("shiftId")), "shift_id", map.get("shiftId"));
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -56,14 +54,14 @@ public class JournalingRewindReportController extends CrudController<JournalingR
             ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
         }
         List<String> roles = userJwt.getRoles();
-        Integer status = 999;
-        if (roles.contains("rewindShiftLeader")) {
-            status = 0;
+        String role = (String) map.get("role");
+        if (!roles.contains(role)) {
+            ExceptionCast.cast(CommonCode.UNAUTHORISE);
         }
-        if (roles.contains("supervisor")) {
+        Integer status = 0;
+        if ("supervisor".equals(role)) {
             status = 1;
-        }
-        if (roles.contains("inspector")) {
+        } else if ("inspector".equals(role)) {
             status = 2;
         }
         if (StringUtils.isEmpty(map.get("status"))) {
@@ -77,4 +75,5 @@ public class JournalingRewindReportController extends CrudController<JournalingR
         }
         return queryWrapper;
     }
+
 }

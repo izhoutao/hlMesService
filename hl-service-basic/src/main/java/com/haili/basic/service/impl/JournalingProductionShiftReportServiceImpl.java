@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.*;
 import com.haili.basic.service.IJournalingProductionShiftReportService;
 import com.haili.framework.domain.basic.JournalingProductionShiftReport;
-import com.haili.framework.domain.basic.response.JournalingProductionShiftReportCode;
+import com.haili.framework.domain.basic.response.JournalingShiftReportCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.utils.HlOauth2Util;
@@ -139,7 +139,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
         String name = userJwt.getName();
         for (int i = 0; i < status - 1; i++) {
             if (bArr2[i]) {
-                ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+                ExceptionCast.cast(JournalingShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
             }
         }
         if (status == 0) {
@@ -164,7 +164,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
                 entity.setShiftLeaderName(name);
                 entity.setStatus(1);
             } else {
-                ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+                ExceptionCast.cast(JournalingShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
             }
         } else if (status == 2) {
             entity = new JournalingProductionShiftReport().setId(entity.getId());
@@ -179,7 +179,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
                 entity.setSupervisorName(name);
                 entity.setStatus(2);
             } else {
-                ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+                ExceptionCast.cast(JournalingShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
             }
         } else if (status == 3) {
             if (bArr1[2] && bArr2[2] && !bArr3[2]) {
@@ -188,7 +188,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
                 entity.setInspectorName(name);
                 entity.setStatus(3);
             } else {
-                ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+                ExceptionCast.cast(JournalingShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
             }
         }
         status = entity.getStatus();
@@ -284,7 +284,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
         }
         Integer status = journalingProductionShiftReport.getStatus();
         if (status > 1) {
-            ExceptionCast.cast(JournalingProductionShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+            ExceptionCast.cast(JournalingShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
         }
         List<String> roles = userJwt.getRoles();
         Boolean[] isShiftLeaderArr = {roles.contains("rewindShiftLeader"),
@@ -296,6 +296,16 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
         if (!isShiftLeaderArr[type]) {
             ExceptionCast.cast(CommonCode.UNAUTHORISE);
         }
+        BaseMapper[] mappers = {
+                journalingRewindItemMapper,
+                journalingRollingMillItemMapper,
+                journalingAnnealItemMapper,
+                journalingFinishingTensionLevelerItemMapper
+        };
+        updateJournalingItemStatus(journalingProductionShiftReport.getDate(),
+                journalingProductionShiftReport.getShiftId(),
+                0,
+                mappers[type]);
         return super.removeById(id);
     }
 }

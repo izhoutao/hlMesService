@@ -181,16 +181,6 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         if (outboundOrderRawItems == null || outboundOrderRawItems.size() == 0) {
             ExceptionCast.cast(OutboundOrderRawCode.COIL_NOT_BEEN_SPLIT);
         }
-        /*        boolean isAnyChildSplit = false;
-        for (int i = 0; i < outboundOrderRawItems.size(); i++) {
-            if (outboundOrderRawItems.get(i).getStatus() == 1) {
-                isAnyChildSplit = true;
-                break;
-            }
-        }
-        if (isAnyChildSplit) {
-            ExceptionCast.cast(OutboundOrderRawCode.EXIST_SUBVOLUME_BEEN_USED_OR_DIVIDED);
-        }*/
         outboundOrderRawItems.forEach(item -> {
             item.setStatus(0);
             this.baseMapper.updateById(item);
@@ -230,49 +220,4 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         return this.baseMapper.deleteById(id);
     }
 
-    /*
-    public List<OutboundOrderRawItem> splitRawItems(String productNumber, String operation, List<OutboundOrderRawItem> list) {
-        LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
-        lambdaQueryWrapper.eq(OutboundOrderRawItem::getProductNumber, productNumber);
-        lambdaQueryWrapper.eq(OutboundOrderRawItem::getNextOperationLabel, operation);
-
-        OutboundOrderRawItem outboundOrderRawItem = this.baseMapper.selectOne(lambdaQueryWrapper);
-        if (outboundOrderRawItem == null) {
-            ExceptionCast.cast(OutboundOrderRawCode.CANNOT_CHOOSE_THIS_PRODUCT_NUMBER);
-        }
-
-        if (list == null) {
-            ExceptionCast.cast(OutboundOrderRawCode.SPLIT_PARAMETER_ERROR);
-        }
-        Float length = outboundOrderRawItem.getLength();
-        if (length == null) {
-            ExceptionCast.cast(CommonCode.INVALID_PARAM);
-        }
-        Float length1 = 0F;
-        for (int i = 0; i < list.size(); i++) {
-            OutboundOrderRawItem outboundOrderRawItem1 = list.get(i);
-            String[] ignoreProperties = {"id", "length", "netWeight", "grossWeight", "barcode"};
-            BeanUtils.copyProperties(outboundOrderRawItem, outboundOrderRawItem1, ignoreProperties);
-            outboundOrderRawItem1.setId(null);
-            outboundOrderRawItem1.setProductNumber(productNumber + (char) ('A' + i));
-            if (outboundOrderRawItem1.getLength() == null) {
-                ExceptionCast.cast(CommonCode.INVALID_PARAM);
-            }
-            float ratio = outboundOrderRawItem1.getLength() / length;
-            outboundOrderRawItem1.setGrossWeight(ratio * outboundOrderRawItem1.getGrossWeight());
-            outboundOrderRawItem1.setNetWeight(ratio * outboundOrderRawItem1.getNetWeight());
-            outboundOrderRawItem1.setParentId(outboundOrderRawItem.getId());
-            outboundOrderRawItem1.setStatus(0);
-
-            length1 += outboundOrderRawItem1.getLength();
-        }
-        if (length == null || NumberUtil.compare(length, length1) != 0) {
-            ExceptionCast.cast(OutboundOrderRawCode.SPLIT_PARAMETER_ERROR);
-        }
-        outboundOrderRawItem.setStatus(1);
-        this.baseMapper.updateById(outboundOrderRawItem);
-        saveBatch(list);
-        return list;
-    }
-*/
 }

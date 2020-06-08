@@ -12,7 +12,7 @@ import com.haili.basic.service.IJournalingAnnealItemService;
 import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.domain.basic.JournalingAnnealItem;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
-import com.haili.framework.domain.basic.response.JournalingProductionShiftReportCode;
+import com.haili.framework.domain.basic.response.JournalingShiftReportCode;
 import com.haili.framework.domain.basic.response.OutboundOrderRawCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
@@ -101,7 +101,7 @@ public class JournalingAnnealItemServiceImpl extends ServiceImpl<JournalingAnnea
         }
         Integer status = journalingAnnealItem.getStatus();
         if (status != 0) {
-            ExceptionCast.cast(JournalingProductionShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_MODIFY);
+            ExceptionCast.cast(JournalingShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_MODIFY);
         }
         String productNumber = journalingAnnealItem.getProductNumber();
         if (!productNumber.equals(entity.getProductNumber())) {
@@ -116,7 +116,7 @@ public class JournalingAnnealItemServiceImpl extends ServiceImpl<JournalingAnnea
         JournalingAnnealItem journalingAnnealItem = this.baseMapper.selectById(id);
         Integer status = journalingAnnealItem.getStatus();
         if (status != 0) {
-            ExceptionCast.cast(JournalingProductionShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_DELETE);
+            ExceptionCast.cast(JournalingShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_DELETE);
         }
         String productNumber = journalingAnnealItem.getProductNumber();
         LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();

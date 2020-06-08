@@ -18,58 +18,99 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2019-12-20
+ * @since 2020-06-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_journaling_production_shift_report")
-public class JournalingProductionShiftReport implements Serializable {
+@TableName("tb_journaling_grind_shift_report")
+public class JournalingGrindShiftReport implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String id;
+
+    /**
+     * 日期
+     */
     @NotNull(message = "日期不能为空")
     private LocalDate date;
+
+    /**
+     * 班别
+     */
     @NotNull(message = "班别不能为空")
     private String shiftId;
 
-    private Integer producedCoilNumber;
+    /**
+     * 研磨轧辊数
+     */
+    private Integer grindRollNumber;
 
-    private Float totalInputWeight;
+    /**
+     * 总研磨量mm
+     */
+    private Float totalGrindAmount;
 
-    private Float totalLossWeight;
+    /**
+     * 抛光辊数量
+     */
+    private Integer polishedRollerNumber;
 
-    private Float totalOutputWeight;
+    /**
+     * 异常辊数量
+     */
+    private Integer abnormalRollerNumber;
 
-    private Float outputRate;
+    /**
+     * 组装轧辊数量
+     */
+    private Integer assembledRollNumber;
 
-    private Float capacityUtilization;
-
+    /**
+     * 应到人数
+     */
     private Integer expectedAttendanceNum;
 
+    /**
+     * 实到人数
+     */
     private Integer actualAttendanceNum;
 
+    /**
+     * 出勤工号
+     */
     private String actualAttendanceStaffIds;
 
+    /**
+     * 出勤姓名
+     */
     private String actualAttendanceNames;
 
+    /**
+     * 班长
+     */
     private String shiftLeader;
-    private String shiftLeaderName;
 
+    /**
+     * 主管
+     */
     private String supervisor;
-    private String supervisorName;
 
+    /**
+     * 呈阅
+     */
     private String inspector;
-    private String inspectorName;
 
+    /**
+     * 问题记录
+     */
     private String mattersRecord;
 
+    /**
+     * 交接班事宜
+     */
     private String shiftHandover;
-
-    private Integer status;
-
-    private Integer type;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -79,6 +120,26 @@ public class JournalingProductionShiftReport implements Serializable {
     private String createPerson;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updatePerson;
+
+    /**
+     * 状态：0，新建；1，班长已审核；2，主管已审核; 3，呈阅已审核;
+     */
+    private Integer status;
+
+    /**
+     * 班长姓名
+     */
+    private String shiftLeaderName;
+
+    /**
+     * 主管姓名
+     */
+    private String supervisorName;
+
+    /**
+     * 呈阅姓名
+     */
+    private String inspectorName;
 
 
 }

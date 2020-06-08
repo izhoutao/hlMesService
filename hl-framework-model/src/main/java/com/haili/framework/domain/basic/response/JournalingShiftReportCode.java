@@ -10,9 +10,9 @@ import lombok.ToString;
  * Created by admin on 2018/3/5.
  */
 @ToString
-public enum JournalingProductionShiftReportCode implements ResultCode {
+public enum JournalingShiftReportCode implements ResultCode {
 
-    PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED(false, 25201, "生产班报表已被审批！"),
+    PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED(false, 25201, "班报表已被审批！"),
     JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_MODIFY(false, 25202, "无法修改已被审批报工记录！"),
     JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_DELETE(false, 25203, "无法删除已被审批报工记录！");
 
@@ -27,17 +27,17 @@ public enum JournalingProductionShiftReportCode implements ResultCode {
     @ApiModelProperty(value = "操作提示", example = "操作过于频繁！", required = true)
     String message;
 
-    private JournalingProductionShiftReportCode(boolean success, int code, String message) {
+    private JournalingShiftReportCode(boolean success, int code, String message) {
         this.success = success;
         this.code = code;
         this.message = message;
     }
 
-    private static final ImmutableMap<Integer, JournalingProductionShiftReportCode> CACHE;
+    private static final ImmutableMap<Integer, JournalingShiftReportCode> CACHE;
 
     static {
-        final ImmutableMap.Builder<Integer, JournalingProductionShiftReportCode> builder = ImmutableMap.builder();
-        for (JournalingProductionShiftReportCode commonCode : values()) {
+        final ImmutableMap.Builder<Integer, JournalingShiftReportCode> builder = ImmutableMap.builder();
+        for (JournalingShiftReportCode commonCode : values()) {
             builder.put(commonCode.code(), commonCode);
         }
         CACHE = builder.build();

@@ -13,7 +13,7 @@ import com.haili.framework.domain.basic.InboundOrderRaw;
 import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.domain.basic.JournalingRewindItem;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
-import com.haili.framework.domain.basic.response.JournalingProductionShiftReportCode;
+import com.haili.framework.domain.basic.response.JournalingShiftReportCode;
 import com.haili.framework.domain.basic.response.OutboundOrderRawCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
@@ -111,7 +111,7 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
         }
         Integer status = journalingRewindItem.getStatus();
         if (status != 0) {
-            ExceptionCast.cast(JournalingProductionShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_MODIFY);
+            ExceptionCast.cast(JournalingShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_MODIFY);
         }
         String productNumber = journalingRewindItem.getProductNumber();
         if (!productNumber.equals(entity.getProductNumber())) {
@@ -126,7 +126,7 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
         JournalingRewindItem journalingRewindItem = this.baseMapper.selectById(id);
         Integer status = journalingRewindItem.getStatus();
         if (status != 0) {
-            ExceptionCast.cast(JournalingProductionShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_DELETE);
+            ExceptionCast.cast(JournalingShiftReportCode.JOURNALING_ITEM_ALREADY_APPROVED_AND_CANNOT_DELETE);
         }
         String productNumber = journalingRewindItem.getProductNumber();
         LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
