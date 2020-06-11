@@ -78,14 +78,9 @@ public class JournalingGrindShiftReport implements Serializable {
     private Integer actualAttendanceNum;
 
     /**
-     * 出勤工号
+     * 实际出勤人员
      */
-    private String actualAttendanceStaffIds;
-
-    /**
-     * 出勤姓名
-     */
-    private String actualAttendanceNames;
+    private String actualAttendance;
 
     /**
      * 班长

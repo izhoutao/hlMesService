@@ -31,8 +31,7 @@ public interface JournalingGrindShiftReportMapper extends BaseMapper<JournalingG
             "report.assembled_roll_number AS assembled_roll_number, " +
             "report.expected_attendance_num as expected_attendance_num, " +
             "report.actual_attendance_num as actual_attendance_num, " +
-            "report.actual_attendance_staff_ids as actual_attendance_staff_ids, " +
-            "report.actual_attendance_names as actual_attendance_names, " +
+            "report.actual_attendance as actual_attendance, " +
             "report.shift_leader AS shift_leader, " +
             "report.shift_leader_name AS shift_leader_name, " +
             "report.supervisor AS supervisor, " +
@@ -63,8 +62,7 @@ public interface JournalingGrindShiftReportMapper extends BaseMapper<JournalingG
             @Result(column = "assembled_roll_number", property = "assembledRollNumber"),
             @Result(column = "expected_attendance_num", property = "expectedAttendanceNum"),
             @Result(column = "actual_attendance_num", property = "actualAttendanceNum"),
-            @Result(column = "actual_attendance_staff_ids", property = "actualAttendanceStaffIds"),
-            @Result(column = "actual_attendance_names", property = "actualAttendanceNames"),
+            @Result(column = "actual_attendance", property = "actualAttendance"),
             @Result(column = "shift_leader", property = "shiftLeader"),
             @Result(column = "supervisor", property = "supervisor"),
             @Result(column = "inspector", property = "inspector"),
@@ -94,8 +92,7 @@ public interface JournalingGrindShiftReportMapper extends BaseMapper<JournalingG
             "report.assembled_roll_number AS assembled_roll_number, " +
             "report.expected_attendance_num as expected_attendance_num, " +
             "report.actual_attendance_num as actual_attendance_num, " +
-            "report.actual_attendance_staff_ids as actual_attendance_staff_ids, " +
-            "report.actual_attendance_names as actual_attendance_names, " +
+            "report.actual_attendance as actual_attendance, " +
             "report.shift_leader AS shift_leader, " +
             "report.shift_leader_name AS shift_leader_name, " +
             "report.supervisor AS supervisor, " +

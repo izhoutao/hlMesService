@@ -45,14 +45,18 @@ public class JournalingProductionShiftReport implements Serializable {
     private Float outputRate;
 
     private Float capacityUtilization;
-
+    /**
+     * 应到人数
+     */
     private Integer expectedAttendanceNum;
-
+    /**
+     * 实到人数
+     */
     private Integer actualAttendanceNum;
-
-    private String actualAttendanceStaffIds;
-
-    private String actualAttendanceNames;
+    /**
+     * 实际出勤人员
+     */
+    private String actualAttendance;
 
     private String shiftLeader;
     private String shiftLeaderName;

@@ -32,8 +32,7 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.capacity_utilization as capacity_utilization, " +
             "report.expected_attendance_num as expected_attendance_num, " +
             "report.actual_attendance_num AS actual_attendance_num, " +
-            "report.actual_attendance_staff_ids AS actualAttendanceStaffIds , " +
-            "report.actual_attendance_names AS actual_attendance_names, " +
+            "report.actual_attendance AS actual_attendance , " +
             "report.shift_leader AS shift_leader, " +
             "report.shift_leader_name AS shift_leader_name, " +
             "report.supervisor AS supervisor, " +
@@ -81,8 +80,7 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             @Result(column = "capacity_utilization", property = "capacityUtilization"),
             @Result(column = "expected_attendance_num", property = "expectedAttendanceNum"),
             @Result(column = "actual_attendance_num", property = "actualAttendanceNum"),
-            @Result(column = "actual_attendance_staff_ids", property = "actualAttendanceStaffIds"),
-            @Result(column = "actual_attendance_names", property = "actualAttendanceNames"),
+            @Result(column = "actual_attendance", property = "actualAttendance"),
             @Result(column = "shift_leader", property = "shiftLeader"),
             @Result(column = "shift_leader_name", property = "shiftLeaderName"),
             @Result(column = "supervisor", property = "supervisor"),
@@ -114,8 +112,7 @@ public interface JournalingProductionShiftReportMapper extends BaseMapper<Journa
             "report.capacity_utilization as capacity_utilization, " +
             "report.expected_attendance_num as expected_attendance_num, " +
             "report.actual_attendance_num AS actual_attendance_num, " +
-            "report.actual_attendance_staff_ids AS actualAttendanceStaffIds , " +
-            "report.actual_attendance_names AS actual_attendance_names, " +
+            "report.actual_attendance AS actual_attendance , " +
             "report.shift_leader AS shift_leader, " +
             "report.shift_leader_name AS shift_leader_name, " +
             "report.supervisor AS supervisor, " +
