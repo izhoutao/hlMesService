@@ -24,10 +24,10 @@ public class ProductionDefectController extends CrudController<ProductionDefect>
     @Override
     protected QueryWrapper<ProductionDefect> extractWrapperFromRequestMap(Map<String, Object> map) {
         QueryWrapper<ProductionDefect> queryWrapper = super.extractWrapperFromRequestMap(map);
-        queryWrapper.eq(!StringUtils.isEmpty(map.get("productNumber")), "item.product_number", map.get("productNumber"));
+/*        queryWrapper.eq(!StringUtils.isEmpty(map.get("productNumber")), "item.product_number", map.get("productNumber"));
         queryWrapper.eq(!StringUtils.isEmpty(map.get("operation")), "item.operation", map.get("operation"));
-        queryWrapper.eq(!StringUtils.isEmpty(map.get("degree")), "item.operation", map.get("operation"));
-        queryWrapper.eq(!StringUtils.isEmpty(map.get("grade")), "item.operation", map.get("operation"));
+        queryWrapper.eq(!StringUtils.isEmpty(map.get("degree")), "item.degree", map.get("degree"));
+        queryWrapper.eq(!StringUtils.isEmpty(map.get("grade")), "item.grade", map.get("grade"));*/
         Object dateRange = map.get("dateRange");
         if (dateRange instanceof List && dateRange != null && ((List) dateRange).size() == 2) {
             queryWrapper.gt(!StringUtils.isEmpty(map.get("dateRange")), "date", ((List) dateRange).get(0));

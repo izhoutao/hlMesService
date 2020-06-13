@@ -112,10 +112,10 @@ public class InboundOrderRawItem implements Serializable {
      */
     private String inspector;
 
-    /**
-     * 条码
-     */
-    private String barcode;
+//    /**
+//     * 条码
+//     */
+//    private String barcode;
 
     /**
      * 入库时间

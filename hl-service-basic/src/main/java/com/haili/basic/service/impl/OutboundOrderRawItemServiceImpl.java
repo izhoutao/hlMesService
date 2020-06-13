@@ -133,7 +133,7 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
             ExceptionCast.cast(OutboundOrderRawCode.CANNOT_CHOOSE_THIS_PRODUCT_NUMBER);
         }
         String[] ignoreProperties = {"id", "outboundOrderRawDetailId", "outboundOrderRawId",
-                "productNumber", "length", "netWeight", "grossWeight", "barcode"};
+                "productNumber", "length", "netWeight", "grossWeight"};
         BeanUtils.copyProperties(parentOutboundOrderRawItem, entity, ignoreProperties);
         if (entity.getLength() == null) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);

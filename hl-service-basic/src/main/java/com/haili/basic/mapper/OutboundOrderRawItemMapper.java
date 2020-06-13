@@ -57,7 +57,7 @@ public interface OutboundOrderRawItemMapper extends BaseMapper<OutboundOrderRawI
             @Result(column = "edge", property = "edge"),
             @Result(column = "grade", property = "grade"),
             @Result(column = "inspector", property = "inspector"),
-            @Result(column = "barcode", property = "barcode"),
+//            @Result(column = "barcode", property = "barcode"),
             @Result(column = "time", property = "time"),
             @Result(column = "description", property = "description"),
             @Result(column = "create_time", property = "createTime"),

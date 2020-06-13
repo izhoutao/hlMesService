@@ -87,10 +87,10 @@ public class Product implements Serializable {
      */
     private String inspector;
 
-    /**
-     * 条码
-     */
-    private String barcode;
+//    /**
+//     * 条码
+//     */
+//    private String barcode;
 
     /**
      * 日期

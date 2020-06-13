@@ -117,10 +117,10 @@ public class OutboundOrderRawItem implements Serializable {
      */
     private String inspector;
 
-    /**
-     * 条码
-     */
-    private String barcode;
+//    /**
+//     * 条码
+//     */
+//    private String barcode;
 
     /**
      * 出库时间
