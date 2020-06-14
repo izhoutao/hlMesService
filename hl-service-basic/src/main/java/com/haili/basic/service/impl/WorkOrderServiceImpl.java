@@ -165,7 +165,7 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
 
         LambdaQueryWrapper<WorkOrder> lambdaQueryWrapper = Wrappers.lambdaQuery();
 //        lambdaQueryWrapper.lt(WorkOrder::getSchCloseTime, now);
-        lambdaQueryWrapper.ne(WorkOrder::getStatus, 0);
+        lambdaQueryWrapper.in(WorkOrder::getStatus, 1, 2);
 //        lambdaQueryWrapper.gt(WorkOrder::getSchCloseTime, firstday);
         List<WorkOrder> workOrders = this.baseMapper.selectList(lambdaQueryWrapper);
         Integer incompleteWorkOrderQuantity = workOrders.size();
