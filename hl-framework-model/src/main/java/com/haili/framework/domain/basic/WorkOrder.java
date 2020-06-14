@@ -83,6 +83,10 @@ public class WorkOrder implements Serializable {
      * 计划结束时间
      */
     private LocalDateTime schCloseTime;
+    /**
+     * 实际结束时间
+     */
+    private LocalDateTime closeTime;
 
     /**
      * 线别id
@@ -105,18 +109,18 @@ public class WorkOrder implements Serializable {
     /**
      * 目标宽度
      */
-    private String targetWidth;
+    private Double targetWidth;
     /**
      * 宽度容差
      */
-    private String toleranceWidth;
+    private Double toleranceWidth;
     /**
      * 目标厚度
      */
-    private String targetThickness;
+    private Double targetThickness;
     /**
      * 厚度容差
      */
-    private String toleranceThickness;
+    private Double toleranceThickness;
 
 }

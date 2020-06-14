@@ -168,4 +168,10 @@ public class OutboundOrderRawItem implements Serializable {
      */
     private String parentId;
 
+
+    /**
+     * 计划结束时间
+     */
+    private LocalDateTime schCloseTime;
+
 }

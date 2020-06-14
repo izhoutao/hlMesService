@@ -3,6 +3,7 @@ package com.haili.basic.controller;
 import cn.hutool.core.util.NumberUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.haili.basic.client.UserClient;
+import com.haili.basic.service.impl.WorkOrderServiceImpl;
 import com.haili.framework.domain.basic.WorkOrder;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
@@ -45,6 +46,24 @@ public class WorkOrderController extends CrudController<WorkOrder> {
         return userClient.getSerialNumberList(num, map);
     }
 
+
+    @GetMapping("/completion")
+    public ModelResponseResult<Map> getCompletionBasicInfos() {
+        Map workOrderBasicInfos = ((WorkOrderServiceImpl) service).getCompletionBasicInfos();
+        return new ModelResponseResult<>(CommonCode.SUCCESS, workOrderBasicInfos);
+    }
+
+    @GetMapping("/completion/{numberOfMonth}")
+    public ModelResponseResult<Map> getMonthUnpunctualWorkOrderQuantity(@PathVariable("numberOfMonth") Integer numberOfMonth) {
+        Map<String, List> map = ((WorkOrderServiceImpl) service).getMonthUnpunctualWorkOrderQuantity(numberOfMonth);
+        return new ModelResponseResult<>(CommonCode.SUCCESS, map);
+    }
+
+    @GetMapping("/basic")
+    public ModelResponseResult<Map> getWorkOrderBasicInfos() {
+        Map workOrderBasicInfos = ((WorkOrderServiceImpl) service).getWorkOrderBasicInfos();
+        return new ModelResponseResult<>(CommonCode.SUCCESS, workOrderBasicInfos);
+    }
 
     @Override
     protected QueryWrapper<WorkOrder> extractWrapperFromRequestMap(Map<String, Object> map) {

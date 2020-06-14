@@ -154,4 +154,5 @@ public interface WorkOrderMapper extends BaseMapper<WorkOrder> {
             "</script>")
     Double getWorkOrderInboundProductItemTotalGrossWeight( @Param("workOrderNumber") String workOrderNumber);*/
 
+
 }

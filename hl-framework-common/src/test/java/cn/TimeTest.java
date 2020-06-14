@@ -85,9 +85,11 @@ public class TimeTest {
         str = "2019-02-02 00:00:00";
         LocalDateTime dateTime2 = LocalDateTime.parse(str, formatter);
         dateTime1 = dateTime1.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN);
-        dateTime2 = dateTime2.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN);;
+        dateTime2 = dateTime2.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN);
+        ;
         System.out.println(dateTime1.equals(dateTime2));
     }
+
     @Test
     public void testDuration6() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -97,4 +99,19 @@ public class TimeTest {
         dateTime.format(formatter1);
     }
 
+    @Test
+    public void testDuration7() {
+/*        LocalDateTime now = LocalDateTime.now();
+        int numberOfMonth =6;
+
+        for (int i = 0; i < numberOfMonth; i++) {
+            LocalDateTime fd = now.minusMonths(i);
+            LocalDateTime dateTime1 = fd.with(TemporalAdjusters.lastDayOfMonth()).with(LocalTime.MAX);
+            System.out.println(dateTime1);
+        }*/
+        int a = 1;
+        int b = 2;
+        System.out.println((double)a / b);
+
+    }
 }

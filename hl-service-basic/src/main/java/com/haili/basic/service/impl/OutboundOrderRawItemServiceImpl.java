@@ -1,7 +1,9 @@
 package com.haili.basic.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.InboundOrderRawItemMapper;
@@ -9,10 +11,7 @@ import com.haili.basic.mapper.OutboundOrderRawDetailMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.mapper.WorkOrderMapper;
 import com.haili.basic.service.IOutboundOrderRawItemService;
-import com.haili.framework.domain.basic.InboundOrderRawItem;
-import com.haili.framework.domain.basic.OutboundOrderRawDetail;
-import com.haili.framework.domain.basic.OutboundOrderRawItem;
-import com.haili.framework.domain.basic.WorkOrder;
+import com.haili.framework.domain.basic.*;
 import com.haili.framework.domain.basic.response.OutboundOrderRawCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
@@ -78,6 +77,7 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
 //        entity.setCurrentOperationLabel((String) workflowContext.get("label"));
         entity.setNextOperationLabel((String) workflowContext.get("label"));
         entity.setStatus(0);
+        entity.setSchCloseTime(workOrder.getSchCloseTime());
         super.save(entity);
         workOrderServiceImpl.updateWorkOrder(workOrderNumber);
         return true;
@@ -219,5 +219,10 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         }
         return this.baseMapper.deleteById(id);
     }
+
+    public IPage<OutboundOrderRawItem> getOperationBoardPage(IPage<OutboundOrderRawItem> page, Wrapper<OutboundOrderRawItem> queryWrapper) {
+        return this.baseMapper.getOperationBoardPage(page, queryWrapper);
+    }
+
 
 }

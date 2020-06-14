@@ -1,5 +1,9 @@
 package com.haili.basic.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.haili.basic.service.impl.OutboundOrderRawItemServiceImpl;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
 import com.haili.framework.model.response.*;
@@ -26,6 +30,19 @@ public class OutboundOrderRawItemController extends CrudController<OutboundOrder
     @Override
     public QueryResponseResult<OutboundOrderRawItem> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
+    }
+
+    @PostMapping("/operationboard")
+    @ResponseBody
+    public QueryResponseResult<OutboundOrderRawItem> getOperationBoardPage(@RequestBody Map<String, Object> map) {
+        Page<OutboundOrderRawItem> page = extractPageFromRequestMap(map);
+        LambdaQueryWrapper<OutboundOrderRawItem> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.apply("o.status=0").ne(OutboundOrderRawItem::getNextOperationLabel, "");
+        IPage<OutboundOrderRawItem> page1 = ((OutboundOrderRawItemServiceImpl) service).getOperationBoardPage(page, queryWrapper);
+        QueryResult<OutboundOrderRawItem> queryResult = new QueryResult<>();
+        queryResult.setList(page1.getRecords());
+        queryResult.setTotal(page1.getTotal());
+        return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
     }
 
     @Override

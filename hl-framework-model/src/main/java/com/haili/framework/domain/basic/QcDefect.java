@@ -111,5 +111,10 @@ public class QcDefect implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updatePerson;
 
+    @TableField(exist = false)
+    /**
+     * 出现次数
+     */
+    private Integer occurrence;
 
 }

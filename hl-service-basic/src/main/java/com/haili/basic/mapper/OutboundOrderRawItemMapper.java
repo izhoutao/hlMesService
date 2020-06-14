@@ -1,8 +1,12 @@
 package com.haili.basic.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -66,5 +70,19 @@ public interface OutboundOrderRawItemMapper extends BaseMapper<OutboundOrderRawI
             @Result(column = "update_person", property = "updatePerson")
     })
     InboundOrderRawItem getStoredRawItem(String productNumber);
+
+    @Select("<script> " +
+            "SELECT " +
+            "o.material_number, " +
+            "o.product_number, " +
+            "o.work_order_number, " +
+            "o.json_text_workflow, " +
+            "o.next_operation_label, " +
+            "w.sch_close_time " +
+            "FROM tb_outbound_order_raw_item o JOIN tb_work_order w " +
+            "ON o.work_order_number = w.work_order_number " +
+            "${ew.customSqlSegment}" +
+            "</script>")
+    IPage<OutboundOrderRawItem> getOperationBoardPage(IPage<OutboundOrderRawItem> page, @Param(Constants.WRAPPER) Wrapper<OutboundOrderRawItem> queryWrapper);
 
 }

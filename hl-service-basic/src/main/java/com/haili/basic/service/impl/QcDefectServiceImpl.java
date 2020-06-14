@@ -6,6 +6,10 @@ import com.haili.basic.service.IQcDefectService;
 import com.haili.framework.domain.basic.QcDefect;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.List;
+
 /**
  * <p>
  * 服务实现类
@@ -38,4 +42,13 @@ public class QcDefectServiceImpl extends ServiceImpl<QcDefectMapper, QcDefect> i
         }
         return super.updateById(entity);
     }*/
+
+
+    public List<QcDefect> getTopDefects(Integer num) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime firstday = now.with(TemporalAdjusters.firstDayOfMonth());
+        LocalDateTime lastDay = now.with(TemporalAdjusters.lastDayOfMonth());
+        List<QcDefect> topDefects = this.baseMapper.getTopDefects(firstday.toLocalDate(), lastDay.toLocalDate(), num);
+        return topDefects;
+    }
 }
