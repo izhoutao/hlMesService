@@ -70,8 +70,8 @@ public class IpqcServiceImpl extends ServiceImpl<IpqcMapper, Ipqc> implements II
 //        String id = userJwt.getId();
         String staffId = userJwt.getStaffId();
         String name = userJwt.getName();
-        boolean isQcInspector = roles.contains("qcInspector");
-        boolean isQcChecker = roles.contains("qcChecker");
+        boolean isQcInspector = roles.contains("QC");
+        boolean isQcChecker = roles.contains("QA");
         boolean isAdmin = roles.contains("admin");
         if (!isQcInspector && !isQcChecker && !isAdmin) {
             ExceptionCast.cast(CommonCode.UNAUTHORISE);

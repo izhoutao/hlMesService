@@ -60,7 +60,7 @@ public class JournalingGrindShiftReportServiceImpl extends ServiceImpl<Journalin
             ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
         }
         List<String> roles = userJwt.getRoles();
-        if (!roles.contains("grindShiftLeader")) {
+        if (!roles.contains("YMBZ")) {
             ExceptionCast.cast(CommonCode.UNAUTHORISE);
         }
         entity.setStatus(0);
@@ -86,9 +86,9 @@ public class JournalingGrindShiftReportServiceImpl extends ServiceImpl<Journalin
         }
 
         List<String> roles = userJwt.getRoles();
-        Boolean isShiftLeader = roles.contains("grindShiftLeader");
-        boolean isSupervisor = roles.contains("supervisor");
-        boolean isInspector = roles.contains("inspector");
+        Boolean isShiftLeader = roles.contains("YMBZ");
+        boolean isSupervisor = roles.contains("YMKZ");
+        boolean isInspector = roles.contains("CZ");
         if (!isShiftLeader && !isSupervisor && !isInspector) {
             ExceptionCast.cast(CommonCode.UNAUTHORISE);
         }
@@ -187,12 +187,15 @@ public class JournalingGrindShiftReportServiceImpl extends ServiceImpl<Journalin
             ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
         }
         Integer status = journalingGrindShiftReport.getStatus();
-        if (status > 1) {
-            ExceptionCast.cast(JournalingShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
-        }
         List<String> roles = userJwt.getRoles();
-        if (!roles.contains("grindShiftLeader")) {
-            ExceptionCast.cast(CommonCode.UNAUTHORISE);
+        Boolean isAdmin = roles.contains("admin");
+        if (!isAdmin) {
+            if (status > 1) {
+                ExceptionCast.cast(JournalingShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+            }
+            if (!roles.contains("YMBZ")) {
+                ExceptionCast.cast(CommonCode.UNAUTHORISE);
+            }
         }
         updateJournalingItemStatus(journalingGrindShiftReport.getDate(),
                 journalingGrindShiftReport.getShiftId(),

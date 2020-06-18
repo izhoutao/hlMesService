@@ -2,12 +2,10 @@ package com.haili.ucenter.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.haili.framework.domain.ucenter.Menu;
-import com.haili.framework.model.response.CommonCode;
-import com.haili.framework.model.response.QueryResponseResult;
-import com.haili.framework.model.response.QueryResult;
-import com.haili.framework.model.response.ResponseResult;
+import com.haili.framework.model.response.*;
 import com.haili.framework.web.CrudController;
 import com.haili.ucenter.service.impl.MenuServiceImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +30,7 @@ import java.util.Map;
 @RequestMapping("/ucenter/menu")
 public class MenuController extends CrudController<Menu> {
     @Override
+//    @PreAuthorize("hasAuthority('menu_list')")
     public QueryResponseResult<Menu> list(@RequestBody Map<String, Object> map) {
         Boolean bool = (Boolean) map.get("lazyLoad");
         List<Menu> list;
@@ -55,7 +54,21 @@ public class MenuController extends CrudController<Menu> {
         return queryWrapper;
     }
 
+
     @Override
+    @PreAuthorize("hasAuthority('menu_save')")
+    public ModelResponseResult<Menu> save(@RequestBody Menu entity) {
+        return super.save(entity);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('menu_update')")
+    public ResponseResult updateById(@RequestBody Menu entity) {
+        return super.updateById(entity);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('menu_delete')")
     public ResponseResult deleteById(@PathVariable("id") Serializable id) {
         Map<String, Object> map = new HashMap<>();
         map.put("pid", id);

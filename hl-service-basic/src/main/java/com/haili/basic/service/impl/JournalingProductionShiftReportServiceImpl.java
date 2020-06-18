@@ -73,10 +73,10 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
         List<String> roles = userJwt.getRoles();
-        Boolean[] bArr = {roles.contains("rewindShiftLeader"),
-                roles.contains("rollingMillShiftLeader"),
-                roles.contains("annealShiftLeader"),
-                roles.contains("finishingTensionLevelerShiftLeader")
+        Boolean[] bArr = {roles.contains("CJBZ")/*||roles.contains("CJKZ")*/,
+                roles.contains("ZJBZ")/*||roles.contains("ZJKZ")*/,
+                roles.contains("THBZ")/*||roles.contains("THKZ")*/,
+                roles.contains("JZBZ")/*||roles.contains("JZKZ")*/
         };
         if (!bArr[type]) {
             ExceptionCast.cast(CommonCode.UNAUTHORISE);
@@ -107,14 +107,20 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
         List<String> roles = userJwt.getRoles();
-        Boolean[] isShiftLeaderArr = {roles.contains("rewindShiftLeader"),
-                roles.contains("rollingMillShiftLeader"),
-                roles.contains("annealShiftLeader"),
-                roles.contains("finishingTensionLevelerShiftLeader")
+        Boolean[] isShiftLeaderArr = {
+                roles.contains("CJBZ"),
+                roles.contains("ZJBZ"),
+                roles.contains("THBZ"),
+                roles.contains("JZBZ")
         };
-        boolean isSupervisor = roles.contains("supervisor");
-        boolean isInspector = roles.contains("inspector");
-        if (!isShiftLeaderArr[type] && !isSupervisor && !isInspector) {
+        Boolean[] isSupervisorArr = {
+                roles.contains("CJKZ"),
+                roles.contains("ZJKZ"),
+                roles.contains("THKZ"),
+                roles.contains("JZKZ")
+        };
+        boolean isInspector = roles.contains("CZ");
+        if (!isShiftLeaderArr[type] && !isSupervisorArr[type] && !isInspector) {
             ExceptionCast.cast(CommonCode.UNAUTHORISE);
         }
         String shiftLeader = entity.getShiftLeader();
@@ -124,7 +130,7 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
         String supervisor1 = journalingProductionShiftReport.getSupervisor();
         String inspector1 = journalingProductionShiftReport.getInspector();
         Integer status = journalingProductionShiftReport.getStatus();
-        Boolean[] bArr1 = {isShiftLeaderArr[type], isSupervisor, isInspector};
+        Boolean[] bArr1 = {isShiftLeaderArr[type], isSupervisorArr[type], isInspector};
         Boolean[] bArr2 = {!StringUtils.isEmpty(shiftLeader), !StringUtils.isEmpty(supervisor), !StringUtils.isEmpty(inspector)};
         Boolean[] bArr3 = {!StrUtil.equals(shiftLeader, shiftLeader1),
                 !StrUtil.equals(supervisor, supervisor1),
@@ -282,19 +288,23 @@ public class JournalingProductionShiftReportServiceImpl extends ServiceImpl<Jour
         if (userJwt == null) {
             ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
         }
-        Integer status = journalingProductionShiftReport.getStatus();
-        if (status > 1) {
-            ExceptionCast.cast(JournalingShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
-        }
         List<String> roles = userJwt.getRoles();
-        Boolean[] isShiftLeaderArr = {roles.contains("rewindShiftLeader"),
-                roles.contains("rollingMillShiftLeader"),
-                roles.contains("annealShiftLeader"),
-                roles.contains("finishingTensionLevelerShiftLeader")
-        };
+        Boolean isAdmin = roles.contains("admin");
         Integer type = journalingProductionShiftReport.getType();
-        if (!isShiftLeaderArr[type]) {
-            ExceptionCast.cast(CommonCode.UNAUTHORISE);
+        if(!isAdmin){
+            Integer status = journalingProductionShiftReport.getStatus();
+            if (status > 1) {
+                ExceptionCast.cast(JournalingShiftReportCode.PRODUCTION_SHIFT_REPORT_ALREADY_APPROVED);
+            }
+            Boolean[] isShiftLeaderArr = {
+                    roles.contains("CJBZ"),
+                    roles.contains("ZJBZ"),
+                    roles.contains("THBZ"),
+                    roles.contains("JZBZ")
+            };
+            if (!isShiftLeaderArr[type]) {
+                ExceptionCast.cast(CommonCode.UNAUTHORISE);
+            }
         }
         BaseMapper[] mappers = {
                 journalingRewindItemMapper,

@@ -73,12 +73,12 @@ public class CrudController<T> {
         return new ModelResponseResult<T>(CommonCode.SUCCESS, entity);
     }
 
-    @GetMapping("/{id}")
+/*    @GetMapping("/{id}")
     @ResponseBody
     public ModelResponseResult<T> getById(@PathVariable("id") Long id) {
         T obj = service.getById(id);
         return new ModelResponseResult<T>(CommonCode.SUCCESS, obj);
-    }
+    }*/
 
     @PutMapping
     @ResponseBody

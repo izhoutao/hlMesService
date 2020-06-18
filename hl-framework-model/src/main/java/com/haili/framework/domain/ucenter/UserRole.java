@@ -17,7 +17,6 @@ public class UserRole implements Serializable {
     private String id;
     private String userId;
     private String roleId;
-    private String creator;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 }

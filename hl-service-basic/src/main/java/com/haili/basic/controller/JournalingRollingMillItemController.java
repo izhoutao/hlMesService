@@ -57,26 +57,25 @@ public class JournalingRollingMillItemController extends JournalingBaseControlle
     }
 
     @Override
+//    @PreAuthorize("hasAuthority('journaling_rolling_mill_item_list')")
     public QueryResponseResult<JournalingRollingMillItem> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('journaling_rolling_mill_item_save')")
     public ModelResponseResult<JournalingRollingMillItem> save(@RequestBody JournalingRollingMillItem entity) {
         return super.save(entity);
     }
 
     @Override
-    public ModelResponseResult<JournalingRollingMillItem> getById(@PathVariable("id") Long id) {
-        return super.getById(id);
-    }
-
-    @Override
+    @PreAuthorize("hasAuthority('journaling_rolling_mill_item_update')")
     public ResponseResult updateById(@RequestBody JournalingRollingMillItem entity) {
         return super.updateById(entity);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('journaling_rolling_mill_item_delete')")
     public ResponseResult deleteById(@PathVariable("id") Serializable id) {
         return super.deleteById(id);
     }

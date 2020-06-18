@@ -116,9 +116,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         QueryWrapper<UserRole> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", user.getId());
         userRoleMapper.delete(wrapper);
-        //密码加密
-        String newPassword = BCryptUtil.encode(user.getPassword());//加密后的密码
-        user.setPassword(newPassword);
+        String password = user.getPassword();
+        if(!StringUtils.isEmpty(password)){
+            //密码加密
+            String newPassword = BCryptUtil.encode(user.getPassword());//加密后的密码
+            user.setPassword(newPassword);
+        }else{
+            user.setPassword(null);
+        }
         this.baseMapper.updateById(user);
         this.insertUserRoles(user);
         return true;

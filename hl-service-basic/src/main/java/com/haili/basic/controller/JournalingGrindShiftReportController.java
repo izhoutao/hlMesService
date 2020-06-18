@@ -4,15 +4,22 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.haili.framework.domain.basic.JournalingGrindShiftReport;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
+import com.haili.framework.model.response.ModelResponseResult;
+import com.haili.framework.model.response.QueryResponseResult;
+import com.haili.framework.model.response.ResponseResult;
 import com.haili.framework.utils.HlOauth2Util;
 import com.haili.framework.web.CrudController;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -27,21 +34,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/basic/journalinggrindshiftreport")
 public class JournalingGrindShiftReportController extends CrudController<JournalingGrindShiftReport> {
-/*    @Override
-    public ModelResponseResult<JournalingGrindShiftReport> save(@RequestBody @Valid JournalingGrindShiftReport entity) {
-        ModelResponseResult<JournalingGrindShiftReport> result = super.save(entity);
-        HashMap<String, Object> map = new HashMap();
-        map.put("id", entity.getId());
-        QueryWrapper<JournalingGrindShiftReport> queryWrapper = super.extractWrapperFromRequestMap(map);
-        queryWrapper.eq("id", entity.getId());
-        List<JournalingGrindShiftReport> list = service.list(queryWrapper);
-        if (list != null && list.size() > 0) {
-            return new ModelResponseResult<JournalingGrindShiftReport>(CommonCode.SUCCESS, list.get(0));
-        } else {
-            return result;
-        }
-    }*/
-
     @Override
     protected QueryWrapper<JournalingGrindShiftReport> extractWrapperFromRequestMap(Map<String, Object> map) {
         QueryWrapper<JournalingGrindShiftReport> queryWrapper = super.extractWrapperFromRequestMap(map);
@@ -59,9 +51,9 @@ public class JournalingGrindShiftReportController extends CrudController<Journal
             ExceptionCast.cast(CommonCode.UNAUTHORISE);
         }
         Integer status = 0;
-        if ("supervisor".equals(role)) {
+        if ("YMKZ".equals(role)) {
             status = 1;
-        } else if ("inspector".equals(role)) {
+        } else if ("CZ".equals(role)) {
             status = 2;
         }
         if (StringUtils.isEmpty(map.get("status"))) {
@@ -76,4 +68,27 @@ public class JournalingGrindShiftReportController extends CrudController<Journal
         return queryWrapper;
     }
 
+    @Override
+//    @PreAuthorize("hasAuthority('journaling_grind_shift_report_list')")
+    public QueryResponseResult<JournalingGrindShiftReport> list(@RequestBody Map<String, Object> map) {
+        return super.list(map);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('journaling_grind_shift_report_save')")
+    public ModelResponseResult<JournalingGrindShiftReport> save(@RequestBody JournalingGrindShiftReport entity) {
+        return super.save(entity);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('journaling_grind_shift_report_update')")
+    public ResponseResult updateById(@RequestBody JournalingGrindShiftReport entity) {
+        return super.updateById(entity);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('journaling_grind_shift_report_delete')")
+    public ResponseResult deleteById(@PathVariable("id") Serializable id) {
+        return super.deleteById(id);
+    }
 }

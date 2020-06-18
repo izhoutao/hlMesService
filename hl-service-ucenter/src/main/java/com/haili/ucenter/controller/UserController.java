@@ -4,14 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.haili.framework.domain.ucenter.User;
 import com.haili.framework.domain.ucenter.response.UserResult;
 import com.haili.framework.model.response.CommonCode;
+import com.haili.framework.model.response.ModelResponseResult;
+import com.haili.framework.model.response.QueryResponseResult;
+import com.haili.framework.model.response.ResponseResult;
 import com.haili.framework.web.CrudController;
 import com.haili.ucenter.service.impl.UserServiceImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -50,5 +52,30 @@ public class UserController extends CrudController<User> {
                         , "dept_id",
                         (!StringUtils.isEmpty(depts)) && (depts instanceof List) ? ((List) depts).toArray() : null);
         return queryWrapper;
+    }
+
+
+    @Override
+//    @PreAuthorize("hasAuthority('user_list')")
+    public QueryResponseResult<User> list(@RequestBody Map<String, Object> map) {
+        return super.list(map);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('user_save')")
+    public ModelResponseResult<User> save(@RequestBody User entity) {
+        return super.save(entity);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('user_update')")
+    public ResponseResult updateById(@RequestBody User entity) {
+        return super.updateById(entity);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('user_delete')")
+    public ResponseResult deleteById(@PathVariable("id") Serializable id) {
+        return super.deleteById(id);
     }
 }

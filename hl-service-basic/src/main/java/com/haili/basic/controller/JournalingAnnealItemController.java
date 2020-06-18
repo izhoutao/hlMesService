@@ -56,38 +56,27 @@ public class JournalingAnnealItemController extends JournalingBaseController<Jou
     }
 
     @Override
+//    @PreAuthorize("hasAuthority('journaling_anneal_item_list')")
     public QueryResponseResult<JournalingAnnealItem> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('journaling_anneal_item_save')")
     public ModelResponseResult<JournalingAnnealItem> save(@RequestBody JournalingAnnealItem entity) {
         return super.save(entity);
     }
 
     @Override
-    public ModelResponseResult<JournalingAnnealItem> getById(@PathVariable("id") Long id) {
-        return super.getById(id);
-    }
-
-    @Override
+    @PreAuthorize("hasAuthority('journaling_anneal_item_update')")
     public ResponseResult updateById(@RequestBody JournalingAnnealItem entity) {
         return super.updateById(entity);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('journaling_anneal_item_delete')")
     public ResponseResult deleteById(@PathVariable("id") Serializable id) {
         return super.deleteById(id);
     }
 
-
-
-
-    /*    @Override
-    protected QueryWrapper<JournalingAnnealItem> extractWrapperFromRequestMap(Map<String, Object> map) {
-        QueryWrapper<JournalingAnnealItem> queryWrapper = super.extractWrapperFromRequestMap(map);
-        queryWrapper.gt(!StringUtils.isEmpty(map.get("journalingBeginTime")), "begin_time", map.get("journalingBeginTime"));
-        queryWrapper.lt(!StringUtils.isEmpty(map.get("journalingEndTime")), "end_time", map.get("journalingEndTime"));
-        return queryWrapper;
-    }*/
 }

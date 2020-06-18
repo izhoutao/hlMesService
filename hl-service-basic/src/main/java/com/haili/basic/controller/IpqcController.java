@@ -9,11 +9,13 @@ import com.haili.framework.model.response.ResponseResult;
 import com.haili.framework.web.CrudController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -30,23 +32,29 @@ import java.util.Map;
 public class IpqcController extends CrudController<Ipqc> {
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ipqc_maint','ipqc_check','ipqc_query')")
+    @PreAuthorize("hasAnyAuthority('ipqc_maint_list','ipqc_check_list','ipqc_query_list')")
     public QueryResponseResult<Ipqc> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ipqc_maint','ipqc_check')")
+    @PreAuthorize("hasAuthority('ipqc_maint_save')")
     public ModelResponseResult<Ipqc> save(@RequestBody @Valid Ipqc entity) {
         service.saveOrUpdate(entity);
         return new ModelResponseResult<Ipqc>(CommonCode.SUCCESS, entity);
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ipqc_maint','ipqc_check')")
+    @PreAuthorize("hasAnyAuthority('ipqc_maint_update','ipqc_check_update')")
     public ResponseResult updateById(@RequestBody @Valid Ipqc entity) {
         service.saveOrUpdate(entity);
         return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ipqc_maint_delete')")
+    public ResponseResult deleteById(@PathVariable("id") Serializable id) {
+        return super.deleteById(id);
     }
 
     @Override

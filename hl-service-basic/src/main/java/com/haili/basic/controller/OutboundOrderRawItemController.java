@@ -28,6 +28,7 @@ import java.util.Map;
 public class OutboundOrderRawItemController extends CrudController<OutboundOrderRawItem> {
 
     @Override
+//    @PreAuthorize("hasAuthority('outbound_order_raw_item_list')")
     public QueryResponseResult<OutboundOrderRawItem> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }
@@ -46,32 +47,25 @@ public class OutboundOrderRawItemController extends CrudController<OutboundOrder
     }
 
     @Override
-    @PreAuthorize("hasAuthority('outboundRaw')")
+    @PreAuthorize("hasAuthority('outbound_order_raw_save')")
     public ModelResponseResult<OutboundOrderRawItem> save(@RequestBody OutboundOrderRawItem entity) {
         return super.save(entity);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('outboundRaw')")
-    public ModelResponseResult<OutboundOrderRawItem> getById(@PathVariable("id") Long id) {
-        return super.getById(id);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('outboundRaw')")
+    @PreAuthorize("hasAuthority('outbound_order_raw_update')")
     public ResponseResult updateById(@RequestBody OutboundOrderRawItem entity) {
         return super.updateById(entity);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('outboundRaw')")
+    @PreAuthorize("hasAuthority('outbound_order_raw_delete')")
     public ResponseResult deleteById(@PathVariable("id") Serializable id) {
         return super.deleteById(id);
     }
 
     @GetMapping("/stored")
     @ResponseBody
-    @PreAuthorize("hasAuthority('outboundRaw')")
     public QueryResponseResult<String> getStoredRawItems() {
         List<String> storedRawItems = ((OutboundOrderRawItemServiceImpl) service).getStoredRawItems();
         QueryResult<String> queryResult = new QueryResult<>();

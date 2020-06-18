@@ -5,9 +5,13 @@ import com.haili.framework.domain.basic.JournalingProductionShiftReport;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.model.response.ModelResponseResult;
+import com.haili.framework.model.response.QueryResponseResult;
+import com.haili.framework.model.response.ResponseResult;
 import com.haili.framework.utils.HlOauth2Util;
 import com.haili.framework.web.CrudController;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +20,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +38,7 @@ import java.util.Map;
 @RequestMapping("/basic/journalingproductionshiftreport")
 public class JournalingProductionShiftReportController extends CrudController<JournalingProductionShiftReport> {
     @Override
+    @PreAuthorize("hasAuthority('journaling_production_shift_report_save')")
     public ModelResponseResult<JournalingProductionShiftReport> save(@RequestBody @Valid JournalingProductionShiftReport entity) {
         ModelResponseResult<JournalingProductionShiftReport> result = super.save(entity);
         HashMap<String, Object> map = new HashMap();
@@ -64,9 +71,10 @@ public class JournalingProductionShiftReportController extends CrudController<Jo
             ExceptionCast.cast(CommonCode.UNAUTHORISE);
         }
         Integer status = 0;
-        if ("supervisor".equals(role)) {
+        String[] kzArr = {"CJKZ", "ZJKZ", "THKZ", "JZKZ"};
+        if (Arrays.asList(kzArr).contains(role)) {
             status = 1;
-        } else if ("inspector".equals(role)) {
+        } else if ("CZ".equals(role)) {
             status = 2;
         }
         if (StringUtils.isEmpty(map.get("status"))) {
@@ -83,16 +91,20 @@ public class JournalingProductionShiftReportController extends CrudController<Jo
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
         switch (role) {
-            case "rewindShiftLeader":
+            case "CJBZ":
+            case "CJKZ":
                 queryWrapper.eq("type", 0);
                 break;
-            case "rollingMillShiftLeader":
+            case "ZJBZ":
+            case "ZJKZ":
                 queryWrapper.eq("type", 1);
                 break;
-            case "annealShiftLeader":
+            case "THBZ":
+            case "THKZ":
                 queryWrapper.eq("type", 2);
                 break;
-            case "finishingTensionLevelerShiftLeader":
+            case "JZBZ":
+            case "JZKZ":
                 queryWrapper.eq("type", 3);
                 break;
             default:
@@ -100,5 +112,23 @@ public class JournalingProductionShiftReportController extends CrudController<Jo
                 break;
         }
         return queryWrapper;
+    }
+
+    @Override
+//    @PreAuthorize("hasAuthority('journaling_production_shift_report_list')")
+    public QueryResponseResult<JournalingProductionShiftReport> list(@RequestBody Map<String, Object> map) {
+        return super.list(map);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('journaling_production_shift_report_update')")
+    public ResponseResult updateById(@RequestBody JournalingProductionShiftReport entity) {
+        return super.updateById(entity);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('journaling_production_shift_report_delete')")
+    public ResponseResult deleteById(@PathVariable("id") Serializable id) {
+        return super.deleteById(id);
     }
 }

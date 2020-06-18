@@ -57,38 +57,28 @@ public class JournalingFinishingTensionLevelerItemController extends JournalingB
     }
 
     @Override
+//    @PreAuthorize("hasAuthority('journaling_finishing_tension_leveler_item_list')")
     public QueryResponseResult<JournalingFinishingTensionLevelerItem> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('journaling_finishing_tension_leveler_item_save')")
     public ModelResponseResult<JournalingFinishingTensionLevelerItem> save(@RequestBody JournalingFinishingTensionLevelerItem entity) {
         return super.save(entity);
     }
 
     @Override
-    public ModelResponseResult<JournalingFinishingTensionLevelerItem> getById(@PathVariable("id") Long id) {
-        return super.getById(id);
-    }
-
-    @Override
+    @PreAuthorize("hasAuthority('journaling_finishing_tension_leveler_item_update')")
     public ResponseResult updateById(@RequestBody JournalingFinishingTensionLevelerItem entity) {
         return super.updateById(entity);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('journaling_finishing_tension_leveler_item_delete')")
     public ResponseResult deleteById(@PathVariable("id") Serializable id) {
         return super.deleteById(id);
     }
 
 
-
-
-    /*    @Override
-    protected QueryWrapper<JournalingFinishingTensionLevelerItem> extractWrapperFromRequestMap(Map<String, Object> map) {
-        QueryWrapper<JournalingFinishingTensionLevelerItem> queryWrapper = super.extractWrapperFromRequestMap(map);
-        queryWrapper.gt(!StringUtils.isEmpty(map.get("journalingBeginTime")), "begin_time", map.get("journalingBeginTime"));
-        queryWrapper.lt(!StringUtils.isEmpty(map.get("journalingEndTime")), "end_time", map.get("journalingEndTime"));
-        return queryWrapper;
-    }*/
 }
