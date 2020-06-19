@@ -23,7 +23,7 @@ import java.util.Map;
  * @since 2019-11-15
 */
 @RestController
-@RequestMapping("/basic/defect_groupgroup")
+@RequestMapping("/basic/defectgroup")
 public class DefectGroupController extends CrudController<DefectGroup> {
     @Override
 //    @PreAuthorize("hasAuthority('defect_group_list')")
