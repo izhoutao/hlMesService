@@ -54,7 +54,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 auth:
-  tokenValiditySeconds: 3600  #token存储到redis的过期时间
+  tokenValiditySeconds: 864000  #token存储到redis的过期时间
   clientId: HlWebApp
   clientSecret: HlWebApp
   cookieDomain: ${COOKIE_DOMAIN:haili.com}

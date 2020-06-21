@@ -59,6 +59,6 @@
         LEFT JOIN tb_role ON tb_user_role.role_id = tb_role.id
         LEFT JOIN tb_permission ON tb_role.id = tb_permission.role_id
         LEFT JOIN tb_menu ON tb_permission.menu_id = tb_menu.id
-        WHERE  tb_user.username = #{username} AND tb_user.deleted != 1
+        WHERE  (tb_user.username = #{username} OR tb_user.staff_id = #{username}) AND tb_user.deleted != 1
     </select>
 </mapper>

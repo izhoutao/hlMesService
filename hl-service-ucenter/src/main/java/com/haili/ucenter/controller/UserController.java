@@ -2,6 +2,7 @@ package com.haili.ucenter.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.haili.framework.domain.ucenter.User;
+import com.haili.framework.domain.ucenter.ext.UserPassVo;
 import com.haili.framework.domain.ucenter.response.UserResult;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.model.response.ModelResponseResult;
@@ -9,6 +10,7 @@ import com.haili.framework.model.response.QueryResponseResult;
 import com.haili.framework.model.response.ResponseResult;
 import com.haili.framework.web.CrudController;
 import com.haili.ucenter.service.impl.UserServiceImpl;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -77,5 +79,18 @@ public class UserController extends CrudController<User> {
     @PreAuthorize("hasAuthority('user_delete')")
     public ResponseResult deleteById(@PathVariable("id") Serializable id) {
         return super.deleteById(id);
+    }
+
+    @ApiOperation("修改密码")
+    @PutMapping(value = "/updatePass")
+    public ResponseResult updatePass(@RequestBody UserPassVo passVo) {
+        ((UserServiceImpl) service).updatePass(passVo);
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+    @ApiOperation("修改个人档案")
+    @PutMapping(value = "/updateProfile")
+    public ResponseResult updateProfile(@RequestBody User user) {
+        ((UserServiceImpl) service).updateProfile(user);
+        return new ResponseResult(CommonCode.SUCCESS);
     }
 }

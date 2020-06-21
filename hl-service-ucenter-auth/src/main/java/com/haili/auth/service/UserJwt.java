@@ -15,8 +15,12 @@ public class UserJwt extends User {
     private String id;
     private String staffId;
     private String name;
+    private String username;
+    private String sex;
     private String avatar;
     private String department;
+    private String phone;
+    private String email;
     private List<String> roles;
 //    private List<String> menus;
 

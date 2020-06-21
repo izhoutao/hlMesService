@@ -77,7 +77,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         userDetails.setId(user.getId());
         userDetails.setStaffId(user.getStaffId());
         userDetails.setName(user.getName()); //用户名称`
+        userDetails.setUsername(user.getUsername()); //用户名称`
+        userDetails.setSex(user.getSex()); //用户性别`
         userDetails.setAvatar(user.getAvatar()); //用户头像
+        userDetails.setPhone(user.getPhone()); //用户联系电话
+        userDetails.setEmail(user.getEmail()); //用户邮箱
 
         userDetails.setDepartment(user.getDepartment()); //部门
         userDetails.setRoles(roles.stream().map(Role::getCode).collect(Collectors.toList()));

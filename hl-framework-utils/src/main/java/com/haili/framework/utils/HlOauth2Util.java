@@ -21,8 +21,12 @@ public class HlOauth2Util {
         userJwt.setId((String) jwtClaims.get("id"));
         userJwt.setStaffId((String)jwtClaims.get("staffId"));
         userJwt.setName((String)jwtClaims.get("name"));
+        userJwt.setUsername((String)jwtClaims.get("username"));
+        userJwt.setSex((String)jwtClaims.get("sex"));
         userJwt.setAvatar((String)jwtClaims.get("avatar"));
         userJwt.setDepartment((String)jwtClaims.get("department"));
+        userJwt.setPhone((String)jwtClaims.get("phone"));
+        userJwt.setEmail((String)jwtClaims.get("email"));
         userJwt.setRoles((List<String>) jwtClaims.get("roles"));
         userJwt.setMenus((List<String>)jwtClaims.get("menus"));
         return userJwt;
@@ -32,9 +36,13 @@ public class HlOauth2Util {
     public static class UserJwt {
         private String id;
         private String staffId;
+        private String username;
         private String name;
+        private String sex;
         private String avatar;
         private String department;
+        private String phone;
+        private String email;
         private List<String> roles;
         private List<String> menus;
     }

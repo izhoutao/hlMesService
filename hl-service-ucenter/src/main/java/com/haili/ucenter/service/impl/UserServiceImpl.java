@@ -7,10 +7,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.framework.domain.basic.Department;
 import com.haili.framework.domain.ucenter.User;
 import com.haili.framework.domain.ucenter.UserRole;
+import com.haili.framework.domain.ucenter.ext.UserPassVo;
 import com.haili.framework.domain.ucenter.response.UcenterCode;
 import com.haili.framework.exception.ExceptionCast;
 import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.utils.BCryptUtil;
+import com.haili.framework.utils.HlOauth2Util;
 import com.haili.ucenter.mapper.DepartmentMapper;
 import com.haili.ucenter.mapper.UserMapper;
 import com.haili.ucenter.mapper.UserRoleMapper;
@@ -20,7 +22,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -117,11 +122,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         wrapper.eq("user_id", user.getId());
         userRoleMapper.delete(wrapper);
         String password = user.getPassword();
-        if(!StringUtils.isEmpty(password)){
+        if (!StringUtils.isEmpty(password)) {
             //密码加密
             String newPassword = BCryptUtil.encode(user.getPassword());//加密后的密码
             user.setPassword(newPassword);
-        }else{
+        } else {
             user.setPassword(null);
         }
         this.baseMapper.updateById(user);
@@ -140,4 +145,45 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         this.baseMapper.deleteById(id);
         return true;
     }
+
+
+    public int updatePass(UserPassVo passVo) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HlOauth2Util hlOauth2Util = new HlOauth2Util();
+        HlOauth2Util.UserJwt userJwt = hlOauth2Util.getUserJwtFromHeader(request);
+        if (userJwt == null) {
+            ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
+        }
+        String id = userJwt.getId();
+        User user = this.baseMapper.selectById(id);
+        String oldPass = passVo.getOldPass();
+        String newPass = passVo.getNewPass();
+
+        if (!BCryptUtil.matches(oldPass, user.getPassword())) {
+            ExceptionCast.cast(UcenterCode.UCENTER_OLD_PASSWORD_ERROR);
+        }
+        if (BCryptUtil.matches(newPass, user.getPassword())) {
+            ExceptionCast.cast(UcenterCode.UCENTER_NEW_PASSWORD_ERROR);
+        }
+
+        String newPassword = BCryptUtil.encode(newPass);//加密后的密码
+        User user1 = new User().setId(id).setPassword(newPassword);
+        return this.baseMapper.updateById(user1);
+    }
+
+    public int updateProfile(User user) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HlOauth2Util hlOauth2Util = new HlOauth2Util();
+        HlOauth2Util.UserJwt userJwt = hlOauth2Util.getUserJwtFromHeader(request);
+        if (userJwt == null) {
+            ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
+        }
+        String id = userJwt.getId();
+        if (user == null || StringUtils.isEmpty(user.getId())||!user.getId().equals(id)) {
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
+        }
+        user.setPassword(null);
+        return this.baseMapper.updateById(user);
+    }
+
 }
