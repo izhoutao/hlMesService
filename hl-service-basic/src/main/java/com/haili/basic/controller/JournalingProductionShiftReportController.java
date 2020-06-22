@@ -78,7 +78,7 @@ public class JournalingProductionShiftReportController extends CrudController<Jo
             status = 2;
         }
         if (StringUtils.isEmpty(map.get("status"))) {
-            queryWrapper.ge(StringUtils.isEmpty(map.get("status")), "status", status);
+            queryWrapper.ge("status", status);
         } else {
             Integer status1 = (Integer) map.get("status");
             if (status1 < status) {
