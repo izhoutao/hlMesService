@@ -95,6 +95,7 @@ public class WorkOrderController extends CrudController<WorkOrder> {
     protected QueryWrapper<WorkOrder> extractWrapperFromRequestMap(Map<String, Object> map) {
         QueryWrapper<WorkOrder> queryWrapper = super.extractWrapperFromRequestMap(map);
         queryWrapper.eq(!StringUtils.isEmpty(map.get("productNumber")), "product_number", map.get("productNumber"));
+        queryWrapper.eq(!StringUtils.isEmpty(map.get("workOrderNumber")), "work_order_number", map.get("workOrderNumber"));
         queryWrapper.eq(!StringUtils.isEmpty(map.get("status")), "status", map.get("status"));
         Object dateRange = map.get("dateRange");
         if (dateRange instanceof List && dateRange != null && ((List) dateRange).size() == 2) {
