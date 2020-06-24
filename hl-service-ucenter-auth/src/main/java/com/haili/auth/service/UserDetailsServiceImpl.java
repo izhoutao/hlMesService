@@ -60,7 +60,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (roles == null) {
             roles = new ArrayList<>();
         }
-        System.out.println("roles=========>" + roles);
+//        System.out.println("roles=========>" + roles);
         List<String> authorityList = new ArrayList<>();
         Set<String> menus = roles.stream().flatMap(role -> role.getMenuList().stream())
                 .filter(menu -> StringUtils.isNotBlank(menu.getCode()))
@@ -70,10 +70,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //使用静态的权限表示用户所拥有的权限
         //        user_permission.add("course_get_baseinfo"); //查询课程信息
         //        user_permission.add("course_pic_list"); //图片查询
-        String user_authrity_string = StringUtils.join(authorityList.toArray(), ",");
+        String user_authority_string = StringUtils.join(authorityList.toArray(), ",");
         UserJwt userDetails = new UserJwt(username,
                 password,
-                AuthorityUtils.commaSeparatedStringToAuthorityList(user_authrity_string));
+                AuthorityUtils.commaSeparatedStringToAuthorityList(user_authority_string));
         userDetails.setId(user.getId());
         userDetails.setStaffId(user.getStaffId());
         userDetails.setName(user.getName()); //用户名称`

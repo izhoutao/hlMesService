@@ -182,7 +182,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (user == null || StringUtils.isEmpty(user.getId())||!user.getId().equals(id)) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
+        user.setUsername(null);
         user.setPassword(null);
+        user.setStaffId(null);
         return this.baseMapper.updateById(user);
     }
 

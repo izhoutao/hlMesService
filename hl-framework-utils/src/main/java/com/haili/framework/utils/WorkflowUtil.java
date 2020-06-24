@@ -22,7 +22,7 @@ public class WorkflowUtil {
         String checkResult = "RETURN";
         //getNextWorkflowContext
         Map workflowContext = getNextWorkflowContext(jsonTextWorkflow, index, checkResult);
-        System.out.println(workflowContext);
+//        System.out.println(workflowContext);
 
     }
 

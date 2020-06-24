@@ -128,7 +128,7 @@ public class AuthController implements AuthControllerApi {
     @GetMapping("/routes")
     public QueryResponseResult<Menu> getRoutes() {
         Map<String, Object> map = new HashMap<>();
-        map.put("lazyLoad",false);
+        map.put("lazyLoad", false);
         QueryResponseResult<Menu> responseResult = userClient.getMenuList(map);
         List<Menu> menuList = responseResult.getQueryResult().getList();
         if (menuList == null) {
@@ -138,5 +138,40 @@ public class AuthController implements AuthControllerApi {
         queryResult.setList(menuList);
         QueryResponseResult<Menu> queryResponseResult = new QueryResponseResult<>(CommonCode.SUCCESS, queryResult);
         return queryResponseResult;
+    }
+
+    //刷新令牌
+    @GetMapping("/refreshtoken")
+    public ResponseResult refreshToken() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        //取出头信息
+        String authorization = request.getHeader("Authorization");
+        if (StringUtils.isEmpty(authorization) || authorization.indexOf("Bearer") < 0) {
+            return null;
+        }
+        //从Bearer 后边开始取出token
+        String jwt_token = authorization.substring(7);
+        //取出身份令牌
+        String uid = getTokenFormCookie();
+        AuthToken userToken = authService.getUserToken(uid);
+        String access_token = userToken.getJwt_token();
+        if (StringUtils.isEmpty(jwt_token) || !StringUtils.equals(jwt_token, access_token)) {
+            ExceptionCast.cast(AuthCode.AUTH_REFRESH_TOKEN_FAIL);
+        }
+        String refresh_token = userToken.getRefresh_token();
+
+        //申请令牌
+        AuthToken authToken = authService.refresh(refresh_token, clientId, clientSecret);
+        //删除redis中token
+        authService.delToken(uid);
+//        //清除cookie
+        clearCookie(uid);
+        //用户身份令牌
+        access_token = authToken.getAccess_token();
+//        //将令牌存储到cookie
+        this.saveCookie(access_token);
+
+        return new LoginResult(CommonCode.SUCCESS, access_token);
+
     }
 }
