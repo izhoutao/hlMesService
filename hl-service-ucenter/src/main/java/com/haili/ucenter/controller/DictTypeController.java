@@ -34,7 +34,7 @@ public class DictTypeController extends CrudController<DictType> implements Dict
     }
 
     @Override
-    @PreAuthorize("hasAuthority('dictionary_list')")
+//    @PreAuthorize("hasAuthority('dictionary_list')")
     public QueryResponseResult<DictType> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }

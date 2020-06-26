@@ -35,7 +35,7 @@ public class CodeRuleController extends CrudController<CodeRule> {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('code_rule_list')")
+//    @PreAuthorize("hasAuthority('code_rule_list')")
     public QueryResponseResult<CodeRule> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }

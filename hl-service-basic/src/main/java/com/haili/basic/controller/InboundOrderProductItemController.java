@@ -26,7 +26,7 @@ import java.util.Map;
 @RequestMapping("/basic/inboundorderproductitem")
 public class InboundOrderProductItemController extends CrudController<InboundOrderProductItem> {
     @Override
-    @PreAuthorize("hasAuthority('inbound_order_product_list')")
+//    @PreAuthorize("hasAuthority('inbound_order_product_list')")
     public QueryResponseResult<InboundOrderProductItem> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }

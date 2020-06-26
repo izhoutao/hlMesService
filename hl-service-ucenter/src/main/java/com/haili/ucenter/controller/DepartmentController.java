@@ -44,7 +44,7 @@ public class DepartmentController extends CrudController<Department> {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('department_list')")
+//    @PreAuthorize("hasAuthority('department_list')")
     public QueryResponseResult<Department> list(@RequestBody Map<String, Object> map) {
         return super.list(map);
     }
