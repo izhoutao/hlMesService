@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.InboundOrderProductItemMapper;
 import com.haili.basic.mapper.InboundOrderRawItemMapper;
-import com.haili.basic.mapper.InboundOrderRawMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.service.IInboundOrderProductItemService;
 import com.haili.framework.domain.basic.InboundOrderProductItem;
@@ -43,8 +42,7 @@ public class InboundOrderProductItemServiceImpl extends ServiceImpl<InboundOrder
     }*/
     @Autowired
     InboundOrderRawItemMapper inboundOrderRawItemMapper;
-    @Autowired
-    InboundOrderRawMapper inboundOrderRawMapper;
+
     @Autowired
     OutboundOrderRawItemMapper outboundOrderRawItemMapper;
     @Autowired

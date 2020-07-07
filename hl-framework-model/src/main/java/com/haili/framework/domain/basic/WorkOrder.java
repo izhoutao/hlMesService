@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2020-02-27
+ * @since 2020-07-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -52,27 +52,34 @@ public class WorkOrder implements Serializable {
     private String materialId;
 
     /**
-     * 物料名称
+     * 钢种
      */
-    private String materialName;
+    private String steelGrade;
 
     /**
-     * 需求数量
+     * 密度
+     */
+    private Double density;
+
+    /**
+     * 客户id
+     */
+    private String customerId;
+
+    /**
+     * 客户名
+     */
+    private String customerName;
+
+    /**
+     * 用途
+     */
+    private String uses;
+
+    /**
+     * 需求重量
      */
     private Float num;
-    /**
-     * 已上线数量
-     */
-    private Float onLineNum;
-    /**
-     * 已完成数量
-     */
-    private Float outputNum;
-
-    /**
-     * 工单状态：0、新建，1、已上线，2、进行中，3、已关闭
-     */
-    private Integer status;
 
     /**
      * 计划开始时间
@@ -83,10 +90,26 @@ public class WorkOrder implements Serializable {
      * 计划结束时间
      */
     private LocalDateTime schCloseTime;
+
     /**
      * 实际结束时间
      */
     private LocalDateTime closeTime;
+
+    /**
+     * 工单状态：0、新建，1、已上线，2、已完成
+     */
+    private Integer status;
+
+    /**
+     * 已上线重量
+     */
+    private Integer onLineNum;
+
+    /**
+     * 已完成重量
+     */
+    private Integer outputNum;
 
     /**
      * 线别id
@@ -102,25 +125,31 @@ public class WorkOrder implements Serializable {
      * 工艺路线json
      */
     private String jsonTextWorkflow;
+
     /**
      * 生产要求
      */
     private String requirements;
+
     /**
      * 目标宽度
      */
     private Double targetWidth;
+
     /**
      * 宽度容差
      */
     private Double toleranceWidth;
+
     /**
      * 目标厚度
      */
     private Double targetThickness;
+
     /**
      * 厚度容差
      */
     private Double toleranceThickness;
+
 
 }

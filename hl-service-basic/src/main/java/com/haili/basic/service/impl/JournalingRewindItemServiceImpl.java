@@ -5,12 +5,9 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haili.basic.mapper.InboundOrderRawMapper;
 import com.haili.basic.mapper.JournalingRewindItemMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.service.IJournalingRewindItemService;
-import com.haili.framework.domain.basic.InboundOrderRaw;
-import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.domain.basic.JournalingRewindItem;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
 import com.haili.framework.domain.basic.response.JournalingShiftReportCode;
@@ -50,14 +47,14 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
         }*/
     @Autowired
     InboundOrderRawItemServiceImpl inboundOrderRawItemServiceImpl;
-    @Autowired
-    InboundOrderRawMapper inboundOrderRawMapper;
+/*    @Autowired
+    InboundOrderRawMapper inboundOrderRawMapper;*/
     @Autowired
     OutboundOrderRawItemMapper outboundOrderRawItemMapper;
 
     @Override
     public boolean save(JournalingRewindItem entity) {
-        setSteelGradeAndHotRollOrigin(entity);
+//        setSteelGradeAndHotRollOrigin(entity);
         super.save(entity);
         String productNumber = entity.getProductNumber();
         LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
@@ -91,7 +88,7 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
         return true;
     }
 
-    private void setSteelGradeAndHotRollOrigin(JournalingRewindItem entity) {
+/*    private void setSteelGradeAndHotRollOrigin(JournalingRewindItem entity) {
         String productNumber = entity.getProductNumber();
         InboundOrderRawItem inboundOrderRawItem = inboundOrderRawItemServiceImpl.getByOutboundRawItemProductNumber(productNumber);
         String inboundOrderRawId = inboundOrderRawItem.getInboundOrderRawId();
@@ -100,7 +97,7 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
         entity.setHotRollOrigin(hotRollOrigin);
         String steelGrade = inboundOrderRawItem.getSteelGrade();
         entity.setSteelGrade(steelGrade);
-    }
+    }*/
 
     @Override
     public boolean updateById(JournalingRewindItem entity) {
@@ -117,7 +114,7 @@ public class JournalingRewindItemServiceImpl extends ServiceImpl<JournalingRewin
         if (!productNumber.equals(entity.getProductNumber())) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
-        setSteelGradeAndHotRollOrigin(entity);
+//        setSteelGradeAndHotRollOrigin(entity);
         return super.updateById(entity);
     }
 

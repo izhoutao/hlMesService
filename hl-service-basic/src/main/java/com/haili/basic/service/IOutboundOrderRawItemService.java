@@ -3,8 +3,6 @@ package com.haili.basic.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
 
-import java.util.List;
-
 /**
  * <p>
  *  服务类
@@ -14,5 +12,4 @@ import java.util.List;
  * @since 2020-03-19
  */
 public interface IOutboundOrderRawItemService extends IService<OutboundOrderRawItem> {
-    public List<String> getStoredRawItems();
 }

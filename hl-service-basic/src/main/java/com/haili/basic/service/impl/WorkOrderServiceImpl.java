@@ -89,7 +89,8 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
 
     @Override
     public boolean updateById(WorkOrder entity) {
-        if (entity.getStatus() != null && (entity.getStatus() == 2 || entity.getStatus() == 3)) {
+        if (entity.getStatus() == new Integer(1)
+                || entity.getStatus() == new Integer(2)) {
             ExceptionCast.cast(WorkOrderCode.CANNOT_EDIT_NON_NEWLY_BUILT_WORK_ORDER);
         }
         String id = entity.getId();
@@ -123,7 +124,7 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
         LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper1 = Wrappers.lambdaQuery();
         lambdaQueryWrapper1.eq(OutboundOrderRawItem::getWorkOrderNumber, workOrderNumber);
         List<OutboundOrderRawItem> outboundOrderRawItems = outboundOrderRawItemMapper.selectList(lambdaQueryWrapper1);
-        Integer status = 3;
+        Integer status = 2;
         int size = outboundOrderRawItems.size();
         if (size == 0) {
             status = null;
@@ -131,7 +132,7 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
             for (int i = 0; i < size; i++) {
                 OutboundOrderRawItem item = outboundOrderRawItems.get(i);
                 if (item.getStatus() == 0 && !"".equals(item.getNextOperationLabel())) {
-                    status = 2;
+                    status = 1;
                     break;
                 }
             }
@@ -146,7 +147,7 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
                 .set(WorkOrder::getOnLineNum, onLineNum)
                 .set(WorkOrder::getOutputNum, outputNum)
                 .set(status != null, WorkOrder::getStatus, status)
-                .set(status == 3, WorkOrder::getCloseTime, LocalDateTime.now());
+                .set(status == new Integer(2), WorkOrder::getCloseTime, LocalDateTime.now());
 
         return this.baseMapper.update(null, lambdaUpdateWrapper);
     }
@@ -158,7 +159,7 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
 
         LambdaQueryWrapper<WorkOrder> lambdaQueryWrapper = Wrappers.lambdaQuery();
 //        lambdaQueryWrapper.lt(WorkOrder::getSchCloseTime, now);
-        lambdaQueryWrapper.in(WorkOrder::getStatus, 1, 2);
+        lambdaQueryWrapper.eq(WorkOrder::getStatus, 1);
 //        lambdaQueryWrapper.gt(WorkOrder::getSchCloseTime, firstday);
         List<WorkOrder> workOrders = this.baseMapper.selectList(lambdaQueryWrapper);
         Integer incompleteWorkOrderQuantity = workOrders.size();
@@ -243,7 +244,7 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
 
         LambdaQueryWrapper<WorkOrder> qw2 = Wrappers.lambdaQuery();
         LocalDateTime de = now.with(LocalTime.MAX);
-        qw2.in(WorkOrder::getStatus, 1, 2).le(WorkOrder::getSchStartTime, de);
+        qw2.eq(WorkOrder::getStatus, 1).le(WorkOrder::getSchStartTime, de);
         workOrders = this.baseMapper.selectList(qw2);
         int todayWorkOrderCount = workOrders.size();
         Float todayWorkOrderWeight = 0f;
@@ -258,7 +259,7 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
 
         LambdaQueryWrapper<WorkOrder> qw3 = Wrappers.lambdaQuery();
         de = now.plusDays(6).with(LocalTime.MAX);
-        qw2.in(WorkOrder::getStatus, 1, 2).le(WorkOrder::getSchStartTime, de);
+        qw2.eq(WorkOrder::getStatus, 1).le(WorkOrder::getSchStartTime, de);
         workOrders = this.baseMapper.selectList(qw2);
         int future7daysWorkOrderCount = workOrders.size();
         Float future7daysWorkOrderWeight = 0f;

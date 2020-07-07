@@ -23,51 +23,56 @@ import java.util.List;
  */
 public interface OutboundOrderRawItemMapper extends BaseMapper<OutboundOrderRawItem> {
     @Select("<script> " +
-            "SELECT inbound.product_number AS product_number " +
+            "SELECT inbound.* " +
             "FROM tb_inbound_order_raw_item inbound LEFT JOIN tb_outbound_order_raw_item outbound " +
             "ON inbound.product_number = outbound.product_number " +
-            "WHERE ISNULL(outbound.time) OR UNIX_TIMESTAMP(inbound.time) > UNIX_TIMESTAMP(outbound.time) " +
+            "${ew.customSqlSegment} " +
+            "<choose> " +
+            "<when test=\"ew != null\"> " +
+            "AND " +
+            "</when> " +
+            "<otherwise> " +
+            "WHERE " +
+            "</otherwise> " +
+            "</choose> " +
+            "(ISNULL(outbound.time) OR UNIX_TIMESTAMP(inbound.receiving_time) > UNIX_TIMESTAMP(outbound.time)) " +
             "</script>")
 /*    @Results(id = "outboundOrderDetailMap", value = {
             @Result(column = "id", property = "id"),
             @Result(column = "product_number", property = "productNumber"),
     })*/
-    List<String> getStoredRawItems();
+    List<InboundOrderRawItem> getStoredRawItems(@Param(Constants.WRAPPER) Wrapper<InboundOrderRawItem> queryWrapper);
 
     @Select("<script> " +
             "SELECT inbound.* " +
             "FROM tb_inbound_order_raw_item inbound LEFT JOIN tb_outbound_order_raw_item outbound " +
             "ON inbound.product_number = outbound.product_number " +
-            "WHERE (ISNULL(outbound.time) OR UNIX_TIMESTAMP(inbound.time) > UNIX_TIMESTAMP(outbound.time)) " +
+            "WHERE (ISNULL(outbound.time) OR UNIX_TIMESTAMP(inbound.receiving_time) > UNIX_TIMESTAMP(outbound.time)) " +
             "AND inbound.product_number = #{productNumber} " +
             "</script>")
     @Results(id = "inboundOrderItemMap", value = {
             @Result(column = "id", property = "id"),
-            @Result(column = "inbound_order_raw_id", property = "inboundOrderRawId"),
-            @Result(column = "inbound_order_raw_detail_id", property = "inboundOrderRawDetailId"),
+            @Result(column = "receiving_time", property = "receivingTime"),
             @Result(column = "material_number", property = "materialNumber"),
             @Result(column = "product_number", property = "productNumber"),
             @Result(column = "steel_grade", property = "steelGrade"),
-            @Result(column = "surface_finish", property = "surfaceFinish"),
-            @Result(column = "width", property = "width"),
+            @Result(column = "source", property = "source"),
             @Result(column = "thickness", property = "thickness"),
-            @Result(column = "length", property = "length"),
-            @Result(column = "label_specification", property = "labelSpecification"),
-            @Result(column = "specification", property = "specification"),
-            @Result(column = "label_net_weight", property = "labelNetWeight"),
-            @Result(column = "label_gross_weight", property = "labelGrossWeight"),
-            @Result(column = "net_weight", property = "netWeight"),
+            @Result(column = "width", property = "width"),
             @Result(column = "gross_weight", property = "grossWeight"),
-            @Result(column = "edge", property = "edge"),
-            @Result(column = "grade", property = "grade"),
-            @Result(column = "inspector", property = "inspector"),
-//            @Result(column = "barcode", property = "barcode"),
-            @Result(column = "time", property = "time"),
-            @Result(column = "description", property = "description"),
+            @Result(column = "net_weight", property = "netWeight"),
+            @Result(column = "gross_weight2", property = "grossWeight2"),
+            @Result(column = "package_weight", property = "packageWeight"),
+            @Result(column = "contract_number", property = "contractNumber"),
+            @Result(column = "customer_id", property = "customerId"),
+            @Result(column = "customer_name", property = "customerName"),
+            @Result(column = "order_time", property = "orderTime"),
+            @Result(column = "order_thickness", property = "orderThickness"),
+            @Result(column = "rolling_thickness", property = "rollingThickness"),
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime"),
             @Result(column = "create_person", property = "createPerson"),
-            @Result(column = "update_person", property = "updatePerson")
+            @Result(column = "update_person", property = "updatePerson"),
     })
     InboundOrderRawItem getStoredRawItem(String productNumber);
 

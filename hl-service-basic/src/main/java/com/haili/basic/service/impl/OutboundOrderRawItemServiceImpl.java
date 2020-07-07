@@ -7,15 +7,17 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haili.basic.mapper.InboundOrderRawItemMapper;
-import com.haili.basic.mapper.OutboundOrderRawDetailMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.mapper.WorkOrderMapper;
 import com.haili.basic.service.IOutboundOrderRawItemService;
-import com.haili.framework.domain.basic.*;
+import com.haili.framework.domain.basic.InboundOrderRawItem;
+import com.haili.framework.domain.basic.OutboundOrderRawItem;
+import com.haili.framework.domain.basic.WorkOrder;
 import com.haili.framework.domain.basic.response.OutboundOrderRawCode;
+import com.haili.framework.domain.basic.response.WorkOrderCode;
 import com.haili.framework.exception.ExceptionCast;
-import com.haili.framework.model.response.CommonCode;
 import com.haili.framework.utils.WorkflowUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,8 +41,6 @@ import java.util.Map;
 public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRawItemMapper, OutboundOrderRawItem> implements IOutboundOrderRawItemService {
     @Autowired
     WorkOrderMapper workOrderMapper;
-    @Autowired
-    OutboundOrderRawDetailMapper outboundOrderRawDetailMapper;
 
     @Autowired
     InboundOrderRawItemMapper inboundOrderRawItemMapper;
@@ -49,28 +49,14 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
     WorkOrderServiceImpl workOrderServiceImpl;
 
     @Override
-    public boolean save(OutboundOrderRawItem entity) {
-        String outboundOrderDetailId = entity.getOutboundOrderRawDetailId();
-        OutboundOrderRawDetail outboundOrderRawDetail = outboundOrderRawDetailMapper.selectById(outboundOrderDetailId);
-        if (outboundOrderRawDetail == null) {
-            ExceptionCast.cast(OutboundOrderRawCode.RAW_MATERIAL_RECEIPT_DOES_NOT_EXIST);
+    public boolean saveOrUpdate(OutboundOrderRawItem entity) {
+        String workOrderNumber = entity.getWorkOrderNumber();
+        QueryWrapper<WorkOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("work_order_number", workOrderNumber);
+        WorkOrder workOrder = workOrderMapper.selectOne(queryWrapper);
+        if (workOrder == null) {
+            ExceptionCast.cast(WorkOrderCode.WORK_ORDER_NOT_EXIST);
         }
-        outboundOrderRawDetail.setOutQuantity(outboundOrderRawDetail.getOutQuantity() + 1);
-        outboundOrderRawDetailMapper.updateById(outboundOrderRawDetail);
-        InboundOrderRawItem inboundOrderRawItem = this.baseMapper.getStoredRawItem(entity.getProductNumber());
-        if (inboundOrderRawItem == null) {
-            ExceptionCast.cast(OutboundOrderRawCode.RAW_MATERIAL_DOES_NOT_EXIST);
-        }
-        BeanUtils.copyProperties(inboundOrderRawItem, entity, "id");
-        String outboundOrderRawId = outboundOrderRawDetail.getOutboundOrderRawId();
-        entity.setOutboundOrderRawId(outboundOrderRawId);
-        String workOrderNumber = outboundOrderRawDetail.getWorkOrderNumber();
-        entity.setWorkOrderNumber(workOrderNumber);
-
-
-        QueryWrapper<WorkOrder> queryWrapper1 = new QueryWrapper<>();
-        queryWrapper1.eq("work_order_number", workOrderNumber);
-        WorkOrder workOrder = workOrderMapper.selectOne(queryWrapper1);
         String jsonTextWorkflow = workOrder.getJsonTextWorkflow();
         entity.setJsonTextWorkflow(jsonTextWorkflow);
         Map workflowContext = WorkflowUtil.getWorkflowContext(jsonTextWorkflow, 0);
@@ -78,23 +64,22 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         entity.setNextOperationLabel((String) workflowContext.get("label"));
         entity.setStatus(0);
         entity.setSchCloseTime(workOrder.getSchCloseTime());
-        super.save(entity);
-        workOrderServiceImpl.updateWorkOrder(workOrderNumber);
-        return true;
-    }
 
-    @Override
-    public boolean updateById(OutboundOrderRawItem entity) {
-        String id = entity.getId();
         InboundOrderRawItem inboundOrderRawItem = this.baseMapper.getStoredRawItem(entity.getProductNumber());
         if (inboundOrderRawItem == null) {
             ExceptionCast.cast(OutboundOrderRawCode.RAW_MATERIAL_DOES_NOT_EXIST);
         }
-        OutboundOrderRawItem outboundOrderRawItem = new OutboundOrderRawItem().setId(id)
-                .setProductNumber(entity.getProductNumber())
-                .setTime(entity.getTime());
-        BeanUtils.copyProperties(inboundOrderRawItem, outboundOrderRawItem, "id");
-        return super.updateById(outboundOrderRawItem);
+        if (!StringUtils.equals(workOrder.getSteelGrade(), inboundOrderRawItem.getSteelGrade())) {
+            ExceptionCast.cast(OutboundOrderRawCode.MISMATCH_STEELGRADE_WITH_WORK_ORDER);
+        }
+        BeanUtils.copyProperties(inboundOrderRawItem, entity,
+                "id", "create_time", "update_time", "create_person", "update_person");
+        entity.setCustomerId(workOrder.getCustomerId());
+        entity.setCustomerName(workOrder.getCustomerName());
+
+        super.saveOrUpdate(entity);
+        workOrderServiceImpl.updateWorkOrder(workOrderNumber);
+        return true;
     }
 
     @Override
@@ -105,18 +90,14 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         if (status == null || status == 1 || (operationHistory != null && !"[]".equals(operationHistory))) {
             ExceptionCast.cast(OutboundOrderRawCode.CANNOT_NOT_REMOVE_OUTBOUND_RAE_ITEM);
         }
-        String outboundOrderRawDetailId = outboundOrderRawItem.getOutboundOrderRawDetailId();
-        OutboundOrderRawDetail outboundOrderRawDetail = outboundOrderRawDetailMapper.selectById(outboundOrderRawDetailId);
-        outboundOrderRawDetail.setOutQuantity(outboundOrderRawDetail.getOutQuantity() - 1);
-        outboundOrderRawDetailMapper.updateById(outboundOrderRawDetail);
+
         super.removeById(id);
         workOrderServiceImpl.updateWorkOrder(outboundOrderRawItem.getWorkOrderNumber());
         return true;
     }
 
-    @Override
-    public List<String> getStoredRawItems() {
-        List<String> storedRawItems = this.baseMapper.getStoredRawItems();
+    public List<InboundOrderRawItem> getStoredRawItems(Wrapper<InboundOrderRawItem> queryWrapper) {
+        List<InboundOrderRawItem> storedRawItems = this.baseMapper.getStoredRawItems(queryWrapper);
         return storedRawItems;
     }
 
@@ -132,24 +113,24 @@ public class OutboundOrderRawItemServiceImpl extends ServiceImpl<OutboundOrderRa
         if (parentOutboundOrderRawItem == null) {
             ExceptionCast.cast(OutboundOrderRawCode.CANNOT_CHOOSE_THIS_PRODUCT_NUMBER);
         }
-        String[] ignoreProperties = {"id", "outboundOrderRawDetailId", "outboundOrderRawId",
-                "productNumber", "length", "netWeight", "grossWeight"};
+        String[] ignoreProperties = {"id", "outboundOrderRawId",
+                "productNumber", "length", "netWeight", "grossWeight","packageWeight",
+                "create_time", "update_time", "create_person", "update_person"};
         BeanUtils.copyProperties(parentOutboundOrderRawItem, entity, ignoreProperties);
-        if (entity.getLength() == null) {
+/*        if (entity.getLength() == null) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
-        Float length = parentOutboundOrderRawItem.getLength();
+      Float length = parentOutboundOrderRawItem.getLength();
         if (length == null || length <= 0) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
-/*        float ratio = entity.getLength() / length;
+        float ratio = entity.getLength() / length;
         entity.setGrossWeight(ratio * parentOutboundOrderRawItem.getGrossWeight());
         entity.setNetWeight(ratio * parentOutboundOrderRawItem.getNetWeight());*/
         entity.setParentId(parentOutboundOrderRawItem.getId());
         entity.setTime(LocalDateTime.now());
         entity.setStatus(2);
 
-        entity.setOutboundOrderRawDetailId(null).setOutboundOrderRawId(null);
 
         if (entity.getId() == null) {
             lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();

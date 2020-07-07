@@ -12,7 +12,8 @@ import lombok.ToString;
 @ToString
 public enum WorkOrderCode implements ResultCode {
 
-    CANNOT_EDIT_NON_NEWLY_BUILT_WORK_ORDER(false,25701,"无法编辑非新建工单！");
+    CANNOT_EDIT_NON_NEWLY_BUILT_WORK_ORDER(false,25701,"无法编辑非新建工单！"),
+    WORK_ORDER_NOT_EXIST(false,25702,"工单不存在！");
 
 
     //操作代码

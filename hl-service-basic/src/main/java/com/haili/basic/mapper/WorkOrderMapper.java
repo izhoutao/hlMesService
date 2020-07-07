@@ -33,10 +33,15 @@ public interface WorkOrderMapper extends BaseMapper<WorkOrder> {
             "wo.create_person, " +
             "wo.update_person, " +
             "wo.material_id, " +
-            "wo.material_name, " +
+            "wo.steel_grade, " +
+            "wo.density, " +
+            "wo.customer_id, " +
+            "wo.customer_name, " +
+            "wo.uses, " +
             "wo.num, " +
             "wo.sch_start_time, " +
             "wo.sch_close_time, " +
+            "wo.close_time, " +
             "wo.`status`, " +
             "wo.line_id, " +
             "wo.workflow_id, " +
@@ -69,10 +74,15 @@ public interface WorkOrderMapper extends BaseMapper<WorkOrder> {
             @Result(column = "create_person", property = "createPerson"),
             @Result(column = "update_person", property = "updatePerson"),
             @Result(column = "material_id", property = "materialId"),
-            @Result(column = "material_name", property = "materialName"),
+            @Result(column = "steel_grade", property = "steelGrade"),
+            @Result(column = "density", property = "density"),
+            @Result(column = "customer_id", property = "customerId"),
+            @Result(column = "customer_name", property = "customerName"),
+            @Result(column = "uses", property = "uses"),
             @Result(column = "num", property = "num"),
             @Result(column = "sch_start_time", property = "schStartTime"),
             @Result(column = "sch_close_time", property = "schCloseTime"),
+            @Result(column = "close_time", property = "closeTime"),
             @Result(column = "status", property = "status"),
             @Result(column = "on_line_num", property = "onLineNum"),
             @Result(column = "output_num", property = "outputNum"),
@@ -83,7 +93,8 @@ public interface WorkOrderMapper extends BaseMapper<WorkOrder> {
             @Result(column = "target_width", property = "targetWidth"),
             @Result(column = "tolerance_width", property = "toleranceWidth"),
             @Result(column = "target_thickness", property = "targetThickness"),
-            @Result(column = "tolerance_thickness", property = "toleranceThickness"),
+            @Result(column = "tolerance_thickness", property = "toleranceThickness")
+
     })
     IPage<WorkOrder> getPage(IPage<WorkOrder> page, @Param("ew") Wrapper<WorkOrder> queryWrapper);
 
@@ -103,10 +114,15 @@ public interface WorkOrderMapper extends BaseMapper<WorkOrder> {
             "wo.create_person, " +
             "wo.update_person, " +
             "wo.material_id, " +
-            "wo.material_name, " +
+            "wo.steel_grade, " +
+            "wo.density, " +
+            "wo.customer_id, " +
+            "wo.customer_name, " +
+            "wo.uses, " +
             "wo.num, " +
             "wo.sch_start_time, " +
             "wo.sch_close_time, " +
+            "wo.close_time, " +
             "wo.`status`, " +
             "wo.line_id, " +
             "wo.workflow_id, " +
@@ -134,7 +150,6 @@ public interface WorkOrderMapper extends BaseMapper<WorkOrder> {
     @ResultMap("woMap")
     List<WorkOrder> getList(@Param("ew") Wrapper<WorkOrder> queryWrapper);
 
-
     /*    @Select("<script>" +
             "SELECT SUM(oori.gross_weight) " +
             "FROM " +
@@ -153,6 +168,5 @@ public interface WorkOrderMapper extends BaseMapper<WorkOrder> {
             "where wo.work_order_number=#{workOrderNumber} AND ISNULL(oori.parent_id) " +
             "</script>")
     Double getWorkOrderInboundProductItemTotalGrossWeight( @Param("workOrderNumber") String workOrderNumber);*/
-
 
 }

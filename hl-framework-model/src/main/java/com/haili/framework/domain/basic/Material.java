@@ -28,9 +28,9 @@ public class Material implements Serializable {
 
     private String id;
 
-    private String code;
+    private String steelGrade;
 
-    private String name;
+    private Double density;
 
     private String description;
 

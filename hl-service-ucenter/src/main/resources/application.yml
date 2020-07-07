@@ -61,8 +61,6 @@ mybatis-plus:
     db-config:
       id-type: id_worker_str
       table-prefix: tb_
-      logic-delete-value: 1
-      logic-not-delete-value: 0
 # 配置日志
 logging:
   level:

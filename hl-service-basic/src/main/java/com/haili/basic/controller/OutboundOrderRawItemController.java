@@ -1,16 +1,20 @@
 package com.haili.basic.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.haili.basic.service.impl.OutboundOrderRawItemServiceImpl;
+import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
 import com.haili.framework.model.response.*;
 import com.haili.framework.web.CrudController;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -48,14 +52,16 @@ public class OutboundOrderRawItemController extends CrudController<OutboundOrder
 
     @Override
     @PreAuthorize("hasAuthority('outbound_order_raw_save')")
-    public ModelResponseResult<OutboundOrderRawItem> save(@RequestBody OutboundOrderRawItem entity) {
-        return super.save(entity);
+    public ModelResponseResult<OutboundOrderRawItem> save(@RequestBody @Valid OutboundOrderRawItem entity) {
+        service.saveOrUpdate(entity);
+        return new ModelResponseResult<>(CommonCode.SUCCESS, entity);
     }
 
     @Override
     @PreAuthorize("hasAuthority('outbound_order_raw_update')")
-    public ResponseResult updateById(@RequestBody OutboundOrderRawItem entity) {
-        return super.updateById(entity);
+    public ResponseResult updateById(@RequestBody @Valid OutboundOrderRawItem entity) {
+        service.saveOrUpdate(entity);
+        return new ResponseResult(CommonCode.SUCCESS);
     }
 
     @Override
@@ -64,11 +70,14 @@ public class OutboundOrderRawItemController extends CrudController<OutboundOrder
         return super.deleteById(id);
     }
 
-    @GetMapping("/stored")
+    @PostMapping("/stored")
     @ResponseBody
-    public QueryResponseResult<String> getStoredRawItems() {
-        List<String> storedRawItems = ((OutboundOrderRawItemServiceImpl) service).getStoredRawItems();
-        QueryResult<String> queryResult = new QueryResult<>();
+    public QueryResponseResult<InboundOrderRawItem> getStoredRawItems(@RequestBody Map<String, Object> map ) {
+        String steelGrade = (String)map.get("steelGrade");
+        QueryWrapper<InboundOrderRawItem> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(!StringUtils.isEmpty(steelGrade),"inbound.steel_grade",steelGrade);
+        List<InboundOrderRawItem> storedRawItems = ((OutboundOrderRawItemServiceImpl) service).getStoredRawItems(queryWrapper);
+        QueryResult<InboundOrderRawItem> queryResult = new QueryResult<>();
         queryResult.setList(storedRawItems);
         queryResult.setTotal(storedRawItems.size());
         return new QueryResponseResult(CommonCode.SUCCESS, queryResult);

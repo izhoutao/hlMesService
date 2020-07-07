@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haili.basic.mapper.InboundOrderRawMapper;
 import com.haili.basic.mapper.JournalingAnnealItemMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.service.IJournalingAnnealItemService;
@@ -37,8 +36,6 @@ import java.util.Map;
  */
 @Service
 public class JournalingAnnealItemServiceImpl extends ServiceImpl<JournalingAnnealItemMapper, JournalingAnnealItem> implements IJournalingAnnealItemService {
-    @Autowired
-    InboundOrderRawMapper inboundOrderRawMapper;
     @Autowired
     InboundOrderRawItemServiceImpl inboundOrderRawItemServiceImpl;
     @Autowired

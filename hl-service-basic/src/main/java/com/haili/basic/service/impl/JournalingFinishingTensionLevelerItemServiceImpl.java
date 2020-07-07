@@ -5,11 +5,9 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haili.basic.mapper.InboundOrderRawMapper;
 import com.haili.basic.mapper.JournalingFinishingTensionLevelerItemMapper;
 import com.haili.basic.mapper.OutboundOrderRawItemMapper;
 import com.haili.basic.service.IJournalingFinishingTensionLevelerItemService;
-import com.haili.framework.domain.basic.InboundOrderRawItem;
 import com.haili.framework.domain.basic.JournalingFinishingTensionLevelerItem;
 import com.haili.framework.domain.basic.OutboundOrderRawItem;
 import com.haili.framework.domain.basic.response.JournalingShiftReportCode;
@@ -21,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,15 +36,13 @@ import java.util.Map;
 public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImpl<JournalingFinishingTensionLevelerItemMapper, JournalingFinishingTensionLevelerItem> implements IJournalingFinishingTensionLevelerItemService {
 
     @Autowired
-    InboundOrderRawMapper inboundOrderRawMapper;
-    @Autowired
     InboundOrderRawItemServiceImpl inboundOrderRawItemServiceImpl;
     @Autowired
     OutboundOrderRawItemMapper outboundOrderRawItemMapper;
 
     @Override
     public boolean save(JournalingFinishingTensionLevelerItem entity) {
-        setSteelGradeAndCostTimeAndOutputWeightLoss(entity);
+//        setSteelGradeAndCostTimeAndOutputWeightLoss(entity);
         super.save(entity);
         String productNumber = entity.getProductNumber();
         LambdaQueryWrapper<OutboundOrderRawItem> lambdaQueryWrapper = Wrappers.<OutboundOrderRawItem>lambdaQuery();
@@ -82,7 +77,7 @@ public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImp
     }
 
 
-    private void setSteelGradeAndCostTimeAndOutputWeightLoss(JournalingFinishingTensionLevelerItem entity) {
+/*    private void setSteelGradeAndCostTimeAndOutputWeightLoss(JournalingFinishingTensionLevelerItem entity) {
         String productNumber = entity.getProductNumber();
         InboundOrderRawItem inboundOrderRawItem = inboundOrderRawItemServiceImpl.getByOutboundRawItemProductNumber(productNumber);
         String steelGrade = inboundOrderRawItem.getSteelGrade();
@@ -93,7 +88,7 @@ public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImp
         long minutes = between.toMinutes();
         entity.setCostTime(minutes);
         entity.setOutputWeightLoss(entity.getOutputWeight() - entity.getInputWeight());
-    }
+    }*/
 
     @Override
     public boolean updateById(JournalingFinishingTensionLevelerItem entity) {
@@ -110,7 +105,7 @@ public class JournalingFinishingTensionLevelerItemServiceImpl extends ServiceImp
         if (!productNumber.equals(entity.getProductNumber())) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
-        setSteelGradeAndCostTimeAndOutputWeightLoss(entity);
+//        setSteelGradeAndCostTimeAndOutputWeightLoss(entity);
         return super.updateById(entity);
     }
 

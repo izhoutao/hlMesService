@@ -2,7 +2,6 @@ package com.haili.framework.domain.ucenter;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -40,8 +39,8 @@ public class User implements Serializable {
     private Long deptId;
     private String position;
     private String line;
-    @TableLogic
-    private Integer deleted;
+/*    @TableLogic
+    private Integer deleted;*/
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)

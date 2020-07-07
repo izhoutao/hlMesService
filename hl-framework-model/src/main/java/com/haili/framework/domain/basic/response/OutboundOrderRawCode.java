@@ -23,7 +23,8 @@ public enum OutboundOrderRawCode implements ResultCode {
     CANNOT_UNDO_SPLIT(false, 25409, "无法撤销分卷！"),
     COIL_NOT_BEEN_SPLIT(false, 25410, "尚未对所选钢卷做分卷！"),
     CANNOT_NOT_REMOVE_SPLIT_COIL(false, 25411, "无法删除分卷！"),
-    CANNOT_NOT_REMOVE_OUTBOUND_RAE_ITEM(false, 25012, "无法删除工单发料项！");
+    CANNOT_NOT_REMOVE_OUTBOUND_RAE_ITEM(false, 25012, "无法删除工单发料项！"),
+    MISMATCH_STEELGRADE_WITH_WORK_ORDER(false, 25013, "所选钢卷与工单钢种不匹配！");
     //操作代码
     @ApiModelProperty(value = "操作是否成功", example = "true", required = true)
     boolean success;

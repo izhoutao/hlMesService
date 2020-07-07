@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Zhou Tao
- * @since 2020-03-12
+ * @since 2020-07-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -28,9 +28,10 @@ public class InboundOrderRawItem implements Serializable {
 
     private String id;
 
-    private String inboundOrderRawId;
-
-    private String inboundOrderRawDetailId;
+    /**
+     * 收货时间
+     */
+    private LocalDateTime receivingTime;
 
     /**
      * 原料编号
@@ -38,7 +39,7 @@ public class InboundOrderRawItem implements Serializable {
     private String materialNumber;
 
     /**
-     * 我司钢卷编号
+     * 我司（钢卷）编号
      */
     private String productNumber;
 
@@ -48,14 +49,14 @@ public class InboundOrderRawItem implements Serializable {
     private String steelGrade;
 
     /**
-     * 表面品级
+     * 产地id(供应商id)
      */
-    private String surfaceFinish;
+    private String vendorId;
 
     /**
-     * 宽度(mm)
+     * 产地名(供应商名)
      */
-    private Float width;
+    private String vendorName;
 
     /**
      * 厚度(mm)
@@ -63,69 +64,59 @@ public class InboundOrderRawItem implements Serializable {
     private Float thickness;
 
     /**
-     * 长度(mm)
+     * 宽度(mm)
      */
-    private Float length;
+    private Float width;
 
     /**
-     * 标签规格mm*mm
-     */
-    private String labelSpecification;
-
-    /**
-     * 实际规格mm*mm
-     */
-    private String specification;
-
-    /**
-     * 标签净重(kg)
-     */
-    private Float labelNetWeight;
-
-    /**
-     * 标签毛重(kg)
-     */
-    private Float labelGrossWeight;
-
-    /**
-     * 实磅净重(kg)
-     */
-    private Float netWeight;
-
-    /**
-     * 实磅毛重(kg)
+     * 毛重(kg)
      */
     private Float grossWeight;
 
     /**
-     * 边部
+     * 净重(kg)
      */
-    private String edge;
+    private Float netWeight;
 
     /**
-     * 等级
+     * 复磅毛重(kg)
      */
-    private String grade;
+    private Float grossWeight2;
 
     /**
-     * 检验员
+     * 包装重量(kg)
      */
-    private String inspector;
-
-//    /**
-//     * 条码
-//     */
-//    private String barcode;
+    private Float packageWeight;
 
     /**
-     * 入库时间
+     * 合同号
      */
-    private LocalDateTime time;
+    private String contractNumber;
 
     /**
-     * 备注
+     * 客户id
      */
-    private String description;
+    private String customerId;
+
+    /**
+     * 客户名
+     */
+        private String customerName;
+
+    /**
+     * 下单时间
+     */
+    private LocalDateTime orderTime;
+
+    /**
+     * 订单厚度
+     */
+    private Float orderThickness;
+
+    /**
+     * 轧延厚度
+     */
+    private Float rollingThickness;
 
     /**
      * 创建时间
@@ -147,5 +138,6 @@ public class InboundOrderRawItem implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updatePerson;
+
 
 }
